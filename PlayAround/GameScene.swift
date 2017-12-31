@@ -12,7 +12,7 @@ import GameplayKit
 enum BodyType:UInt32 {
     case player = 1
     case building = 2
-    case somethingElse = 4
+    case castle = 4
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -61,17 +61,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             thePlayer.physicsBody?.isDynamic = true
             thePlayer.physicsBody?.affectedByGravity = false
             thePlayer.physicsBody?.categoryBitMask = BodyType.player.rawValue
-            thePlayer.physicsBody?.collisionBitMask = BodyType.building.rawValue | BodyType.somethingElse.rawValue
-            thePlayer.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.somethingElse.rawValue
+            thePlayer.physicsBody?.collisionBitMask = BodyType.castle.rawValue
+            thePlayer.physicsBody?.contactTestBitMask = BodyType.castle.rawValue | BodyType.building.rawValue
         }
         
-        for shapes in self.children {
-            if(shapes.name == "Barrier") {
-                if(shapes is SKSpriteNode) {
-                    shapes.physicsBody?.categoryBitMask = BodyType.building.rawValue
+        for node in self.children {
+            if(node.name == "Barrier") {
+                if(node is SKSpriteNode) {
+                    node.physicsBody?.categoryBitMask = BodyType.building.rawValue
+                    node.physicsBody?.collisionBitMask = 0
                     print ("found a barrier")
                 }
             }
+            
+            if let aCastle:Castle = node as? Castle {
+                
+                aCastle.setUpCastle()
+                break
+                
+            }
+            
+            
         }
         
     }
@@ -137,7 +147,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         
-        
+        for node in self.children {
+            if(node.name == "Barrier") {
+               
+                if(node.position.y > thePlayer.position.y) {
+                    node.zPosition = -100
+                } else {
+                    node.zPosition = 100
+                }
+            }
+        }
        
     }
     
@@ -237,8 +256,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print ("touched a building")
         } else if(contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.building.rawValue)
         {
-            
             print ("touched a building")
+        }else if(contact.bodyA.categoryBitMask == BodyType.player.rawValue && contact.bodyB.categoryBitMask == BodyType.castle.rawValue)
+        {
+            print ("touched a castle")
+        }else if(contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.castle.rawValue)
+        {
+            print ("touched a castle")
         }
     }
     
