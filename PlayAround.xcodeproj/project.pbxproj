@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA005CFF1FF97F8100BA1311 /* AttackArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA005CFE1FF97F8100BA1311 /* AttackArea.swift */; };
 		BA186D751FF4313F00D8E3E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA186D741FF4313F00D8E3E5 /* AppDelegate.swift */; };
 		BA186D771FF4313F00D8E3E5 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = BA186D761FF4313F00D8E3E5 /* GameScene.sks */; };
 		BA186D791FF4313F00D8E3E5 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = BA186D781FF4313F00D8E3E5 /* Actions.sks */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BA005CFE1FF97F8100BA1311 /* AttackArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttackArea.swift; sourceTree = "<group>"; };
 		BA186D711FF4313F00D8E3E5 /* PlayAround.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlayAround.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA186D741FF4313F00D8E3E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BA186D761FF4313F00D8E3E5 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 				BA186D761FF4313F00D8E3E5 /* GameScene.sks */,
 				BA186D781FF4313F00D8E3E5 /* Actions.sks */,
 				BA186D7A1FF4313F00D8E3E5 /* GameScene.swift */,
+				BA005CFE1FF97F8100BA1311 /* AttackArea.swift */,
 				BA70A2631FF9725A00788732 /* Castle.swift */,
 				BA186D7C1FF4313F00D8E3E5 /* GameViewController.swift */,
 				BA186D7E1FF4313F00D8E3E5 /* Main.storyboard */,
@@ -153,6 +156,7 @@
 				BA186D7B1FF4313F00D8E3E5 /* GameScene.swift in Sources */,
 				BA186D7D1FF4313F00D8E3E5 /* GameViewController.swift in Sources */,
 				BA186D751FF4313F00D8E3E5 /* AppDelegate.swift in Sources */,
+				BA005CFF1FF97F8100BA1311 /* AttackArea.swift in Sources */,
 				BA70A2641FF9725A00788732 /* Castle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

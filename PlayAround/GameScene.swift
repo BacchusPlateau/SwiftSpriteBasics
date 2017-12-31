@@ -13,6 +13,7 @@ enum BodyType:UInt32 {
     case player = 1
     case building = 2
     case castle = 4
+    case attackArea = 8
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -29,16 +30,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         
         self.physicsWorld.contactDelegate = self
+        
        // self.physicsWorld.gravity = CGVector(dx: 1, dy: 0)
         /*
         rotateRec.addTarget(self, action: #selector(GameScene.rotatedView (_:)))
         self.view!.addGestureRecognizer(rotateRec)
+        */
         
         tapRec.addTarget(self, action: #selector(GameScene.tappedView))
         tapRec.numberOfTapsRequired = 1
         tapRec.numberOfTouchesRequired = 1
         self.view!.addGestureRecognizer(tapRec)
-        */
+ 
         swipeRightRec.addTarget(self, action: #selector(GameScene.swipedRight))
         swipeRightRec.direction = .right
         self.view!.addGestureRecognizer(swipeRightRec)
@@ -86,6 +89,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    // MARK: Attack
+    func attack() {
+        
+        print ("attacking")
+        
+        let newAttack:AttackArea = AttackArea(imageNamed: "AttackCircle")
+        newAttack.position = thePlayer.position
+        newAttack.setUp()
+        self.addChild(newAttack)
+        newAttack.zPosition = thePlayer.zPosition - 1
+    }
+    
     func cleanUp() {
         
         for gesture in (self.view?.gestureRecognizers)! {
@@ -95,7 +110,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     @objc func tappedView() {
         
-        print("taPPy")
+       attack()
         
         
     }
