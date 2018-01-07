@@ -25,8 +25,23 @@ class AttackArea : SKSpriteNode {
         self.physicsBody?.collisionBitMask = 0
         self.physicsBody?.contactTestBitMask = BodyType.castle.rawValue
 
+        upAndAway()
         
+        self.run(SKAction(named: "Attacking")!)
     }
     
-    
+    func upAndAway() {
+        
+        let grow:SKAction = SKAction.scale(by: 3, duration: 0.5)
+        let finish:SKAction = SKAction.run {
+            
+            self.removeFromParent()
+            
+        }
+        
+        let seq:SKAction = SKAction.sequence([grow,finish])
+        self.run(seq)
+        
+        
+    }
 }

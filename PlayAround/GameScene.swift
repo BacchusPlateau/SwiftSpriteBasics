@@ -26,9 +26,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let swipeDownRec = UISwipeGestureRecognizer()
     let rotateRec = UIRotationGestureRecognizer()
     let tapRec = UITapGestureRecognizer()
+    public var currentLevel:String = "Grassland"
     
     override func didMove(to view: SKView) {
         
+        parsePropertyList()
         self.physicsWorld.contactDelegate = self
         
        // self.physicsWorld.gravity = CGVector(dx: 1, dy: 0)
@@ -78,15 +80,47 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             if let aCastle:Castle = node as? Castle {
-                
                 aCastle.setUpCastle()
                 break
-                
             }
-            
-            
         }
+    }
+    
+    //MARK: Parse PList
+    
+    func parsePropertyList() {
         
+        let path = Bundle.main.path(forResource:"GameData", ofType: "plist")
+        let dict:NSDictionary = NSDictionary(contentsOfFile: path!)!
+        if(dict.object(forKey: "Levels") != nil) {
+            
+            if let levelDict:[String : Any] = dict.object(forKey: "Levels") as? [String: Any]
+            {
+                for(key, value) in levelDict {
+                    
+                    if(key == currentLevel) {
+                        
+                        if let levelData:[String:Any] = value as? [String:Any] {
+                            
+                            for(key,value) in levelData {
+                                if (key == "NPC") {
+                                    
+                                    createNPCwithDict(theDict:value as! [String:Any])
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+            }
+        }
+    }
+    
+    func createNPCwithDict( theDict: [String:Any]) {
+        
+        for(key, _) in theDict {
+            print(key)
+        }
     }
     
     // MARK: Attack
@@ -99,6 +133,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newAttack.setUp()
         self.addChild(newAttack)
         newAttack.zPosition = thePlayer.zPosition - 1
+        
+        thePlayer.run(SKAction(named: "FrontAttack")!)
+        
     }
     
     func cleanUp() {
@@ -278,6 +315,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }else if(contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.castle.rawValue)
         {
             print ("touched a castle")
+        }
+        
+        /////
+        
+        if(contact.bodyA.categoryBitMask == BodyType.attackArea.rawValue && contact.bodyB.categoryBitMask == BodyType.castle.rawValue) {
+            
+            contact.bodyB.node?.removeFromParent()
+            
+        } else if(contact.bodyA.categoryBitMask == BodyType.castle.rawValue && contact.bodyB.categoryBitMask == BodyType.attackArea.rawValue) {
+        
+            contact.bodyA.node?.removeFromParent()
         }
     }
     
