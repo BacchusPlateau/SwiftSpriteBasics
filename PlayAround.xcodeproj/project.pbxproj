@@ -19,6 +19,7 @@
 		BA5E31BF20015B2C00670595 /* AttackingFrames.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31BE20015B2C00670595 /* AttackingFrames.atlas */; };
 		BA5E31C12001675400670595 /* FrontAttackFrames.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C02001675400670595 /* FrontAttackFrames.atlas */; };
 		BA5E31C3200170FE00670595 /* GameData.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C2200170FE00670595 /* GameData.plist */; };
+		BA5E31C5200AABE500670595 /* NonPlayerCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5E31C4200AABE500670595 /* NonPlayerCharacter.swift */; };
 		BA70A2641FF9725A00788732 /* Castle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA70A2631FF9725A00788732 /* Castle.swift */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,7 @@
 		BA5E31BE20015B2C00670595 /* AttackingFrames.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = AttackingFrames.atlas; sourceTree = "<group>"; };
 		BA5E31C02001675400670595 /* FrontAttackFrames.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = FrontAttackFrames.atlas; sourceTree = "<group>"; };
 		BA5E31C2200170FE00670595 /* GameData.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = GameData.plist; sourceTree = "<group>"; };
+		BA5E31C4200AABE500670595 /* NonPlayerCharacter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonPlayerCharacter.swift; sourceTree = "<group>"; };
 		BA70A2631FF9725A00788732 /* Castle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Castle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -74,6 +76,7 @@
 				BA186D761FF4313F00D8E3E5 /* GameScene.sks */,
 				BA186D781FF4313F00D8E3E5 /* Actions.sks */,
 				BA186D7A1FF4313F00D8E3E5 /* GameScene.swift */,
+				BA5E31C4200AABE500670595 /* NonPlayerCharacter.swift */,
 				BA005CFE1FF97F8100BA1311 /* AttackArea.swift */,
 				BA70A2631FF9725A00788732 /* Castle.swift */,
 				BA186D7C1FF4313F00D8E3E5 /* GameViewController.swift */,
@@ -167,6 +170,7 @@
 			files = (
 				BA186D7B1FF4313F00D8E3E5 /* GameScene.swift in Sources */,
 				BA186D7D1FF4313F00D8E3E5 /* GameViewController.swift in Sources */,
+				BA5E31C5200AABE500670595 /* NonPlayerCharacter.swift in Sources */,
 				BA186D751FF4313F00D8E3E5 /* AppDelegate.swift in Sources */,
 				BA005CFF1FF97F8100BA1311 /* AttackArea.swift in Sources */,
 				BA70A2641FF9725A00788732 /* Castle.swift in Sources */,
