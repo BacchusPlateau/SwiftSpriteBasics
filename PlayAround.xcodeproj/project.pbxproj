@@ -20,6 +20,10 @@
 		BA5E31C12001675400670595 /* FrontAttackFrames.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C02001675400670595 /* FrontAttackFrames.atlas */; };
 		BA5E31C3200170FE00670595 /* GameData.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C2200170FE00670595 /* GameData.plist */; };
 		BA5E31C5200AABE500670595 /* NonPlayerCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5E31C4200AABE500670595 /* NonPlayerCharacter.swift */; };
+		BA5E31CA200BFA5700670595 /* VillagerBackWalking.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C6200BFA5600670595 /* VillagerBackWalking.atlas */; };
+		BA5E31CB200BFA5700670595 /* VillagerLeftWalking.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C7200BFA5600670595 /* VillagerLeftWalking.atlas */; };
+		BA5E31CC200BFA5700670595 /* VillagerFrontWalking.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C8200BFA5600670595 /* VillagerFrontWalking.atlas */; };
+		BA5E31CD200BFA5700670595 /* VillagerRightWalking.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C9200BFA5700670595 /* VillagerRightWalking.atlas */; };
 		BA70A2641FF9725A00788732 /* Castle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA70A2631FF9725A00788732 /* Castle.swift */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +43,10 @@
 		BA5E31C02001675400670595 /* FrontAttackFrames.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = FrontAttackFrames.atlas; sourceTree = "<group>"; };
 		BA5E31C2200170FE00670595 /* GameData.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = GameData.plist; sourceTree = "<group>"; };
 		BA5E31C4200AABE500670595 /* NonPlayerCharacter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonPlayerCharacter.swift; sourceTree = "<group>"; };
+		BA5E31C6200BFA5600670595 /* VillagerBackWalking.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = VillagerBackWalking.atlas; sourceTree = "<group>"; };
+		BA5E31C7200BFA5600670595 /* VillagerLeftWalking.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = VillagerLeftWalking.atlas; sourceTree = "<group>"; };
+		BA5E31C8200BFA5600670595 /* VillagerFrontWalking.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = VillagerFrontWalking.atlas; sourceTree = "<group>"; };
+		BA5E31C9200BFA5700670595 /* VillagerRightWalking.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = VillagerRightWalking.atlas; sourceTree = "<group>"; };
 		BA70A2631FF9725A00788732 /* Castle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Castle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -82,6 +90,10 @@
 				BA186D7C1FF4313F00D8E3E5 /* GameViewController.swift */,
 				BA186D7E1FF4313F00D8E3E5 /* Main.storyboard */,
 				BA186D811FF4313F00D8E3E5 /* Assets.xcassets */,
+				BA5E31C6200BFA5600670595 /* VillagerBackWalking.atlas */,
+				BA5E31C8200BFA5600670595 /* VillagerFrontWalking.atlas */,
+				BA5E31C7200BFA5600670595 /* VillagerLeftWalking.atlas */,
+				BA5E31C9200BFA5700670595 /* VillagerRightWalking.atlas */,
 				BA5E31C02001675400670595 /* FrontAttackFrames.atlas */,
 				BA5E31BE20015B2C00670595 /* AttackingFrames.atlas */,
 				BA186D831FF4313F00D8E3E5 /* LaunchScreen.storyboard */,
@@ -152,10 +164,14 @@
 			files = (
 				BA5E31BF20015B2C00670595 /* AttackingFrames.atlas in Resources */,
 				BA5E31C12001675400670595 /* FrontAttackFrames.atlas in Resources */,
+				BA5E31CB200BFA5700670595 /* VillagerLeftWalking.atlas in Resources */,
 				BA186D801FF4313F00D8E3E5 /* Main.storyboard in Resources */,
+				BA5E31CC200BFA5700670595 /* VillagerFrontWalking.atlas in Resources */,
 				BA186D771FF4313F00D8E3E5 /* GameScene.sks in Resources */,
+				BA5E31CD200BFA5700670595 /* VillagerRightWalking.atlas in Resources */,
 				BA5E31C3200170FE00670595 /* GameData.plist in Resources */,
 				BA186D821FF4313F00D8E3E5 /* Assets.xcassets in Resources */,
+				BA5E31CA200BFA5700670595 /* VillagerBackWalking.atlas in Resources */,
 				BA186D851FF4313F00D8E3E5 /* LaunchScreen.storyboard in Resources */,
 				BA186D791FF4313F00D8E3E5 /* Actions.sks in Resources */,
 			);

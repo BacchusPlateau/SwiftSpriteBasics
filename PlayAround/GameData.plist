@@ -11,13 +11,13 @@
 				<key>Villager1</key>
 				<dict>
 					<key>Front</key>
-					<string></string>
+					<string>VillagerFront</string>
 					<key>Back</key>
-					<string></string>
+					<string>VillagerBack</string>
 					<key>Left</key>
-					<string></string>
+					<string>VillagerLeft</string>
 					<key>Right</key>
-					<string></string>
+					<string>VillagerRight</string>
 					<key>BaseImage</key>
 					<string>VillagerBase</string>
 					<key>InitialSpeech</key>
