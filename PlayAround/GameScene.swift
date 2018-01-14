@@ -14,6 +14,7 @@ enum BodyType:UInt32 {
     case building = 2
     case castle = 4
     case attackArea = 8
+    case npc = 16
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -141,6 +142,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let newNPC:NonPlayerCharacter = NonPlayerCharacter(imageNamed: theBaseImage)
             newNPC.name = nickName
+            newNPC.baseFrame = theBaseImage
             newNPC.setUpWithDict(theDict: value as! [String: Any])
             self.addChild(newNPC)
             newNPC.zPosition = thePlayer.zPosition - 1
@@ -358,16 +360,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       
         if(contact.bodyA.categoryBitMask == BodyType.player.rawValue && contact.bodyB.categoryBitMask == BodyType.building.rawValue)
         {
-            print ("touched a building")
+            //print ("touched a building")
         } else if(contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.building.rawValue)
         {
-            print ("touched a building")
+          //  print ("touched a building")
         }else if(contact.bodyA.categoryBitMask == BodyType.player.rawValue && contact.bodyB.categoryBitMask == BodyType.castle.rawValue)
         {
-            print ("touched a castle")
+           // print ("touched a castle")
         }else if(contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.castle.rawValue)
         {
-            print ("touched a castle")
+           // print ("touched a castle")
+        }
+        else if(contact.bodyA.categoryBitMask == BodyType.player.rawValue && contact.bodyB.categoryBitMask == BodyType.npc.rawValue)
+        {
+            if let theNPC:NonPlayerCharacter = contact.bodyB.node as? NonPlayerCharacter {
+                theNPC.contactPlayer()
+            }
+        }else if(contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.npc.rawValue)
+        {
+            if let theNPC:NonPlayerCharacter = contact.bodyA.node as? NonPlayerCharacter {
+                theNPC.contactPlayer()
+            }
         }
         
         /////
@@ -381,5 +394,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             contact.bodyA.node?.removeFromParent()
         }
     }
+    
+    
+    func didEnd(_ contact: SKPhysicsContact) {
+        if(contact.bodyA.categoryBitMask == BodyType.player.rawValue && contact.bodyB.categoryBitMask == BodyType.npc.rawValue)
+        {
+            if let theNPC:NonPlayerCharacter = contact.bodyB.node as? NonPlayerCharacter {
+                theNPC.endContactPlayer()
+            }
+        }else if(contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.npc.rawValue)
+        {
+            if let theNPC:NonPlayerCharacter = contact.bodyA.node as? NonPlayerCharacter {
+                theNPC.endContactPlayer()
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
     
 }
