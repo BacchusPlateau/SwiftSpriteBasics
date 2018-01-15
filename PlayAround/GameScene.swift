@@ -31,6 +31,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var infoLabel1:SKLabelNode = SKLabelNode()
     var infoLabel2:SKLabelNode = SKLabelNode()
+    var speechIcon:SKSpriteNode = SKSpriteNode()
+    var isCollidable:Bool = false
     
     override func didMove(to view: SKView) {
         
@@ -46,6 +48,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if(theCamera.childNode(withName: "InfoLabel2") is SKLabelNode) {
                 infoLabel2 = theCamera.childNode(withName: "InfoLabel2") as! SKLabelNode
                 infoLabel2.text = ""
+            }
+            if(theCamera.childNode(withName: "VillagerIcon") is SKSpriteNode) {
+                speechIcon = theCamera.childNode(withName: "VillagerIcon") as! SKSpriteNode
+                speechIcon.isHidden = true
             }
         }
         
@@ -387,12 +393,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let theNPC:NonPlayerCharacter = contact.bodyB.node as? NonPlayerCharacter {
                 splitTextIntoFields(theText: theNPC.speak())
                 theNPC.contactPlayer()
+                speechIcon.isHidden = false
+                speechIcon.texture = SKTexture(imageNamed: theNPC.speechIcon)
             }
         }else if(contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.npc.rawValue)
         {
             if let theNPC:NonPlayerCharacter = contact.bodyA.node as? NonPlayerCharacter {
                 splitTextIntoFields(theText: theNPC.speak())
                 theNPC.contactPlayer()
+                speechIcon.isHidden = false
+                speechIcon.texture = SKTexture(imageNamed: theNPC.speechIcon)
             }
         }
         
@@ -416,6 +426,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 theNPC.endContactPlayer()
                 infoLabel1.text = ""
                 infoLabel2.text = ""
+                speechIcon.isHidden = true
             }
         }else if(contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.npc.rawValue)
         {
@@ -423,6 +434,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 theNPC.endContactPlayer()
                 infoLabel1.text = ""
                 infoLabel2.text = ""
+                speechIcon.isHidden = true
             }
         }
     }

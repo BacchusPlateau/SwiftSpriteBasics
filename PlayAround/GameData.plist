@@ -32,6 +32,10 @@
 					</array>
 					<key>Range</key>
 					<string>VillagerRange</string>
+					<key>Icon</key>
+					<string>VillagerIcon</string>
+					<key>Collidable</key>
+					<true/>
 				</dict>
 			</dict>
 		</dict>

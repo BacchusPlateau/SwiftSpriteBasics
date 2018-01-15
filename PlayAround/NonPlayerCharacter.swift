@@ -23,19 +23,12 @@ class NonPlayerCharacter: SKSpriteNode {
     var alreadyContacted:Bool = false
     
     var currentSpeech:String = ""
+    var speechIcon:String = ""
+    var isCollidable:Bool = false
     
     func setUpWithDict( theDict : [String : Any ]) {
         
-        let body:SKPhysicsBody = SKPhysicsBody(circleOfRadius: self.frame.size.width / 3, center:CGPoint.zero)
-        self.physicsBody = body
-        body.isDynamic = true
-        body.affectedByGravity = false
-        body.allowsRotation = false
         
-        
-        self.physicsBody?.categoryBitMask = BodyType.npc.rawValue
-        self.physicsBody?.collisionBitMask = BodyType.building.rawValue
-        self.physicsBody?.contactTestBitMask = BodyType.player.rawValue
         
         
         for (key, value) in theDict  {
@@ -71,8 +64,34 @@ class NonPlayerCharacter: SKSpriteNode {
                     reminderSpeechArray.append(theValue)
                 }
             }
+            else if(key == "Icon") {
+                if let theValue = value as? String {
+                    speechIcon = theValue
+                }
+            } else if(key == "Collidable") {
+                if let theValue = value as? Bool {
+                    isCollidable = theValue
+                }
+            }
             
+        } //end for
+        
+        let body:SKPhysicsBody = SKPhysicsBody(circleOfRadius: self.frame.size.width / 3, center:CGPoint.zero)
+        self.physicsBody = body
+        body.isDynamic = true
+        body.affectedByGravity = false
+        body.allowsRotation = false
+        
+        
+        self.physicsBody?.categoryBitMask = BodyType.npc.rawValue
+        self.physicsBody?.contactTestBitMask = BodyType.player.rawValue
+        
+        if (isCollidable) {
+            self.physicsBody?.collisionBitMask = BodyType.building.rawValue
+        } else {
+            self.physicsBody?.collisionBitMask = 0
         }
+        
         walkRandom()
     }
     
