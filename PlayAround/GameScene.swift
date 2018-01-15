@@ -29,16 +29,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let tapRec = UITapGestureRecognizer()
     public var currentLevel:String = "Grassland"
     
+    var infoLabel1:SKLabelNode = SKLabelNode()
+    var infoLabel2:SKLabelNode = SKLabelNode()
+    
     override func didMove(to view: SKView) {
         
         parsePropertyList()
         self.physicsWorld.contactDelegate = self
-        
-       // self.physicsWorld.gravity = CGVector(dx: 1, dy: 0)
-        /*
-        rotateRec.addTarget(self, action: #selector(GameScene.rotatedView (_:)))
-        self.view!.addGestureRecognizer(rotateRec)
-        */
+    
+        if let theCamera = self.childNode(withName: "TheCamera") as? SKCameraNode   {
+            self.camera = theCamera
+            if(theCamera.childNode(withName: "InfoLabel1") is SKLabelNode) {
+                infoLabel1 = theCamera.childNode(withName: "InfoLabel1") as! SKLabelNode
+                infoLabel1.text = ""
+            }
+            if(theCamera.childNode(withName: "InfoLabel2") is SKLabelNode) {
+                infoLabel2 = theCamera.childNode(withName: "InfoLabel2") as! SKLabelNode
+                infoLabel2.text = ""
+            }
+        }
         
         tapRec.addTarget(self, action: #selector(GameScene.tappedView))
         tapRec.numberOfTapsRequired = 1
@@ -264,6 +273,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
+        
+        self.camera?.position = thePlayer.position
        
     }
     
@@ -374,11 +385,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         else if(contact.bodyA.categoryBitMask == BodyType.player.rawValue && contact.bodyB.categoryBitMask == BodyType.npc.rawValue)
         {
             if let theNPC:NonPlayerCharacter = contact.bodyB.node as? NonPlayerCharacter {
+                splitTextIntoFields(theText: theNPC.speak())
                 theNPC.contactPlayer()
             }
         }else if(contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.npc.rawValue)
         {
             if let theNPC:NonPlayerCharacter = contact.bodyA.node as? NonPlayerCharacter {
+                splitTextIntoFields(theText: theNPC.speak())
                 theNPC.contactPlayer()
             }
         }
@@ -401,16 +414,52 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         {
             if let theNPC:NonPlayerCharacter = contact.bodyB.node as? NonPlayerCharacter {
                 theNPC.endContactPlayer()
+                infoLabel1.text = ""
+                infoLabel2.text = ""
             }
         }else if(contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.npc.rawValue)
         {
             if let theNPC:NonPlayerCharacter = contact.bodyA.node as? NonPlayerCharacter {
                 theNPC.endContactPlayer()
+                infoLabel1.text = ""
+                infoLabel2.text = ""
             }
         }
     }
     
+    func splitTextIntoFields(theText:String) {
+        
+        let maxInOneLine:Int = 25
+        var i:Int = 0
+        var line1:String = ""
+        var line2:String = ""
+        var useLine2:Bool = false
+        
     
+        
+        for char in theText {
+            
+            if( i > maxInOneLine && String(char) == " ") {
+                useLine2 = true
+            }
+            
+            if(useLine2 == false) {
+                line1 = line1 + String(char)
+            } else {
+                line2 = line2 + String(char)
+            }
+            
+            i+=1
+            
+        }
+        
+        
+        print ("i = " + String(i))
+        
+        
+        infoLabel1.text = line1
+        infoLabel2.text = line2
+    }
     
     
     

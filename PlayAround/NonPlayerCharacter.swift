@@ -22,6 +22,8 @@ class NonPlayerCharacter: SKSpriteNode {
     var reminderSpeechArray = [String]()
     var alreadyContacted:Bool = false
     
+    var currentSpeech:String = ""
+    
     func setUpWithDict( theDict : [String : Any ]) {
         
         let body:SKPhysicsBody = SKPhysicsBody(circleOfRadius: self.frame.size.width / 3, center:CGPoint.zero)
@@ -32,7 +34,7 @@ class NonPlayerCharacter: SKSpriteNode {
         
         
         self.physicsBody?.categoryBitMask = BodyType.npc.rawValue
-        
+        self.physicsBody?.collisionBitMask = BodyType.building.rawValue
         self.physicsBody?.contactTestBitMask = BodyType.player.rawValue
         
         
@@ -124,10 +126,30 @@ class NonPlayerCharacter: SKSpriteNode {
         if(!isWalking) {
             isWalking = true;
             walkRandom()
+            
+            currentSpeech = ""
         }
         
     }
     
-    
+    func speak() -> String {
+        
+        if(currentSpeech == "") {
+            
+            if (!alreadyContacted) {
+                let randomLine:UInt32 = arc4random_uniform( UInt32 ( initialSpeechArray.count ))
+                
+                currentSpeech = initialSpeechArray[Int (randomLine)]
+            } else {
+                let randomLine:UInt32 = arc4random_uniform( UInt32 ( reminderSpeechArray.count ))
+                
+                currentSpeech = reminderSpeechArray[Int (randomLine)]
+            }
+            
+        }
+        
+        return currentSpeech
+        
+    }
     
 }
