@@ -15,6 +15,8 @@
 		BA186D801FF4313F00D8E3E5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA186D7E1FF4313F00D8E3E5 /* Main.storyboard */; };
 		BA186D821FF4313F00D8E3E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA186D811FF4313F00D8E3E5 /* Assets.xcassets */; };
 		BA186D851FF4313F00D8E3E5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA186D831FF4313F00D8E3E5 /* LaunchScreen.storyboard */; };
+		BA28B46C2014033100C37287 /* LevelTiles.sks in Resources */ = {isa = PBXBuildFile; fileRef = BA28B46A2014033100C37287 /* LevelTiles.sks */; };
+		BA28B46D2014033100C37287 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA28B46B2014033100C37287 /* Assets.xcassets */; };
 		BA5E31BF20015B2C00670595 /* AttackingFrames.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31BE20015B2C00670595 /* AttackingFrames.atlas */; };
 		BA5E31C12001675400670595 /* FrontAttackFrames.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C02001675400670595 /* FrontAttackFrames.atlas */; };
 		BA5E31C3200170FE00670595 /* GameData.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C2200170FE00670595 /* GameData.plist */; };
@@ -33,6 +35,7 @@
 		BAAEBDDB2013EAF8008BC7B2 /* Dungeon.sks in Resources */ = {isa = PBXBuildFile; fileRef = BAAEBDDA2013EAF8008BC7B2 /* Dungeon.sks */; };
 		BAAEBDDD2013EE6D008BC7B2 /* DungeonPad.sks in Resources */ = {isa = PBXBuildFile; fileRef = BAAEBDDC2013EE6D008BC7B2 /* DungeonPad.sks */; };
 		BAAEBDDF2013EE8A008BC7B2 /* SharedHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAEBDDE2013EE8A008BC7B2 /* SharedHelpers.swift */; };
+		BAAEBDE12013FF26008BC7B2 /* LevelStuff.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BAAEBDE02013FF26008BC7B2 /* LevelStuff.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +49,8 @@
 		BA186D811FF4313F00D8E3E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BA186D841FF4313F00D8E3E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BA186D861FF4313F00D8E3E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA28B46A2014033100C37287 /* LevelTiles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelTiles.sks; sourceTree = "<group>"; };
+		BA28B46B2014033100C37287 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../Assets.xcassets; sourceTree = "<group>"; };
 		BA5E31BE20015B2C00670595 /* AttackingFrames.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = AttackingFrames.atlas; sourceTree = "<group>"; };
 		BA5E31C02001675400670595 /* FrontAttackFrames.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = FrontAttackFrames.atlas; sourceTree = "<group>"; };
 		BA5E31C2200170FE00670595 /* GameData.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = GameData.plist; sourceTree = "<group>"; };
@@ -64,6 +69,7 @@
 		BAAEBDDA2013EAF8008BC7B2 /* Dungeon.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Dungeon.sks; sourceTree = "<group>"; };
 		BAAEBDDC2013EE6D008BC7B2 /* DungeonPad.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DungeonPad.sks; sourceTree = "<group>"; };
 		BAAEBDDE2013EE8A008BC7B2 /* SharedHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedHelpers.swift; sourceTree = "<group>"; };
+		BAAEBDE02013FF26008BC7B2 /* LevelStuff.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = LevelStuff.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +107,7 @@
 				BAAEBDDA2013EAF8008BC7B2 /* Dungeon.sks */,
 				BAAEBDDC2013EE6D008BC7B2 /* DungeonPad.sks */,
 				BA186D781FF4313F00D8E3E5 /* Actions.sks */,
+				BA28B46A2014033100C37287 /* LevelTiles.sks */,
 				BA186D7A1FF4313F00D8E3E5 /* GameScene.swift */,
 				BAAEBDD42013D139008BC7B2 /* GameScene_PropertyList.swift */,
 				BAAEBDD02013CED6008BC7B2 /* GameScene_Gestures.swift */,
@@ -113,7 +120,9 @@
 				BA186D7C1FF4313F00D8E3E5 /* GameViewController.swift */,
 				BAAEBDDE2013EE8A008BC7B2 /* SharedHelpers.swift */,
 				BA186D7E1FF4313F00D8E3E5 /* Main.storyboard */,
+				BAAEBDE02013FF26008BC7B2 /* LevelStuff.xcassets */,
 				BA186D811FF4313F00D8E3E5 /* Assets.xcassets */,
+				BA28B46B2014033100C37287 /* Assets.xcassets */,
 				BA5E31C6200BFA5600670595 /* VillagerBackWalking.atlas */,
 				BA5E31C8200BFA5600670595 /* VillagerFrontWalking.atlas */,
 				BA5E31C7200BFA5600670595 /* VillagerLeftWalking.atlas */,
@@ -192,6 +201,8 @@
 				BA5E31C12001675400670595 /* FrontAttackFrames.atlas in Resources */,
 				BA5E31CB200BFA5700670595 /* VillagerLeftWalking.atlas in Resources */,
 				BA186D801FF4313F00D8E3E5 /* Main.storyboard in Resources */,
+				BA28B46D2014033100C37287 /* Assets.xcassets in Resources */,
+				BA28B46C2014033100C37287 /* LevelTiles.sks in Resources */,
 				BA5E31CC200BFA5700670595 /* VillagerFrontWalking.atlas in Resources */,
 				BA5E31CD200BFA5700670595 /* VillagerRightWalking.atlas in Resources */,
 				BA5E31C3200170FE00670595 /* GameData.plist in Resources */,
@@ -200,6 +211,7 @@
 				BA5E31CA200BFA5700670595 /* VillagerBackWalking.atlas in Resources */,
 				BA186D851FF4313F00D8E3E5 /* LaunchScreen.storyboard in Resources */,
 				BA186D791FF4313F00D8E3E5 /* Actions.sks in Resources */,
+				BAAEBDE12013FF26008BC7B2 /* LevelStuff.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
