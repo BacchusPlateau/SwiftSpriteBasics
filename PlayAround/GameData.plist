@@ -4,6 +4,41 @@
 <dict>
 	<key>Levels</key>
 	<dict>
+		<key>Dungeon</key>
+		<dict>
+			<key>NPC</key>
+			<dict>
+				<key>Villager1</key>
+				<dict>
+					<key>Front</key>
+					<string>VillagerFront</string>
+					<key>Back</key>
+					<string>VillagerBack</string>
+					<key>Left</key>
+					<string>VillagerLeft</string>
+					<key>Right</key>
+					<string>VillagerRight</string>
+					<key>BaseImage</key>
+					<string>VillagerBase</string>
+					<key>InitialSpeech</key>
+					<array>
+						<string>Wouldn&apos;t you like to see something fun?</string>
+						<string>I have something fun to show you.</string>
+					</array>
+					<key>ReminderSpeech</key>
+					<array>
+						<string>Did you ever get around to scratching my balls?</string>
+						<string>Tick tock, my balls ain&apos;t gonna scratch themselves.</string>
+					</array>
+					<key>Range</key>
+					<string>VillagerRange</string>
+					<key>Icon</key>
+					<string>VillagerIcon</string>
+					<key>Collidable</key>
+					<true/>
+				</dict>
+			</dict>
+		</dict>
 		<key>Grassland</key>
 		<dict>
 			<key>NPC</key>
