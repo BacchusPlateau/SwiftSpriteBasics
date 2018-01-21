@@ -40,19 +40,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         parsePropertyList()
         self.physicsWorld.contactDelegate = self
     
-        if let theCamera = self.childNode(withName: "TheCamera") as? SKCameraNode   {
-            self.camera = theCamera
-            if(theCamera.childNode(withName: "InfoLabel1") is SKLabelNode) {
-                infoLabel1 = theCamera.childNode(withName: "InfoLabel1") as! SKLabelNode
-                infoLabel1.text = ""
-            }
-            if(theCamera.childNode(withName: "InfoLabel2") is SKLabelNode) {
-                infoLabel2 = theCamera.childNode(withName: "InfoLabel2") as! SKLabelNode
-                infoLabel2.text = ""
-            }
-            if(theCamera.childNode(withName: "VillagerIcon") is SKSpriteNode) {
-                speechIcon = theCamera.childNode(withName: "VillagerIcon") as! SKSpriteNode
-                speechIcon.isHidden = true
+        self.enumerateChildNodes(withName: "//*") {
+            node, stop in
+        
+            if let theCamera:SKCameraNode = node as? SKCameraNode {
+      
+                self.camera = theCamera
+                
+                if(theCamera.childNode(withName: "InfoLabel1") is SKLabelNode) {
+                    self.infoLabel1 = theCamera.childNode(withName: "InfoLabel1") as! SKLabelNode
+                    self.infoLabel1.text = ""
+                }
+                if(theCamera.childNode(withName: "InfoLabel2") is SKLabelNode) {
+                    self.infoLabel2 = theCamera.childNode(withName: "InfoLabel2") as! SKLabelNode
+                    self.infoLabel2.text = ""
+                }
+                if(theCamera.childNode(withName: "VillagerIcon") is SKSpriteNode) {
+                    self.speechIcon = theCamera.childNode(withName: "VillagerIcon") as! SKSpriteNode
+                    self.speechIcon.isHidden = true
+                }
+                
+                stop.pointee = true  //halt transversal of node tree
             }
         }
         
