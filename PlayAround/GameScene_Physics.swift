@@ -41,6 +41,7 @@ extension GameScene {
             if let theNPC:NonPlayerCharacter = contact.bodyB.node as? NonPlayerCharacter {
                 splitTextIntoFields(theText: theNPC.speak())
                 theNPC.contactPlayer()
+                rememberThis(withThing: theNPC.name!, remember: "alreadyContacted")
                 speechIcon.isHidden = false
                 speechIcon.texture = SKTexture(imageNamed: theNPC.speechIcon)
             }
@@ -49,6 +50,7 @@ extension GameScene {
             if let theNPC:NonPlayerCharacter = contact.bodyA.node as? NonPlayerCharacter {
                 splitTextIntoFields(theText: theNPC.speak())
                 theNPC.contactPlayer()
+                rememberThis(withThing: theNPC.name!, remember: "alreadyContacted")
                 speechIcon.isHidden = false
                 speechIcon.texture = SKTexture(imageNamed: theNPC.speechIcon)
             }

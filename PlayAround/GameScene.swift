@@ -35,6 +35,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var isCollidable:Bool = false
     var transitionInProgress:Bool = false
     
+    let defaults:UserDefaults = UserDefaults.standard
+    
     override func didMove(to view: SKView) {
         
         parsePropertyList()
