@@ -37,6 +37,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let defaults:UserDefaults = UserDefaults.standard
     
+    var cameraFollowsPlayer:Bool = true
+    var cameraXOffset:CGFloat = 0
+    var cameraYOffset:CGFloat = 0
+    var disableAttack:Bool = false
+    
     override func didMove(to view: SKView) {
         
         parsePropertyList()
@@ -102,7 +107,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if(node is SKSpriteNode) {
                     node.physicsBody?.categoryBitMask = BodyType.building.rawValue
                     node.physicsBody?.collisionBitMask = 0
-                    print ("found a barrier")
+         //           print ("found a barrier")
                 }
             }
             
@@ -127,8 +132,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        self.camera?.position = thePlayer.position
-       
+        if(cameraFollowsPlayer) {
+            self.camera?.position = CGPoint(x: thePlayer.position.x + cameraXOffset, y: thePlayer.position.y + cameraYOffset)
+        }
     }
 
 }

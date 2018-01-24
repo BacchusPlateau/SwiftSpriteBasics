@@ -20,7 +20,7 @@ class Castle : SKSpriteNode {
         self.physicsBody?.collisionBitMask = BodyType.player.rawValue
         self.physicsBody?.contactTestBitMask = BodyType.player.rawValue
         
-        print ("Setup Castle")
+     //   print ("Setup Castle")
     }
     
     

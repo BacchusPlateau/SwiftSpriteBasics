@@ -65,7 +65,7 @@ extension GameScene {
         }
         
         
-        print ("i = " + String(i))
+      //  print ("i = " + String(i))
         
         
         infoLabel1.text = line1

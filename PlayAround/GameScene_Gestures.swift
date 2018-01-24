@@ -21,9 +21,10 @@ extension GameScene {
     
     @objc func tappedView() {
         
-        attack()
-        
-        
+        if(!disableAttack) {
+            attack()
+        }
+       // print(disableAttack)
     }
     
     @objc func rotatedView(_ sender:UIRotationGestureRecognizer) {

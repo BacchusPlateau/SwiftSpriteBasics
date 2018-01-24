@@ -32,6 +32,12 @@ extension GameScene {
                                     
                                     createNPCwithDict(theDict:value as! [String:Any])
                                 }
+                                
+                                if (key == "Properties") {
+                                    
+                                    parseLevelSpecificProperties(theDict:value as! [String:Any])
+                                }
+                                
                             }
                         }
                         
@@ -39,6 +45,43 @@ extension GameScene {
                 }
             }
         }
+    }
+    
+    func parseLevelSpecificProperties ( theDict: [String:Any]) {
+        
+        for(key, value) in theDict {
+         //   print (key)
+            switch key {
+            case "CameraFollowsPlayer":
+                if(value is Bool) {
+                    cameraFollowsPlayer = value as! Bool
+                }
+            case "CameraOffset":
+                if(value is String) {
+                    let somePoint:CGPoint = CGPointFromString(value as! String)
+                    cameraXOffset = somePoint.x
+                    cameraYOffset = somePoint.y
+                }
+            case "ContinuePoint":
+             //   print ("here")
+                if(value is Bool) {
+                    if(value as! Bool == true) {
+                        defaults.set(currentLevel, forKey: key)
+                //        print(currentLevel + " " + key)
+                    }
+                }
+                
+            case "DisableAttack":
+                if(value is Bool) {
+                    if(value as! Bool == true) {
+                        disableAttack = value as! Bool
+                    }
+                }
+            default:
+                continue
+            }
+        }
+        
     }
     
     func createNPCwithDict( theDict: [String:Any]) {
@@ -56,7 +99,7 @@ extension GameScene {
                     if (key == "BaseImage") {
                         
                         theBaseImage = value as! String
-                        print (theBaseImage)
+            //            print (theBaseImage)
                     } else  if (key == "Range") {
                         
                         theRange = value as! String
