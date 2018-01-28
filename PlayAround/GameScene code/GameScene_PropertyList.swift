@@ -117,5 +117,80 @@ extension GameScene {
             newNPC.alreadyContacted = defaults.bool(forKey: currentLevel + nickName + "alreadyContacted")
         }
     }
+    
+    func setUpItem(theItem:WorldItem) {
+        
+        let path = Bundle.main.path(forResource:"GameData", ofType: "plist")
+        let dict:NSDictionary = NSDictionary(contentsOfFile: path!)!
+        var foundItemInLevel:Bool = false
+        
+        if(dict.object(forKey: "Levels") != nil) {
+            
+            if let levelDict:[String : Any] = dict.object(forKey: "Levels") as? [String: Any]
+            {
+                for(key, value) in levelDict {
+                    
+                    if(key == currentLevel) {
+                        
+                        if let levelData:[String:Any] = value as? [String:Any] {
+                            
+                            for(key,value) in levelData {
+                                if (key == "Items")  {
+                                    
+                                    if let itemsData:[String:Any] = value as? [String:Any] {
+                                        for(key,value) in itemsData {
+                                            
+                                            if(key==theItem.name) {
+                                                foundItemInLevel = true
+                                                
+                                                useDictWithWorldItem(theDict: value as! [String:Any], theItem: theItem)
+                                                
+                                             //   print ("found \(key) to setup with propertylist data")
+                                                break
+                                            }
+                                            
+                                        }
+                                    }
+                                }
+                                break
+                            }
+                        }
+                        break
+                    }
+                    
+                }
+                
+            }
+        }
+        
+        if(foundItemInLevel == false) {
+            
+            if(dict.object(forKey: "Items") != nil) {
+                
+                if let itemsData:[String : Any] = dict.object(forKey: "Items") as? [String: Any]
+                {
+                    
+                    for(key,value) in itemsData {
 
+                        if(key==theItem.name) {
+                            
+                            useDictWithWorldItem(theDict: value as! [String:Any], theItem: theItem)
+                            
+                         //   print ("found \(key) to setup with propertylist data in Root")
+                            break
+                        }
+                        
+  
+                    }
+                }
+            }
+        }
+    }
+    
+    func useDictWithWorldItem( theDict:[String:Any], theItem:WorldItem)     {
+        
+        print ( theDict )
+        
+    }
+    
 }

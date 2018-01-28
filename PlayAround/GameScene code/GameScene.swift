@@ -11,10 +11,9 @@ import GameplayKit
 
 enum BodyType:UInt32 {
     case player = 1
-    case building = 2
-    case castle = 4
-    case attackArea = 8
-    case npc = 16
+    case item = 2
+    case attackArea = 4
+    case npc = 8
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -98,28 +97,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             thePlayer.physicsBody?.isDynamic = true
             thePlayer.physicsBody?.affectedByGravity = false
             thePlayer.physicsBody?.categoryBitMask = BodyType.player.rawValue
-            thePlayer.physicsBody?.collisionBitMask = BodyType.castle.rawValue
-            thePlayer.physicsBody?.contactTestBitMask = BodyType.castle.rawValue | BodyType.building.rawValue
+        //    thePlayer.physicsBody?.collisionBitMask = BodyType.castle.rawValue
+            thePlayer.physicsBody?.contactTestBitMask = BodyType.item.rawValue
         }
         
         for node in self.children {
-            if(node.name == "Barrier") {
-                if(node is SKSpriteNode) {
-                    node.physicsBody?.categoryBitMask = BodyType.building.rawValue
-                    node.physicsBody?.collisionBitMask = 0
-         //           print ("found a barrier")
-                }
-            }
+         
             
-            if let aCastle:Castle = node as? Castle {
-                aCastle.setUpCastle()
-                break
+            if let someItem:WorldItem = node as? WorldItem {
+                setUpItem(theItem:someItem)
             }
         }
     }
     
 
     override func update(_ currentTime: TimeInterval) {
+        
         
         for node in self.children {
             if(node.name == "Barrier") {

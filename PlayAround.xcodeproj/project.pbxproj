@@ -16,6 +16,7 @@
 		BA186D821FF4313F00D8E3E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA186D811FF4313F00D8E3E5 /* Assets.xcassets */; };
 		BA186D851FF4313F00D8E3E5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA186D831FF4313F00D8E3E5 /* LaunchScreen.storyboard */; };
 		BA28B46C2014033100C37287 /* LevelTiles.sks in Resources */ = {isa = PBXBuildFile; fileRef = BA28B46A2014033100C37287 /* LevelTiles.sks */; };
+		BA3FFEBE201E7074001E661C /* WorldItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3FFEBD201E7074001E661C /* WorldItem.swift */; };
 		BA5E31BF20015B2C00670595 /* AttackingFrames.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31BE20015B2C00670595 /* AttackingFrames.atlas */; };
 		BA5E31C12001675400670595 /* FrontAttackFrames.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C02001675400670595 /* FrontAttackFrames.atlas */; };
 		BA5E31C3200170FE00670595 /* GameData.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C2200170FE00670595 /* GameData.plist */; };
@@ -24,7 +25,6 @@
 		BA5E31CB200BFA5700670595 /* VillagerLeftWalking.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C7200BFA5600670595 /* VillagerLeftWalking.atlas */; };
 		BA5E31CC200BFA5700670595 /* VillagerFrontWalking.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C8200BFA5600670595 /* VillagerFrontWalking.atlas */; };
 		BA5E31CD200BFA5700670595 /* VillagerRightWalking.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C9200BFA5700670595 /* VillagerRightWalking.atlas */; };
-		BA70A2641FF9725A00788732 /* Castle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA70A2631FF9725A00788732 /* Castle.swift */; };
 		BAAEBDCF2013CD8A008BC7B2 /* Grassland.sks in Resources */ = {isa = PBXBuildFile; fileRef = BAAEBDCE2013CD8A008BC7B2 /* Grassland.sks */; };
 		BAAEBDD12013CED6008BC7B2 /* GameScene_Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAEBDD02013CED6008BC7B2 /* GameScene_Gestures.swift */; };
 		BAAEBDD32013D069008BC7B2 /* GameScene_Physics.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAEBDD22013D069008BC7B2 /* GameScene_Physics.swift */; };
@@ -50,6 +50,7 @@
 		BA186D841FF4313F00D8E3E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BA186D861FF4313F00D8E3E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA28B46A2014033100C37287 /* LevelTiles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelTiles.sks; sourceTree = "<group>"; };
+		BA3FFEBD201E7074001E661C /* WorldItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldItem.swift; sourceTree = "<group>"; };
 		BA5E31BE20015B2C00670595 /* AttackingFrames.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = AttackingFrames.atlas; sourceTree = "<group>"; };
 		BA5E31C02001675400670595 /* FrontAttackFrames.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = FrontAttackFrames.atlas; sourceTree = "<group>"; };
 		BA5E31C2200170FE00670595 /* GameData.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = GameData.plist; sourceTree = "<group>"; };
@@ -58,7 +59,6 @@
 		BA5E31C7200BFA5600670595 /* VillagerLeftWalking.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = VillagerLeftWalking.atlas; sourceTree = "<group>"; };
 		BA5E31C8200BFA5600670595 /* VillagerFrontWalking.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = VillagerFrontWalking.atlas; sourceTree = "<group>"; };
 		BA5E31C9200BFA5700670595 /* VillagerRightWalking.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = VillagerRightWalking.atlas; sourceTree = "<group>"; };
-		BA70A2631FF9725A00788732 /* Castle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Castle.swift; sourceTree = "<group>"; };
 		BAAEBDCE2013CD8A008BC7B2 /* Grassland.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Grassland.sks; sourceTree = "<group>"; };
 		BAAEBDD02013CED6008BC7B2 /* GameScene_Gestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene_Gestures.swift; sourceTree = "<group>"; };
 		BAAEBDD22013D069008BC7B2 /* GameScene_Physics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene_Physics.swift; sourceTree = "<group>"; };
@@ -103,23 +103,11 @@
 			isa = PBXGroup;
 			children = (
 				BA186D741FF4313F00D8E3E5 /* AppDelegate.swift */,
-				BAAEBDCE2013CD8A008BC7B2 /* Grassland.sks */,
-				BAAEBDDA2013EAF8008BC7B2 /* Dungeon.sks */,
-				BAAEBDDC2013EE6D008BC7B2 /* DungeonPad.sks */,
-				BA186D781FF4313F00D8E3E5 /* Actions.sks */,
-				BAB7E37520151E6B0017AD82 /* GUI.sks */,
-				BA28B46A2014033100C37287 /* LevelTiles.sks */,
-				BA186D7A1FF4313F00D8E3E5 /* GameScene.swift */,
-				BAAEBDD02013CED6008BC7B2 /* GameScene_Gestures.swift */,
-				BAAEBDD82013D477008BC7B2 /* GameScene_Helpers.swift */,
-				BAAEBDD22013D069008BC7B2 /* GameScene_Physics.swift */,
-				BAAEBDD62013D20F008BC7B2 /* GameScene_Player.swift */,
-				BAAEBDD42013D139008BC7B2 /* GameScene_PropertyList.swift */,
-				BA5E31C4200AABE500670595 /* NonPlayerCharacter.swift */,
-				BA005CFE1FF97F8100BA1311 /* AttackArea.swift */,
-				BA70A2631FF9725A00788732 /* Castle.swift */,
-				BA186D7C1FF4313F00D8E3E5 /* GameViewController.swift */,
+				BA3FFEBA201E6E09001E661C /* SKS */,
+				BA3FFEBB201E6E95001E661C /* GameScene code */,
+				BA3FFEBC201E6EFF001E661C /* Support code */,
 				BAAEBDDE2013EE8A008BC7B2 /* SharedHelpers.swift */,
+				BA186D7C1FF4313F00D8E3E5 /* GameViewController.swift */,
 				BA186D7E1FF4313F00D8E3E5 /* Main.storyboard */,
 				BAAEBDE02013FF26008BC7B2 /* LevelStuff.xcassets */,
 				BA186D811FF4313F00D8E3E5 /* Assets.xcassets */,
@@ -134,6 +122,42 @@
 				BA5E31C2200170FE00670595 /* GameData.plist */,
 			);
 			path = PlayAround;
+			sourceTree = "<group>";
+		};
+		BA3FFEBA201E6E09001E661C /* SKS */ = {
+			isa = PBXGroup;
+			children = (
+				BAAEBDCE2013CD8A008BC7B2 /* Grassland.sks */,
+				BAAEBDDA2013EAF8008BC7B2 /* Dungeon.sks */,
+				BAAEBDDC2013EE6D008BC7B2 /* DungeonPad.sks */,
+				BA186D781FF4313F00D8E3E5 /* Actions.sks */,
+				BAB7E37520151E6B0017AD82 /* GUI.sks */,
+				BA28B46A2014033100C37287 /* LevelTiles.sks */,
+			);
+			path = SKS;
+			sourceTree = "<group>";
+		};
+		BA3FFEBB201E6E95001E661C /* GameScene code */ = {
+			isa = PBXGroup;
+			children = (
+				BA186D7A1FF4313F00D8E3E5 /* GameScene.swift */,
+				BAAEBDD02013CED6008BC7B2 /* GameScene_Gestures.swift */,
+				BAAEBDD82013D477008BC7B2 /* GameScene_Helpers.swift */,
+				BAAEBDD22013D069008BC7B2 /* GameScene_Physics.swift */,
+				BAAEBDD62013D20F008BC7B2 /* GameScene_Player.swift */,
+				BAAEBDD42013D139008BC7B2 /* GameScene_PropertyList.swift */,
+			);
+			path = "GameScene code";
+			sourceTree = "<group>";
+		};
+		BA3FFEBC201E6EFF001E661C /* Support code */ = {
+			isa = PBXGroup;
+			children = (
+				BA5E31C4200AABE500670595 /* NonPlayerCharacter.swift */,
+				BA005CFE1FF97F8100BA1311 /* AttackArea.swift */,
+				BA3FFEBD201E7074001E661C /* WorldItem.swift */,
+			);
+			path = "Support code";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -227,13 +251,13 @@
 				BA186D7D1FF4313F00D8E3E5 /* GameViewController.swift in Sources */,
 				BA5E31C5200AABE500670595 /* NonPlayerCharacter.swift in Sources */,
 				BAAEBDD32013D069008BC7B2 /* GameScene_Physics.swift in Sources */,
+				BA3FFEBE201E7074001E661C /* WorldItem.swift in Sources */,
 				BAAEBDD52013D139008BC7B2 /* GameScene_PropertyList.swift in Sources */,
 				BA186D751FF4313F00D8E3E5 /* AppDelegate.swift in Sources */,
 				BAAEBDD72013D20F008BC7B2 /* GameScene_Player.swift in Sources */,
 				BAAEBDDF2013EE8A008BC7B2 /* SharedHelpers.swift in Sources */,
 				BA005CFF1FF97F8100BA1311 /* AttackArea.swift in Sources */,
 				BAAEBDD92013D477008BC7B2 /* GameScene_Helpers.swift in Sources */,
-				BA70A2641FF9725A00788732 /* Castle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

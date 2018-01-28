@@ -87,7 +87,7 @@ class NonPlayerCharacter: SKSpriteNode {
         self.physicsBody?.contactTestBitMask = BodyType.player.rawValue
         
         if (isCollidable) {
-            self.physicsBody?.collisionBitMask = BodyType.building.rawValue
+           // self.physicsBody?.collisionBitMask = BodyType.building.rawValue
         } else {
             self.physicsBody?.collisionBitMask = 0
         }
