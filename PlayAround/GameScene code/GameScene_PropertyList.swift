@@ -189,7 +189,9 @@ extension GameScene {
     
     func useDictWithWorldItem( theDict:[String:Any], theItem:WorldItem)     {
         
-        print ( theDict )
+        theItem.setUpWithDict(theDict: theDict)
+        
+        
         
     }
     

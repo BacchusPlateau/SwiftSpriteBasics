@@ -73,7 +73,7 @@ extension GameScene {
     }
     
     
-    func loadLevel(theLevel:String) {
+    func loadLevel(theLevel:String, toWhere:String) {
         
         if(transitionInProgress == false) {
             
@@ -88,6 +88,7 @@ extension GameScene {
                 
                 scene.currentLevel = theLevel
                 scene.scaleMode = .aspectFill
+                scene.entryNode = toWhere   
                 
                 let transition:SKTransition = SKTransition.fade(with:SKColor.black, duration:2)
                 

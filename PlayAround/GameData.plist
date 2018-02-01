@@ -131,9 +131,9 @@
 					<key>PortalTo</key>
 					<dict>
 						<key>Level</key>
-						<string></string>
+						<string>Dungeon</string>
 						<key>Where</key>
-						<string></string>
+						<string>EntryPoint</string>
 					</dict>
 					<key>AltPortalTo</key>
 					<dict>
@@ -228,6 +228,82 @@
 					<string>VillagerIcon</string>
 					<key>Collidable</key>
 					<true/>
+				</dict>
+			</dict>
+			<key>Items</key>
+			<dict>
+				<key>TheCastle</key>
+				<dict>
+					<key>Requires</key>
+					<dict>
+						<key>Inventory</key>
+						<string>Key</string>
+						<key>Amount</key>
+						<integer>50</integer>
+						<key>DeductOnEntry</key>
+						<false/>
+						<key>TimeToOpen</key>
+						<string></string>
+					</dict>
+					<key>Rewards</key>
+					<dict>
+						<key>Health</key>
+						<string></string>
+						<key>Weapon</key>
+						<string></string>
+						<key>Inventory</key>
+						<string></string>
+						<key>Currency</key>
+						<string></string>
+						<key>Class</key>
+						<string></string>
+					</dict>
+					<key>Text</key>
+					<dict>
+						<key>Locked</key>
+						<string></string>
+						<key>Open</key>
+						<string></string>
+					</dict>
+					<key>PortalTo</key>
+					<dict>
+						<key>Level</key>
+						<string>Grassland</string>
+						<key>Where</key>
+						<string>EntryPoint</string>
+					</dict>
+					<key>AltPortalTo</key>
+					<dict>
+						<key>Level</key>
+						<string></string>
+						<key>Where</key>
+						<string></string>
+					</dict>
+					<key>Sounds</key>
+					<dict>
+						<key>Locked</key>
+						<string></string>
+						<key>Open</key>
+						<string></string>
+					</dict>
+					<key>Appearance</key>
+					<dict>
+						<key>OpenImage</key>
+						<string></string>
+						<key>OpenAnimation</key>
+						<string></string>
+					</dict>
+					<key>AfterContact</key>
+					<dict>
+						<key>NeverRewardAgain</key>
+						<string></string>
+						<key>NeverShowAgain</key>
+						<string></string>
+						<key>DeleteFromLevel</key>
+						<string></string>
+						<key>DeleteBody</key>
+						<string></string>
+					</dict>
 				</dict>
 			</dict>
 		</dict>
