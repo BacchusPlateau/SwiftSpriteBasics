@@ -92,30 +92,76 @@ extension GameScene {
             var theRange : String = ""
             let nickName: String = key
             
-            if let NPCData:[String : Any] = value as? [String : Any] {
+            var alreadyFoundNPCinScene:Bool = false
+            
+            for node in self.children {
                 
-                for (key, value) in NPCData {
+                if(node.name == key) {
                     
-                    if (key == "BaseImage") {
+                    if (node is NonPlayerCharacter) {
                         
-                        theBaseImage = value as! String
-            //            print (theBaseImage)
-                    } else  if (key == "Range") {
+                        useDictWithNPC(theDict: value as! [String:Any], theNPC: node as! NonPlayerCharacter)
+                        alreadyFoundNPCinScene = true
                         
-                        theRange = value as! String
                     }
                 }
             }
             
-            let newNPC:NonPlayerCharacter = NonPlayerCharacter(imageNamed: theBaseImage)
-            newNPC.name = nickName
-            newNPC.baseFrame = theBaseImage
-            newNPC.setUpWithDict(theDict: value as! [String: Any])
-            self.addChild(newNPC)
-            newNPC.zPosition = thePlayer.zPosition - 1
-            newNPC.position = putWithinRange(nodeName: theRange)
-            newNPC.alreadyContacted = defaults.bool(forKey: currentLevel + nickName + "alreadyContacted")
+            if(!alreadyFoundNPCinScene) {
+                
+                if let NPCData:[String:Any] = value as? [String:Any] {
+                    for (key,value) in NPCData {
+                        if(key == "BaseImage") {
+                            theBaseImage = value as! String
+                        } else if (key == "Range") {
+                            theRange = value as! String
+                        }
+                    }
+                }
+            
+            
+                if let NPCData:[String : Any] = value as? [String : Any] {
+                    
+                    for (key, value) in NPCData {
+                        
+                        if (key == "BaseImage") {
+                            
+                            theBaseImage = value as! String
+            
+                        } else  if (key == "Range") {
+                            
+                            theRange = value as! String
+                        }
+                    }
+                }
+                
+                let newNPC:NonPlayerCharacter = NonPlayerCharacter(imageNamed: theBaseImage)
+                newNPC.name = nickName
+                newNPC.baseFrame = theBaseImage
+                newNPC.setUpWithDict(theDict: value as! [String: Any])
+                self.addChild(newNPC)
+                newNPC.zPosition = thePlayer.zPosition - 1
+                newNPC.position = putWithinRange(nodeName: theRange)
+                newNPC.alreadyContacted = defaults.bool(forKey: currentLevel + nickName + "alreadyContacted")
+            }
         }
+    }
+    
+    func useDictWithNPC(theDict:[String:Any], theNPC:NonPlayerCharacter) {
+        
+        theNPC.setUpWithDict(theDict: theDict)
+        
+        for (key,value) in theDict {
+            
+            if (key == "Range") {
+                
+                theNPC.position = putWithinRange(nodeName: value as! String)
+                
+            }
+        }
+        
+        theNPC.alreadyContacted = defaults.bool(forKey: currentLevel + theNPC.name! + "alreadyContacted")
+        
     }
     
     func setUpItem(theItem:WorldItem) {

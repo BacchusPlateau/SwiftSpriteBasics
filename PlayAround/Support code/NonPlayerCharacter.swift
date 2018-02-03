@@ -24,12 +24,12 @@ class NonPlayerCharacter: SKSpriteNode {
     
     var currentSpeech:String = ""
     var speechIcon:String = ""
-    var isCollidable:Bool = false
+ 
+    var isCollidableWithItems:Bool = false
+    var isCollidableWithPlayer:Bool = false
     
     func setUpWithDict( theDict : [String : Any ]) {
-        
-        
-        
+ 
         
         for (key, value) in theDict  {
             if(key == "Front") {
@@ -68,9 +68,17 @@ class NonPlayerCharacter: SKSpriteNode {
                 if let theValue = value as? String {
                     speechIcon = theValue
                 }
-            } else if(key == "Collidable") {
+            } else if(key == "CollidableWithItems") {
                 if let theValue = value as? Bool {
-                    isCollidable = theValue
+                    isCollidableWithItems = theValue
+                }
+            } else if(key == "CollidableWithPlayer") {
+                if let theValue = value as? Bool {
+                    isCollidableWithPlayer = theValue
+                }
+            } else if(key == "BaseImage") {
+                if let theValue = value as? String {
+                    baseFrame = theValue
                 }
             }
             
@@ -86,8 +94,24 @@ class NonPlayerCharacter: SKSpriteNode {
         self.physicsBody?.categoryBitMask = BodyType.npc.rawValue
         self.physicsBody?.contactTestBitMask = BodyType.player.rawValue
         
-        if (isCollidable) {
-           // self.physicsBody?.collisionBitMask = BodyType.building.rawValue
+        if (isCollidableWithPlayer && isCollidableWithItems) {
+            
+            self.physicsBody?.collisionBitMask = BodyType.item.rawValue | BodyType.player.rawValue | BodyType.npc.rawValue | BodyType.attackArea.rawValue
+            
+            print ("NPC is colliding with items and player")
+            
+        } else if (!isCollidableWithPlayer && isCollidableWithItems) {
+            
+            self.physicsBody?.collisionBitMask = BodyType.item.rawValue | BodyType.npc.rawValue | BodyType.attackArea.rawValue
+            
+            print ("NPC is colliding with items")
+            
+        } else if (isCollidableWithPlayer && !isCollidableWithItems) {
+            
+            self.physicsBody?.collisionBitMask = BodyType.player.rawValue | BodyType.npc.rawValue | BodyType.attackArea.rawValue
+            
+            print ("NPC is colliding with player")
+            
         } else {
             self.physicsBody?.collisionBitMask = 0
         }

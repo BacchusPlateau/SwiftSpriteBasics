@@ -36,6 +36,10 @@
 			<dict>
 				<key>Villager1</key>
 				<dict>
+					<key>CollidableWithPlayer</key>
+					<false/>
+					<key>CollidableWithItems</key>
+					<true/>
 					<key>Front</key>
 					<string>VillagerFront</string>
 					<key>Back</key>
@@ -60,8 +64,6 @@
 					<string>VillagerRange</string>
 					<key>Icon</key>
 					<string>VillagerIcon</string>
-					<key>Collidable</key>
-					<true/>
 				</dict>
 				<key>Villager2</key>
 				<dict>
@@ -89,8 +91,10 @@
 					<string>VillagerRange</string>
 					<key>Icon</key>
 					<string>VillagerIcon</string>
-					<key>Collidable</key>
+					<key>CollidableWithItems</key>
 					<true/>
+					<key>CollidableWithPlayer</key>
+					<false/>
 				</dict>
 			</dict>
 			<key>Items</key>
@@ -226,8 +230,10 @@
 					<string>VillagerRange</string>
 					<key>Icon</key>
 					<string>VillagerIcon</string>
-					<key>Collidable</key>
+					<key>CollidableWithItems</key>
 					<true/>
+					<key>CollidableWithPlayer</key>
+					<false/>
 				</dict>
 			</dict>
 			<key>Items</key>
