@@ -37,6 +37,33 @@ extension GameScene {
         
     }
     
+    func fadeOutInfoText() {
+        
+        infoLabel1.removeAllActions()
+        infoLabel2.removeAllActions()
+        speechIcon.removeAllActions()
+        
+        let wait:SKAction = SKAction.wait(forDuration: 0.5)
+        let fade:SKAction = SKAction.fadeAlpha(to:0, duration: 0.5)
+        let run:SKAction = SKAction.run {
+            self.infoLabel1.text = ""
+            self.infoLabel2.text = ""
+            self.infoLabel1.alpha = 1
+            self.infoLabel2.alpha = 1
+            
+            self.speechIcon.alpha = 1
+            self.speechIcon.isHidden = true
+        }
+        
+        let seq:SKAction = SKAction.sequence([wait, fade, run])
+        let seq2:SKAction = SKAction.sequence([wait, fade])
+        
+        infoLabel1.run(seq)
+        infoLabel2.run(seq2)
+        speechIcon.run(seq2)
+        
+    }
+    
     
     func splitTextIntoFields(theText:String) {
         
@@ -64,12 +91,14 @@ extension GameScene {
             
         }
         
-        
-      //  print ("i = " + String(i))
-        
+        infoLabel1.removeAllActions()
+        infoLabel2.removeAllActions()
         
         infoLabel1.text = line1
         infoLabel2.text = line2
+        
+        infoLabel1.alpha = 1
+        infoLabel2.alpha = 1
     }
     
     

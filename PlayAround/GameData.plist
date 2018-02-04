@@ -103,14 +103,14 @@
 				<dict>
 					<key>Requires</key>
 					<dict>
-						<key>Inventory</key>
-						<string>Key</string>
+						<key>Thing</key>
+						<string>CastleKey</string>
 						<key>Amount</key>
-						<integer>50</integer>
+						<integer>1</integer>
 						<key>DeductOnEntry</key>
 						<false/>
 						<key>TimeToOpen</key>
-						<string></string>
+						<string>0</string>
 					</dict>
 					<key>Rewards</key>
 					<dict>
@@ -128,9 +128,14 @@
 					<key>Text</key>
 					<dict>
 						<key>Locked</key>
-						<string></string>
+						<array>
+							<string>Um, it might need an item to open the door.</string>
+							<string>Dumbass, it&apos;s locked!</string>
+						</array>
+						<key>Unlocked</key>
+						<string>Is this the key to the castle?</string>
 						<key>Open</key>
-						<string></string>
+						<string>Schwing!</string>
 					</dict>
 					<key>PortalTo</key>
 					<dict>

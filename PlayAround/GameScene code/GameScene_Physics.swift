@@ -19,20 +19,12 @@ extension GameScene {
         if(contact.bodyA.categoryBitMask == BodyType.player.rawValue && contact.bodyB.categoryBitMask == BodyType.npc.rawValue)
         {
             if let theNPC:NonPlayerCharacter = contact.bodyB.node as? NonPlayerCharacter {
-                splitTextIntoFields(theText: theNPC.speak())
-                theNPC.contactPlayer()
-                rememberThis(withThing: theNPC.name!, remember: "alreadyContacted")
-                speechIcon.isHidden = false
-                speechIcon.texture = SKTexture(imageNamed: theNPC.speechIcon)
+                contactWithNPC(theNPC: theNPC)
             }
         }else if(contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.npc.rawValue)
         {
             if let theNPC:NonPlayerCharacter = contact.bodyA.node as? NonPlayerCharacter {
-                splitTextIntoFields(theText: theNPC.speak())
-                theNPC.contactPlayer()
-                rememberThis(withThing: theNPC.name!, remember: "alreadyContacted")
-                speechIcon.isHidden = false
-                speechIcon.texture = SKTexture(imageNamed: theNPC.speechIcon)
+                contactWithNPC(theNPC: theNPC)
             }
         }else if(contact.bodyA.categoryBitMask == BodyType.player.rawValue && contact.bodyB.categoryBitMask == BodyType.item.rawValue)
         {
@@ -52,25 +44,63 @@ extension GameScene {
         if(contact.bodyA.categoryBitMask == BodyType.player.rawValue && contact.bodyB.categoryBitMask == BodyType.npc.rawValue)
         {
             if let theNPC:NonPlayerCharacter = contact.bodyB.node as? NonPlayerCharacter {
-                theNPC.endContactPlayer()
-                infoLabel1.text = ""
-                infoLabel2.text = ""
-                speechIcon.isHidden = true
+          
+                endContactWithNPC(theNPC: theNPC)
+                
             }
         }else if(contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.npc.rawValue)
         {
             if let theNPC:NonPlayerCharacter = contact.bodyA.node as? NonPlayerCharacter {
-                theNPC.endContactPlayer()
-                infoLabel1.text = ""
-                infoLabel2.text = ""
-                speechIcon.isHidden = true
+                
+                endContactWithNPC(theNPC: theNPC)
+                
+            }
+        } else if(contact.bodyA.categoryBitMask == BodyType.player.rawValue && contact.bodyB.categoryBitMask == BodyType.item.rawValue)
+        {
+            if let theItem:WorldItem = contact.bodyB.node as? WorldItem {
+                
+                endContactWithItem(theItem: theItem)
+                
+            }
+        } else if(contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.item.rawValue)
+        {
+            if let theItem:WorldItem = contact.bodyA.node as? WorldItem {
+                
+                endContactWithItem(theItem: theItem)
+                
             }
         }
     }
     
+    func endContactWithNPC (theNPC:NonPlayerCharacter) {
+        
+        theNPC.endContactPlayer()
+        fadeOutInfoText()
+        
+    }
+    
+    func contactWithNPC (theNPC:NonPlayerCharacter) {
+        
+        splitTextIntoFields(theText: theNPC.speak())
+        theNPC.contactPlayer()
+        rememberThis(withThing: theNPC.name!, remember: "alreadyContacted")
+        speechIcon.isHidden = false
+        speechIcon.texture = SKTexture(imageNamed: theNPC.speechIcon)
+        speechIcon.alpha = 1
+    }
+    
+    func endContactWithItem (theItem:WorldItem) {
+        
+        fadeOutInfoText()
+        
+    }
+    
     func contactWithItem (theItem:WorldItem) {
         
-        if(theItem.isPortal) {
+        splitTextIntoFields(theText: theItem.getInfo())
+        
+        
+        if(theItem.isPortal && theItem.isOpen) {
             if(theItem.portalToLevel != "") {
                 //go other level
                 
