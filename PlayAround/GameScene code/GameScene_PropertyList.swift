@@ -191,7 +191,7 @@ extension GameScene {
                                                 
                                                 useDictWithWorldItem(theDict: value as! [String:Any], theItem: theItem)
                                                 
-                                             //   print ("found \(key) to setup with propertylist data")
+                                                print ("found \(key) to setup with propertylist data")
                                                 break
                                             }
                                             

@@ -99,6 +99,24 @@
 			</dict>
 			<key>Items</key>
 			<dict>
+				<key>CastleKey</key>
+				<dict>
+					<key>RemoveWhen</key>
+					<dict>
+						<key>CastleKey</key>
+						<integer>1</integer>
+					</dict>
+					<key>Rewards</key>
+					<dict>
+						<key>CastleKey</key>
+						<integer>1</integer>
+					</dict>
+					<key>AfterContact</key>
+					<dict>
+						<key>DeleteFromLevel</key>
+						<true/>
+					</dict>
+				</dict>
 				<key>TheCastle</key>
 				<dict>
 					<key>Requires</key>
@@ -108,11 +126,11 @@
 						<key>Amount</key>
 						<integer>1</integer>
 						<key>DeductOnEntry</key>
-						<false/>
+						<true/>
 						<key>TimeToOpen</key>
 						<string>0</string>
 					</dict>
-					<key>Rewards</key>
+					<key>Rewards - OFF</key>
 					<dict>
 						<key>Health</key>
 						<string></string>
@@ -161,11 +179,11 @@
 					<key>Appearance</key>
 					<dict>
 						<key>OpenImage</key>
-						<string></string>
-						<key>OpenAnimation</key>
+						<string>CastleOpen</string>
+						<key>OpenAnimation - OFF</key>
 						<string></string>
 					</dict>
-					<key>AfterContact</key>
+					<key>AfterContact - OFF</key>
 					<dict>
 						<key>NeverRewardAgain</key>
 						<string></string>
@@ -256,7 +274,7 @@
 						<key>TimeToOpen</key>
 						<string></string>
 					</dict>
-					<key>Rewards</key>
+					<key>Rewards - OFF</key>
 					<dict>
 						<key>Health</key>
 						<string></string>

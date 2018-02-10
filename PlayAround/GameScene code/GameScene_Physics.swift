@@ -96,36 +96,54 @@ extension GameScene {
     }
     
     func contactWithItem (theItem:WorldItem) {
+        print ("contactWithItem: \(theItem.name!)")
         
         splitTextIntoFields(theText: theItem.getInfo())
         
-        
-        if(theItem.isPortal && theItem.isOpen) {
-            if(theItem.portalToLevel != "") {
-                //go other level
+        if (!theItem.isOpen) {
+            
+            
+        } else if(theItem.isOpen) {
+            
+            if(theItem.rewardDictionary.count > 0) {
                 
-                if(theItem.portalToWhere != "") {
-                    
-                    loadLevel(theLevel: theItem.portalToLevel, toWhere: theItem.portalToWhere)
-                    defaults.set(theItem.portalToWhere, forKey: "ContinueWhere")
-                    
-                    
-                } else {
-                    
-                    loadLevel(theLevel: theItem.portalToLevel, toWhere: "")
-                }
-                
-            } else if(theItem.portalToWhere != ""){
-                //somewhere else in level
-                if(self.childNode(withName: theItem.portalToWhere) != nil) {
-                    thePlayer.removeAllActions()
-                    let newLocation:CGPoint = (self.childNode(withName: theItem.portalToWhere)?.position)!
-                    thePlayer.run(SKAction.move(to: newLocation, duration: 0.0))
-           
-                    
-                }
+                sortRewards(rewards: theItem.rewardDictionary)
+                theItem.rewardDictionary.removeAll()
+            
             }
-        }
+            
+            //portal code
+            if (theItem.isPortal) {
+                if(theItem.portalToLevel != "") {
+                    //go other level
+                    
+                    if(theItem.portalToWhere != "") {
+                        
+                        loadLevel(theLevel: theItem.portalToLevel, toWhere: theItem.portalToWhere)
+                        defaults.set(theItem.portalToWhere, forKey: "ContinueWhere")
+                        
+                        
+                    } else {
+                        
+                        loadLevel(theLevel: theItem.portalToLevel, toWhere: "")
+                    }
+                    
+                } else if(theItem.portalToWhere != ""){
+                    //somewhere else in level
+                    if(self.childNode(withName: theItem.portalToWhere) != nil) {
+                        thePlayer.removeAllActions()
+                        let newLocation:CGPoint = (self.childNode(withName: theItem.portalToWhere)?.position)!
+                        thePlayer.run(SKAction.move(to: newLocation, duration: 0.0))
+                        
+                        
+                    }
+                }
+            }//item is portal
+            
+            theItem.afterOpenContact()
+            
+        } //item is open
+      
         
     }
 

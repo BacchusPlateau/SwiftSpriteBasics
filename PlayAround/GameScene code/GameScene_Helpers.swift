@@ -67,38 +67,42 @@ extension GameScene {
     
     func splitTextIntoFields(theText:String) {
         
-        let maxInOneLine:Int = 25
-        var i:Int = 0
-        var line1:String = ""
-        var line2:String = ""
-        var useLine2:Bool = false
+        if(theText != "") {
         
-        
-        
-        for char in theText {
+            let maxInOneLine:Int = 25
+            var i:Int = 0
+            var line1:String = ""
+            var line2:String = ""
+            var useLine2:Bool = false
             
-            if( i > maxInOneLine && String(char) == " ") {
-                useLine2 = true
+            
+            
+            for char in theText {
+                
+                if( i > maxInOneLine && String(char) == " ") {
+                    useLine2 = true
+                }
+                
+                if(useLine2 == false) {
+                    line1 = line1 + String(char)
+                } else {
+                    line2 = line2 + String(char)
+                }
+                
+                i+=1
+                
             }
             
-            if(useLine2 == false) {
-                line1 = line1 + String(char)
-            } else {
-                line2 = line2 + String(char)
-            }
+            infoLabel1.removeAllActions()
+            infoLabel2.removeAllActions()
             
-            i+=1
+            infoLabel1.text = line1
+            infoLabel2.text = line2
+            
+            infoLabel1.alpha = 1
+            infoLabel2.alpha = 1
             
         }
-        
-        infoLabel1.removeAllActions()
-        infoLabel2.removeAllActions()
-        
-        infoLabel1.text = line1
-        infoLabel2.text = line2
-        
-        infoLabel1.alpha = 1
-        infoLabel2.alpha = 1
     }
     
     

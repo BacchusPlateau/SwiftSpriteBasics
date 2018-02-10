@@ -47,7 +47,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         parsePropertyList()
         self.physicsWorld.contactDelegate = self
-    
+        self.physicsWorld.gravity = CGVector(dx:0, dy:0)
+        
+        
+        
         self.enumerateChildNodes(withName: "//*") {
             node, stop in
         
