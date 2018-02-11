@@ -31,18 +31,18 @@ extension GameScene {
         
         if(sender.state == .began) {
             
-            print("rotation began")
+          //  print("rotation began")
         }
         
         if(sender.state == .changed ) {
             
-            print("rotation changed")
-            print(sender.rotation)
+         //   print("rotation changed")
+         //   print(sender.rotation)
         }
         
         if(sender.state == .ended) {
             
-            print("rotation ended")
+        //    print("rotation ended")
         }
         
     }

@@ -75,7 +75,7 @@ extension GameScene {
     func endContactWithNPC (theNPC:NonPlayerCharacter) {
         
         theNPC.endContactPlayer()
-        fadeOutInfoText()
+        fadeOutInfoText(waitTime: theNPC.infoTime)
         
     }
     
@@ -84,16 +84,67 @@ extension GameScene {
         splitTextIntoFields(theText: theNPC.speak())
         theNPC.contactPlayer()
         rememberThis(withThing: theNPC.name!, remember: "alreadyContacted")
-        speechIcon.isHidden = false
-        speechIcon.texture = SKTexture(imageNamed: theNPC.speechIcon)
-        speechIcon.alpha = 1
+        
+        if(theNPC.speechIcon != "") {
+            
+            showIcon(theTexture: theNPC.speechIcon)
+            
+        }
+     
     }
     
     func endContactWithItem (theItem:WorldItem) {
         
-        fadeOutInfoText()
+        fadeOutInfoText(waitTime: theItem.infoTime)
         
     }
+    
+    func usePortalInCurrentLevel(toWhere:String, delay:TimeInterval) {
+        
+        thePlayer.isHidden = true
+        
+        let wait:SKAction = SKAction.wait(forDuration: delay)
+        let portalAction:SKAction = SKAction.run {
+            
+            //somewhere else in level
+            if(self.childNode(withName: toWhere) != nil) {
+                
+                self.thePlayer.removeAllActions()
+                let newLocation:CGPoint = (self.childNode(withName: toWhere)?.position)!
+                self.thePlayer.run(SKAction.move(to: newLocation, duration: delay))
+                
+            }
+            
+            self.thePlayer.isHidden = false
+        }
+        
+        self.run(SKAction.sequence([wait, portalAction]))
+        
+    }
+    
+    func usePortalToLevel(theLevel:String, toWhere:String, delay:TimeInterval) {
+        
+        thePlayer.isHidden = true
+        
+        let wait:SKAction = SKAction.wait(forDuration: delay)
+        let portalAction:SKAction = SKAction.run {
+        
+            if(toWhere != "") {
+                
+                self.loadLevel(theLevel: theLevel, toWhere: toWhere)
+                self.defaults.set(toWhere, forKey: "ContinueWhere")
+                
+            } else {
+                
+                self.loadLevel(theLevel: theLevel, toWhere: "")
+                
+            }
+        }
+        
+        let seq:SKAction = SKAction.sequence([wait, portalAction])
+        self.run(seq)
+    }
+    
     
     func contactWithItem (theItem:WorldItem) {
         print ("contactWithItem: \(theItem.name!)")
@@ -102,8 +153,24 @@ extension GameScene {
         
         if (!theItem.isOpen) {
             
+            if(theItem.lockedIcon != "") {
+                
+                showIcon(theTexture: theItem.lockedIcon)
+                
+            }
+            
+            if (theItem.timeToOpen > 0) {
+                thePlayer.removeAllActions()
+                showTimer(theAnimation: theItem.timerName, time:theItem.timeToOpen, theItem:theItem)
+            }
             
         } else if(theItem.isOpen) {
+            
+            if(theItem.openIcon != "") {
+                
+                showIcon(theTexture: theItem.openIcon)
+                
+            }
             
             if(theItem.rewardDictionary.count > 0) {
                 
@@ -114,29 +181,16 @@ extension GameScene {
             
             //portal code
             if (theItem.isPortal) {
+                
                 if(theItem.portalToLevel != "") {
+                    
                     //go other level
+                    usePortalToLevel(theLevel: theItem.portalToLevel, toWhere: theItem.portalToWhere, delay: theItem.portalDelay)
                     
-                    if(theItem.portalToWhere != "") {
-                        
-                        loadLevel(theLevel: theItem.portalToLevel, toWhere: theItem.portalToWhere)
-                        defaults.set(theItem.portalToWhere, forKey: "ContinueWhere")
-                        
-                        
-                    } else {
-                        
-                        loadLevel(theLevel: theItem.portalToLevel, toWhere: "")
-                    }
+                } else if(theItem.portalToWhere != "") {
                     
-                } else if(theItem.portalToWhere != ""){
-                    //somewhere else in level
-                    if(self.childNode(withName: theItem.portalToWhere) != nil) {
-                        thePlayer.removeAllActions()
-                        let newLocation:CGPoint = (self.childNode(withName: theItem.portalToWhere)?.position)!
-                        thePlayer.run(SKAction.move(to: newLocation, duration: 0.0))
-                        
-                        
-                    }
+                    usePortalInCurrentLevel(toWhere: theItem.portalToWhere, delay: theItem.portalDelay)
+                    
                 }
             }//item is portal
             

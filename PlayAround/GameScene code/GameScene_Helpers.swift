@@ -10,6 +10,41 @@ import SpriteKit
 
 extension GameScene {
 
+    func clearStuff(theArray:[String]) {
+        
+        for thing in theArray {
+            defaults.removeObject(forKey: thing)
+        }
+        
+    }
+    
+    func showTimer(theAnimation:String, time:TimeInterval, theItem:WorldItem) {
+        
+        if (self.childNode(withName: theItem.name! + "Timer") == nil) {
+            
+            let timerNode:SKSpriteNode = SKSpriteNode(color: SKColor.clear, size: CGSize(width: 150, height:20))
+            
+            timerNode.position = CGPoint(x: theItem.position.x, y: theItem.position.y + theItem.frame.size.height / 2)
+            timerNode.zPosition = thePlayer.zPosition + 1
+            timerNode.name = theItem.name! + "Timer"
+            self.addChild(timerNode)
+            
+            let animateAction:SKAction = SKAction(named:theAnimation, duration:time)!
+            let runAction:SKAction = SKAction.run {
+                
+                theItem.open()
+                timerNode.removeFromParent()
+                self.contactWithItem(theItem: theItem)
+            }
+            
+            timerNode.run(SKAction.sequence([animateAction, runAction]))
+            
+        }
+        
+        
+    }
+    
+    
     func putWithinRange(nodeName: String) -> CGPoint {
         
         var somePoint = CGPoint.zero
@@ -37,14 +72,24 @@ extension GameScene {
         
     }
     
-    func fadeOutInfoText() {
+    func showIcon(theTexture:String) {
+        
+        speechIcon.removeAllActions()
+        speechIcon.alpha = 1
+        speechIcon.isHidden = false
+        
+        speechIcon.texture = SKTexture(imageNamed: theTexture)
+        
+    }
+    
+    func fadeOutInfoText(waitTime:TimeInterval) {
         
         infoLabel1.removeAllActions()
         infoLabel2.removeAllActions()
         speechIcon.removeAllActions()
         
-        let wait:SKAction = SKAction.wait(forDuration: 0.5)
-        let fade:SKAction = SKAction.fadeAlpha(to:0, duration: 0.5)
+        let wait:SKAction = SKAction.wait(forDuration: waitTime)
+        let fade:SKAction = SKAction.fadeAlpha(to:0, duration: 2)
         let run:SKAction = SKAction.run {
             self.infoLabel1.text = ""
             self.infoLabel2.text = ""

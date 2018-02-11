@@ -15,6 +15,7 @@
 		BA186D801FF4313F00D8E3E5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA186D7E1FF4313F00D8E3E5 /* Main.storyboard */; };
 		BA186D821FF4313F00D8E3E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA186D811FF4313F00D8E3E5 /* Assets.xcassets */; };
 		BA186D851FF4313F00D8E3E5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA186D831FF4313F00D8E3E5 /* LaunchScreen.storyboard */; };
+		BA2061A32030EC210061284D /* OpenTimer.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA2061A22030EC210061284D /* OpenTimer.atlas */; };
 		BA28B46C2014033100C37287 /* LevelTiles.sks in Resources */ = {isa = PBXBuildFile; fileRef = BA28B46A2014033100C37287 /* LevelTiles.sks */; };
 		BA3FFEBE201E7074001E661C /* WorldItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3FFEBD201E7074001E661C /* WorldItem.swift */; };
 		BA3FFEC0202F70B4001E661C /* GameScene_Inventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3FFEBF202F70B4001E661C /* GameScene_Inventory.swift */; };
@@ -26,6 +27,7 @@
 		BA5E31CB200BFA5700670595 /* VillagerLeftWalking.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C7200BFA5600670595 /* VillagerLeftWalking.atlas */; };
 		BA5E31CC200BFA5700670595 /* VillagerFrontWalking.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C8200BFA5600670595 /* VillagerFrontWalking.atlas */; };
 		BA5E31CD200BFA5700670595 /* VillagerRightWalking.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C9200BFA5700670595 /* VillagerRightWalking.atlas */; };
+		BAA4D6422030DE050092BFBE /* Chest.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BAA4D6412030DE050092BFBE /* Chest.atlas */; };
 		BAAEBDCF2013CD8A008BC7B2 /* Grassland.sks in Resources */ = {isa = PBXBuildFile; fileRef = BAAEBDCE2013CD8A008BC7B2 /* Grassland.sks */; };
 		BAAEBDD12013CED6008BC7B2 /* GameScene_Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAEBDD02013CED6008BC7B2 /* GameScene_Gestures.swift */; };
 		BAAEBDD32013D069008BC7B2 /* GameScene_Physics.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAEBDD22013D069008BC7B2 /* GameScene_Physics.swift */; };
@@ -50,6 +52,7 @@
 		BA186D811FF4313F00D8E3E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BA186D841FF4313F00D8E3E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BA186D861FF4313F00D8E3E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA2061A22030EC210061284D /* OpenTimer.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = OpenTimer.atlas; path = "../../../Assets-For-RPG-Course/Timer/OpenTimer.atlas"; sourceTree = "<group>"; };
 		BA28B46A2014033100C37287 /* LevelTiles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelTiles.sks; sourceTree = "<group>"; };
 		BA3FFEBD201E7074001E661C /* WorldItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldItem.swift; sourceTree = "<group>"; };
 		BA3FFEBF202F70B4001E661C /* GameScene_Inventory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene_Inventory.swift; sourceTree = "<group>"; };
@@ -61,6 +64,7 @@
 		BA5E31C7200BFA5600670595 /* VillagerLeftWalking.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = VillagerLeftWalking.atlas; sourceTree = "<group>"; };
 		BA5E31C8200BFA5600670595 /* VillagerFrontWalking.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = VillagerFrontWalking.atlas; sourceTree = "<group>"; };
 		BA5E31C9200BFA5700670595 /* VillagerRightWalking.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = VillagerRightWalking.atlas; sourceTree = "<group>"; };
+		BAA4D6412030DE050092BFBE /* Chest.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Chest.atlas; sourceTree = "<group>"; };
 		BAAEBDCE2013CD8A008BC7B2 /* Grassland.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Grassland.sks; sourceTree = "<group>"; };
 		BAAEBDD02013CED6008BC7B2 /* GameScene_Gestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene_Gestures.swift; sourceTree = "<group>"; };
 		BAAEBDD22013D069008BC7B2 /* GameScene_Physics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene_Physics.swift; sourceTree = "<group>"; };
@@ -113,6 +117,8 @@
 				BA186D7E1FF4313F00D8E3E5 /* Main.storyboard */,
 				BAAEBDE02013FF26008BC7B2 /* LevelStuff.xcassets */,
 				BA186D811FF4313F00D8E3E5 /* Assets.xcassets */,
+				BA2061A22030EC210061284D /* OpenTimer.atlas */,
+				BAA4D6412030DE050092BFBE /* Chest.atlas */,
 				BA5E31C6200BFA5600670595 /* VillagerBackWalking.atlas */,
 				BA5E31C8200BFA5600670595 /* VillagerFrontWalking.atlas */,
 				BA5E31C7200BFA5600670595 /* VillagerLeftWalking.atlas */,
@@ -225,6 +231,7 @@
 				BA5E31BF20015B2C00670595 /* AttackingFrames.atlas in Resources */,
 				BAAEBDCF2013CD8A008BC7B2 /* Grassland.sks in Resources */,
 				BAAEBDDB2013EAF8008BC7B2 /* Dungeon.sks in Resources */,
+				BAA4D6422030DE050092BFBE /* Chest.atlas in Resources */,
 				BA5E31C12001675400670595 /* FrontAttackFrames.atlas in Resources */,
 				BA5E31CB200BFA5700670595 /* VillagerLeftWalking.atlas in Resources */,
 				BA186D801FF4313F00D8E3E5 /* Main.storyboard in Resources */,
@@ -235,6 +242,7 @@
 				BA186D821FF4313F00D8E3E5 /* Assets.xcassets in Resources */,
 				BAAEBDDD2013EE6D008BC7B2 /* DungeonPad.sks in Resources */,
 				BAB7E37620151E6B0017AD82 /* GUI.sks in Resources */,
+				BA2061A32030EC210061284D /* OpenTimer.atlas in Resources */,
 				BA5E31CA200BFA5700670595 /* VillagerBackWalking.atlas in Resources */,
 				BA186D851FF4313F00D8E3E5 /* LaunchScreen.storyboard in Resources */,
 				BA186D791FF4313F00D8E3E5 /* Actions.sks in Resources */,

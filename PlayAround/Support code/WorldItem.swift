@@ -14,12 +14,15 @@ class WorldItem : SKSpriteNode {
     var portalToLevel :String = ""
     var portalToWhere :String = ""
     var isPortal :Bool = false
+    var portalDelay:TimeInterval = 0
     
     var requiredThing:String = ""
     var requiredAmount:Int = 0
     var deductOnEntry:Bool = false
     var timeToOpen:TimeInterval = 0
     var isOpen:Bool = false
+    var timerName:String = "OpenTimer"
+    
     let defaults:UserDefaults = UserDefaults.standard
     
     var lockedTextArray = [String]()
@@ -29,12 +32,20 @@ class WorldItem : SKSpriteNode {
     var currentUnlockedText:String = ""
     var openAnimation:String = ""
     var openImage:String = ""
+    
     var rewardDictionary = [String:Any]()
+    var removeDictionary = [String:Any]()
     
     var neverRewardAgain:Bool = false
     var neverShowAgain:Bool = false
     var deleteBody:Bool = false
     var deleteFromLevel:Bool = false
+    
+    var lockedIcon:String = ""
+    var unlockedIcon:String = ""
+    var openIcon:String = ""
+    
+    var infoTime:TimeInterval = 3
     
     func setUp() {
         
@@ -43,11 +54,9 @@ class WorldItem : SKSpriteNode {
     
     func setUpWithDict( theDict : [String : Any ]) {
         
-        
-        
         for (key, value) in theDict {
             
-            print("setUpWithDict: key = \(key)")
+       //     print("setUpWithDict: key = \(key)")
             
             if (key == "Requires") {
                 
@@ -96,6 +105,14 @@ class WorldItem : SKSpriteNode {
                     
                 }
                 
+            } else if (key == "RemoveWhen") {
+                
+                if (value is [String:Any]) {
+                    
+                    removeDictionary = value as! [String:Any]
+                    
+                }
+                
             }
         }
         
@@ -103,8 +120,27 @@ class WorldItem : SKSpriteNode {
         self.physicsBody?.collisionBitMask = BodyType.player.rawValue
         self.physicsBody?.contactTestBitMask = BodyType.player.rawValue
         
-        checkRequirements()
+        if (requiredThing != "") {
+            checkRequirements()
+        }
         
+        checkRemoveRequirements()
+    }
+    
+    func checkRemoveRequirements() {
+        
+        for (key, value) in removeDictionary {
+            
+            if (value is Int) {
+                
+                if (defaults.integer(forKey: key) >= value as! Int) {
+                    
+                    self.removeFromParent()
+                    
+                }
+            }
+            
+        }
     }
     
     func checkRequirements() {
@@ -135,8 +171,9 @@ class WorldItem : SKSpriteNode {
             }
             
             if(deductOnEntry) {
+             
                 if(defaults.integer(forKey: requiredThing) != 0) {
-                    
+                    deductOnEntry = false
                     let currentAmount:Int = defaults.integer(forKey: requiredThing)
                     let newAmount:Int = currentAmount - requiredAmount
                     defaults.set(newAmount, forKey: requiredThing)
@@ -195,6 +232,15 @@ class WorldItem : SKSpriteNode {
                 
                 if (value is String) {
                     portalToWhere = value as! String
+                    isPortal = true
+                }
+                
+            }
+            
+            else if (key == "Delay") {
+                
+                if (value is Int) {
+                    portalDelay = value as! TimeInterval
                     isPortal = true
                 }
                 
@@ -265,6 +311,30 @@ class WorldItem : SKSpriteNode {
                     openTextArray.append(theValue)
                     
                 }
+            case "LockedIcon":
+                if let theValue = value as? String {
+                    
+                    lockedIcon = theValue
+                    
+                }
+            case "UnlockedIcon":
+                if let theValue = value as? String {
+                    
+                    unlockedIcon = theValue
+                    
+                }
+            case "OpenIcon":
+                if let theValue = value as? String {
+                    
+                    openIcon = theValue
+                    
+                }
+            case "Time":
+                if let theValue = value as? TimeInterval {
+                    
+                    infoTime = theValue
+                    
+                }
             default:
                 break
             }
@@ -321,6 +391,10 @@ class WorldItem : SKSpriteNode {
             case "TimeToOpen":
                 if (value is TimeInterval) {
                     timeToOpen = value as! TimeInterval
+                }
+            case "TimerName":
+                if (value is String) {
+                    timerName = value as! String
                 }
             default:
                 break

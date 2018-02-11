@@ -24,7 +24,8 @@ class NonPlayerCharacter: SKSpriteNode {
     
     var currentSpeech:String = ""
     var speechIcon:String = ""
- 
+    var infoTime:TimeInterval = 1
+    
     var isCollidableWithItems:Bool = false
     var isCollidableWithPlayer:Bool = false
     
@@ -79,6 +80,10 @@ class NonPlayerCharacter: SKSpriteNode {
             } else if(key == "BaseImage") {
                 if let theValue = value as? String {
                     baseFrame = theValue
+                }
+            } else if(key == "Time") {
+                if let theValue = value as? TimeInterval {
+                    infoTime = theValue
                 }
             }
             

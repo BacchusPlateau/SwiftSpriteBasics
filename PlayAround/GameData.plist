@@ -6,6 +6,25 @@
 	<dict>
 		<key>Grassland</key>
 		<dict>
+			<key>Clear - OFF</key>
+			<array>
+				<string>CastleKey</string>
+			</array>
+			<key>Rewards - OFF</key>
+			<dict>
+				<key>CastleKey</key>
+				<integer>1</integer>
+				<key>Health</key>
+				<integer>0</integer>
+				<key>Weapon</key>
+				<string></string>
+				<key>Inventory</key>
+				<string></string>
+				<key>Currency</key>
+				<integer>0</integer>
+				<key>Class</key>
+				<string></string>
+			</dict>
 			<key>Properties</key>
 			<dict>
 				<key>Rewards</key>
@@ -36,6 +55,8 @@
 			<dict>
 				<key>Villager1</key>
 				<dict>
+					<key>Time</key>
+					<integer>1</integer>
 					<key>CollidableWithPlayer</key>
 					<false/>
 					<key>CollidableWithItems</key>
@@ -99,6 +120,43 @@
 			</dict>
 			<key>Items</key>
 			<dict>
+				<key>Chest</key>
+				<dict>
+					<key>Requires</key>
+					<dict>
+						<key>TimerName</key>
+						<string>OpenTimer</string>
+						<key>TimeToOpen</key>
+						<integer>5</integer>
+					</dict>
+					<key>Rewards </key>
+					<dict>
+						<key>Diamonds</key>
+						<integer>10</integer>
+					</dict>
+					<key>Text</key>
+					<dict>
+						<key>Time</key>
+						<integer>3</integer>
+						<key>Locked</key>
+						<array>
+							<string>I think I can get it open...just need a few more moments!</string>
+							<string>I can pick this - should have spent more points on dex!</string>
+						</array>
+						<key>Open</key>
+						<string>SCORE!</string>
+					</dict>
+					<key>Appearance</key>
+					<dict>
+						<key>OpenAnimation</key>
+						<string>ChestOpen</string>
+					</dict>
+					<key>AfterContact</key>
+					<dict>
+						<key>DeleteBody</key>
+						<true/>
+					</dict>
+				</dict>
 				<key>CastleKey</key>
 				<dict>
 					<key>RemoveWhen</key>
@@ -145,6 +203,14 @@
 					</dict>
 					<key>Text</key>
 					<dict>
+						<key>Time</key>
+						<integer>3</integer>
+						<key>OpenIcon</key>
+						<string>CastleIconOpen</string>
+						<key>UnlockedIcon</key>
+						<string>CastleIconUnlocked</string>
+						<key>LockedIcon</key>
+						<string>CastleIconLocked</string>
 						<key>Locked</key>
 						<array>
 							<string>Um, it might need an item to open the door.</string>
@@ -157,6 +223,8 @@
 					</dict>
 					<key>PortalTo</key>
 					<dict>
+						<key>Delay</key>
+						<integer>2</integer>
 						<key>Level</key>
 						<string>Dungeon</string>
 						<key>Where</key>

@@ -77,7 +77,11 @@ extension GameScene {
                                 splitTextIntoFields(theText: theItem.getUnlockedInfo())
                                 theItem.open()
                                 
-                                
+                                if(theItem.unlockedIcon != "") {
+                                    
+                                    showIcon(theTexture: theItem.unlockedIcon)
+                                    
+                                }
                             }
                             
                         }

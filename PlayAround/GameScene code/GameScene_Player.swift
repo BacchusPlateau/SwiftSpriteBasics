@@ -28,7 +28,7 @@ extension GameScene {
     // MARK: Attack
     func attack() {
         
-        print ("attacking")
+     //   print ("attacking")
         
         let newAttack:AttackArea = AttackArea(imageNamed: "AttackCircle")
         newAttack.position = thePlayer.position
@@ -41,7 +41,7 @@ extension GameScene {
     }
     
     func touchDown(atPoint pos : CGPoint) {
-        
+      /*
         print ("(\(pos.x),\(pos.y))")
         
         if ( pos.y > 0) {
@@ -62,7 +62,7 @@ extension GameScene {
         }
         
         // swipedRight()
-        
+        */
     }
     
     func touchMoved(toPoint pos : CGPoint) {

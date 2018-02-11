@@ -43,13 +43,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var entryNode:String = ""
     
+    var rewardDict = [String:Any]()
+    var clearArray = [String]()
+    
     override func didMove(to view: SKView) {
         
         parsePropertyList()
+        
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx:0, dy:0)
-        
-        
         
         self.enumerateChildNodes(withName: "//*") {
             node, stop in
@@ -112,20 +114,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     thePlayer.position = (self.childNode(withName: entryNode)?.position)!
                     
                 }
-                
             }
-            
-            
-            
         }
         
         for node in self.children {
          
-            
             if let someItem:WorldItem = node as? WorldItem {
                 setUpItem(theItem:someItem)
             }
         }
+        
+        clearStuff(theArray:clearArray)
+        
+        sortRewards(rewards:rewardDict)
     }
     
 
