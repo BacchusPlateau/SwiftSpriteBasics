@@ -97,6 +97,13 @@ extension GameScene {
         
         fadeOutInfoText(waitTime: theItem.infoTime)
         
+        if (self.childNode(withName: theItem.name! + "Timer") == nil) {
+            
+            self.childNode(withName: theItem.name! + "Timer")?.removeAllActions()   
+            self.childNode(withName: theItem.name! + "Timer")?.removeFromParent()
+            
+        }
+        
     }
     
     func usePortalInCurrentLevel(toWhere:String, delay:TimeInterval) {

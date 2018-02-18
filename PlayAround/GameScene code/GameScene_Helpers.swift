@@ -35,6 +35,8 @@ extension GameScene {
                 theItem.open()
                 timerNode.removeFromParent()
                 self.contactWithItem(theItem: theItem)
+                self.fadeOutInfoText(waitTime: theItem.infoTime)
+                
             }
             
             timerNode.run(SKAction.sequence([animateAction, runAction]))
