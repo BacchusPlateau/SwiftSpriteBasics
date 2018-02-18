@@ -81,14 +81,17 @@ extension GameScene {
     
     func contactWithNPC (theNPC:NonPlayerCharacter) {
         
-        splitTextIntoFields(theText: theNPC.speak())
-        theNPC.contactPlayer()
-        rememberThis(withThing: theNPC.name!, remember: "alreadyContacted")
-        
-        if(theNPC.speechIcon != "") {
+        if(!playerUsingPortal) {
             
-            showIcon(theTexture: theNPC.speechIcon)
+            splitTextIntoFields(theText: theNPC.speak())
+            theNPC.contactPlayer()
+            rememberThis(withThing: theNPC.name!, remember: "alreadyContacted")
             
+            if(theNPC.speechIcon != "") {
+                
+                showIcon(theTexture: theNPC.speechIcon)
+                
+            }
         }
      
     }
@@ -108,48 +111,51 @@ extension GameScene {
     
     func usePortalInCurrentLevel(toWhere:String, delay:TimeInterval) {
         
-        thePlayer.isHidden = true
+        if(!playerUsingPortal) {
         
-        let wait:SKAction = SKAction.wait(forDuration: delay)
-        let portalAction:SKAction = SKAction.run {
+            playerUsingPortal = true
+            thePlayer.isHidden = true
             
-            //somewhere else in level
-            if(self.childNode(withName: toWhere) != nil) {
+            let newLocation:CGPoint = (self.childNode(withName: toWhere)?.position)!
+            let move:SKAction = SKAction.move(to: newLocation, duration: delay)
+            
+            let portalAction:SKAction = SKAction.run {
                 
-                self.thePlayer.removeAllActions()
-                let newLocation:CGPoint = (self.childNode(withName: toWhere)?.position)!
-                self.thePlayer.run(SKAction.move(to: newLocation, duration: delay))
-                
+                self.thePlayer.isHidden = false
+                self.playerUsingPortal = false
             }
             
-            self.thePlayer.isHidden = false
+            thePlayer.run(SKAction.sequence([move, portalAction]))
         }
-        
-        self.run(SKAction.sequence([wait, portalAction]))
-        
     }
     
     func usePortalToLevel(theLevel:String, toWhere:String, delay:TimeInterval) {
         
-        thePlayer.isHidden = true
-        
-        let wait:SKAction = SKAction.wait(forDuration: delay)
-        let portalAction:SKAction = SKAction.run {
-        
-            if(toWhere != "") {
+        if(!playerUsingPortal) {
+            
+            playerUsingPortal = true
+            thePlayer.isHidden = true
+            
+            let wait:SKAction = SKAction.wait(forDuration: delay)
+            let portalAction:SKAction = SKAction.run {
+            
+                if(toWhere != "") {
+                    
+                    self.loadLevel(theLevel: theLevel, toWhere: toWhere)
+                    self.defaults.set(toWhere, forKey: "ContinueWhere")
+                    
+                } else {
+                    
+                    self.loadLevel(theLevel: theLevel, toWhere: "")
+                    
+                }
                 
-                self.loadLevel(theLevel: theLevel, toWhere: toWhere)
-                self.defaults.set(toWhere, forKey: "ContinueWhere")
-                
-            } else {
-                
-                self.loadLevel(theLevel: theLevel, toWhere: "")
-                
+                self.playerUsingPortal = false
             }
+            
+            let seq:SKAction = SKAction.sequence([wait, portalAction])
+            self.run(seq)
         }
-        
-        let seq:SKAction = SKAction.sequence([wait, portalAction])
-        self.run(seq)
     }
     
     
@@ -171,6 +177,21 @@ extension GameScene {
                 showTimer(theAnimation: theItem.timerName, time:theItem.timeToOpen, theItem:theItem)
             }
             
+            //alt portal code
+            if (theItem.isAltPortal) {
+                
+                if(theItem.altPortalToLevel != "") {
+                    
+                    //go other level
+                    usePortalToLevel(theLevel: theItem.altPortalToLevel, toWhere: theItem.altPortalToWhere, delay: theItem.altPortalDelay)
+                    
+                } else if(theItem.altPortalToWhere != "") {
+                    
+                    usePortalInCurrentLevel(toWhere: theItem.altPortalToWhere, delay: theItem.altPortalDelay)
+                    
+                }
+            }// item is alt portal
+            
         } else if(theItem.isOpen) {
             
             if(theItem.openIcon != "") {
@@ -184,6 +205,10 @@ extension GameScene {
                 sortRewards(rewards: theItem.rewardDictionary)
                 theItem.rewardDictionary.removeAll()
             
+                if(theItem.neverRewardAgain) {
+                    
+                    defaults.set(true, forKey: theItem.name! + "AlreadyAwarded")
+                }
             }
             
             //portal code

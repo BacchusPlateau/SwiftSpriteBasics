@@ -20,6 +20,8 @@ extension GameScene {
                 continue
             case "Weapon":
                 continue
+            case "XP":
+                continue
             case "Currency":
                 continue
             case "Class":

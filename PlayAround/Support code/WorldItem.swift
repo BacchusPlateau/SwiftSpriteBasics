@@ -16,6 +16,11 @@ class WorldItem : SKSpriteNode {
     var isPortal :Bool = false
     var portalDelay:TimeInterval = 0
     
+    var altPortalToLevel :String = ""
+    var altPortalToWhere :String = ""
+    var isAltPortal :Bool = false
+    var altPortalDelay:TimeInterval = 0
+    
     var requiredThing:String = ""
     var requiredAmount:Int = 0
     var deductOnEntry:Bool = false
@@ -40,6 +45,8 @@ class WorldItem : SKSpriteNode {
     var neverShowAgain:Bool = false
     var deleteBody:Bool = false
     var deleteFromLevel:Bool = false
+    var remainOpen:Bool = false
+    var removeText:Bool = false
     
     var lockedIcon:String = ""
     var unlockedIcon:String = ""
@@ -89,11 +96,26 @@ class WorldItem : SKSpriteNode {
                     sortAfterContact(theDict: value as! [String:Any])
                 }
                 
+            } else if (key == "RememberTo") {
+                
+                if (value is [String:Any]) {
+                    
+                    sortRememberTo(theDict: value as! [String:Any])
+                }
+                
             } else if (key == "PortalTo") {
                 
                 if (value is [String:Any]) {
                     
                     sortPortalTo(theDict: value as! [String:Any])
+                    
+                }
+                
+            } else if (key == "AltPortalTo") {
+                
+                if (value is [String:Any]) {
+                    
+                    sortAltPortalTo(theDict: value as! [String:Any])
                     
                 }
                 
@@ -125,6 +147,45 @@ class WorldItem : SKSpriteNode {
         }
         
         checkRemoveRequirements()
+        
+        if(neverRewardAgain) {
+            
+            if(defaults.bool(forKey: self.name! + "AlreadyAwarded")) {
+                
+                rewardDictionary.removeAll()
+                
+            }
+        }
+        
+        if(neverShowAgain) {
+            
+            if(defaults.bool(forKey: self.name! + "NeverShowAgain")) {
+                
+                self.removeFromParent()
+                
+            }
+        }
+        
+        if(!isOpen && remainOpen) {
+            
+            if(defaults.bool(forKey: self.name! + "RemainOpen")) {
+                
+                self.open()
+                
+            }
+        }
+        
+        if(!isOpen && removeText) {
+            
+            if(defaults.bool(forKey: self.name! + "RemainOpen")) {
+                
+                unlockedTextArray.removeAll()
+                lockedTextArray.removeAll()
+                openTextArray.removeAll()
+                
+            }
+        }
+        
     }
     
     func checkRemoveRequirements() {
@@ -180,8 +241,20 @@ class WorldItem : SKSpriteNode {
                     
                     
                 }
+            } // deduct on entry
+            
+            if(neverShowAgain) {
+                
+                defaults.set(true, forKey: self.name! + "NeverShowAgain")
             }
-        }
+            
+            if(removeText) {
+                
+                defaults.set(true, forKey: self.name! + "RemoveText")
+            }
+            
+            
+        } // isOpen
         
     }
     
@@ -249,6 +322,37 @@ class WorldItem : SKSpriteNode {
         
     }
     
+    func sortAltPortalTo( theDict: [String:Any]) {
+        
+        for (key, value) in theDict {
+            if (key == "Level") {
+                
+                if (value is String) {
+                    altPortalToLevel = value as! String
+                    isAltPortal = true
+                }
+                
+            } else if (key == "Where") {
+                
+                if (value is String) {
+                    altPortalToWhere = value as! String
+                    isAltPortal = true
+                }
+                
+            }
+                
+            else if (key == "Delay") {
+                
+                if (value is Int) {
+                    altPortalDelay = value as! TimeInterval
+                    isAltPortal = true
+                }
+                
+            }
+        }
+        
+    }
+    
     func sortAfterContact (theDict: [String:Any]) {
         
         for (key,value) in theDict {
@@ -269,6 +373,33 @@ class WorldItem : SKSpriteNode {
             case "DeleteBody":
                 if (value is Bool) {
                     deleteBody  = value as! Bool
+                }
+            default:
+                continue
+            }
+        }
+    }
+    
+    func sortRememberTo (theDict: [String:Any]) {
+        
+        for (key,value) in theDict {
+            
+            switch key {
+            case "NeverRewardAgain":
+                if (value is Bool) {
+                    neverRewardAgain = value as! Bool
+                }
+            case "NeverShowAgain":
+                if (value is Bool) {
+                    neverShowAgain = value as! Bool
+                }
+            case "RemainOpen":
+                if (value is Bool) {
+                    remainOpen = value as! Bool
+                }
+            case "RemoveText":
+                if (value is Bool) {
+                    removeText  = value as! Bool
                 }
             default:
                 continue
@@ -419,6 +550,10 @@ class WorldItem : SKSpriteNode {
             
         }
         
+        if(remainOpen) {
+            
+            defaults.set(true, forKey: self.name! + "RemainOpen")
+        }
         
     }
     

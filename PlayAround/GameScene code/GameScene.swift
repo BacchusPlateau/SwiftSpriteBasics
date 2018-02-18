@@ -46,6 +46,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var rewardDict = [String:Any]()
     var clearArray = [String]()
     
+    var playerUsingPortal:Bool = false
+    
     override func didMove(to view: SKView) {
         
         parsePropertyList()

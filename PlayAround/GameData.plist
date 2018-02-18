@@ -122,6 +122,15 @@
 			<dict>
 				<key>Chest</key>
 				<dict>
+					<key>RememberTo</key>
+					<dict>
+						<key>RemainOpen</key>
+						<true/>
+						<key>NeverRewardAgain</key>
+						<true/>
+						<key>NeverShowAgain - OFF</key>
+						<true/>
+					</dict>
 					<key>Requires</key>
 					<dict>
 						<key>TimerName</key>
@@ -177,6 +186,17 @@
 				</dict>
 				<key>TheCastle</key>
 				<dict>
+					<key>RememberTo</key>
+					<dict>
+						<key>RemainOpen</key>
+						<true/>
+						<key>RemoveText</key>
+						<false/>
+						<key>NeverRewardAgain</key>
+						<false/>
+						<key>NeverShowAgain</key>
+						<false/>
+					</dict>
 					<key>Requires</key>
 					<dict>
 						<key>Thing</key>
@@ -235,7 +255,9 @@
 						<key>Level</key>
 						<string></string>
 						<key>Where</key>
-						<string></string>
+						<string>VillagerRange</string>
+						<key>Delay</key>
+						<integer>2</integer>
 					</dict>
 					<key>Sounds</key>
 					<dict>
@@ -253,10 +275,6 @@
 					</dict>
 					<key>AfterContact - OFF</key>
 					<dict>
-						<key>NeverRewardAgain</key>
-						<string></string>
-						<key>NeverShowAgain</key>
-						<string></string>
 						<key>DeleteFromLevel</key>
 						<string></string>
 						<key>DeleteBody</key>
