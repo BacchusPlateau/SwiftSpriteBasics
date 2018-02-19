@@ -16,6 +16,13 @@
 		BA186D821FF4313F00D8E3E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA186D811FF4313F00D8E3E5 /* Assets.xcassets */; };
 		BA186D851FF4313F00D8E3E5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA186D831FF4313F00D8E3E5 /* LaunchScreen.storyboard */; };
 		BA2061A32030EC210061284D /* OpenTimer.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA2061A22030EC210061284D /* OpenTimer.atlas */; };
+		BA2061A7203B81F80061284D /* RightAttack.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA2061A4203B81F80061284D /* RightAttack.atlas */; };
+		BA2061A8203B81F80061284D /* LeftAttack.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA2061A5203B81F80061284D /* LeftAttack.atlas */; };
+		BA2061A9203B81F80061284D /* BackAttack.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA2061A6203B81F80061284D /* BackAttack.atlas */; };
+		BA2061AE203B82340061284D /* IdleBack.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA2061AA203B82330061284D /* IdleBack.atlas */; };
+		BA2061AF203B82340061284D /* IdleLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA2061AB203B82340061284D /* IdleLeft.atlas */; };
+		BA2061B0203B82340061284D /* IdleFront.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA2061AC203B82340061284D /* IdleFront.atlas */; };
+		BA2061B1203B82340061284D /* IdleRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA2061AD203B82340061284D /* IdleRight.atlas */; };
 		BA28B46C2014033100C37287 /* LevelTiles.sks in Resources */ = {isa = PBXBuildFile; fileRef = BA28B46A2014033100C37287 /* LevelTiles.sks */; };
 		BA3FFEBE201E7074001E661C /* WorldItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3FFEBD201E7074001E661C /* WorldItem.swift */; };
 		BA3FFEC0202F70B4001E661C /* GameScene_Inventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3FFEBF202F70B4001E661C /* GameScene_Inventory.swift */; };
@@ -53,6 +60,13 @@
 		BA186D841FF4313F00D8E3E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BA186D861FF4313F00D8E3E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA2061A22030EC210061284D /* OpenTimer.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = OpenTimer.atlas; path = "../../../Assets-For-RPG-Course/Timer/OpenTimer.atlas"; sourceTree = "<group>"; };
+		BA2061A4203B81F80061284D /* RightAttack.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = RightAttack.atlas; sourceTree = "<group>"; };
+		BA2061A5203B81F80061284D /* LeftAttack.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = LeftAttack.atlas; sourceTree = "<group>"; };
+		BA2061A6203B81F80061284D /* BackAttack.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = BackAttack.atlas; sourceTree = "<group>"; };
+		BA2061AA203B82330061284D /* IdleBack.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = IdleBack.atlas; sourceTree = "<group>"; };
+		BA2061AB203B82340061284D /* IdleLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = IdleLeft.atlas; sourceTree = "<group>"; };
+		BA2061AC203B82340061284D /* IdleFront.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = IdleFront.atlas; sourceTree = "<group>"; };
+		BA2061AD203B82340061284D /* IdleRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = IdleRight.atlas; sourceTree = "<group>"; };
 		BA28B46A2014033100C37287 /* LevelTiles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelTiles.sks; sourceTree = "<group>"; };
 		BA3FFEBD201E7074001E661C /* WorldItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldItem.swift; sourceTree = "<group>"; };
 		BA3FFEBF202F70B4001E661C /* GameScene_Inventory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene_Inventory.swift; sourceTree = "<group>"; };
@@ -115,6 +129,7 @@
 				BAAEBDDE2013EE8A008BC7B2 /* SharedHelpers.swift */,
 				BA186D7C1FF4313F00D8E3E5 /* GameViewController.swift */,
 				BA186D7E1FF4313F00D8E3E5 /* Main.storyboard */,
+				BA5E31C2200170FE00670595 /* GameData.plist */,
 				BAAEBDE02013FF26008BC7B2 /* LevelStuff.xcassets */,
 				BA186D811FF4313F00D8E3E5 /* Assets.xcassets */,
 				BA2061A22030EC210061284D /* OpenTimer.atlas */,
@@ -125,9 +140,15 @@
 				BA5E31C9200BFA5700670595 /* VillagerRightWalking.atlas */,
 				BA5E31C02001675400670595 /* FrontAttackFrames.atlas */,
 				BA5E31BE20015B2C00670595 /* AttackingFrames.atlas */,
-				BA186D831FF4313F00D8E3E5 /* LaunchScreen.storyboard */,
+				BA2061A6203B81F80061284D /* BackAttack.atlas */,
+				BA2061A5203B81F80061284D /* LeftAttack.atlas */,
+				BA2061A4203B81F80061284D /* RightAttack.atlas */,
+				BA2061AA203B82330061284D /* IdleBack.atlas */,
+				BA2061AC203B82340061284D /* IdleFront.atlas */,
+				BA2061AB203B82340061284D /* IdleLeft.atlas */,
+				BA2061AD203B82340061284D /* IdleRight.atlas */,
 				BA186D861FF4313F00D8E3E5 /* Info.plist */,
-				BA5E31C2200170FE00670595 /* GameData.plist */,
+				BA186D831FF4313F00D8E3E5 /* LaunchScreen.storyboard */,
 			);
 			path = PlayAround;
 			sourceTree = "<group>";
@@ -231,13 +252,20 @@
 				BA5E31BF20015B2C00670595 /* AttackingFrames.atlas in Resources */,
 				BAAEBDCF2013CD8A008BC7B2 /* Grassland.sks in Resources */,
 				BAAEBDDB2013EAF8008BC7B2 /* Dungeon.sks in Resources */,
+				BA2061A8203B81F80061284D /* LeftAttack.atlas in Resources */,
+				BA2061B0203B82340061284D /* IdleFront.atlas in Resources */,
+				BA2061AE203B82340061284D /* IdleBack.atlas in Resources */,
 				BAA4D6422030DE050092BFBE /* Chest.atlas in Resources */,
 				BA5E31C12001675400670595 /* FrontAttackFrames.atlas in Resources */,
+				BA2061B1203B82340061284D /* IdleRight.atlas in Resources */,
 				BA5E31CB200BFA5700670595 /* VillagerLeftWalking.atlas in Resources */,
+				BA2061A7203B81F80061284D /* RightAttack.atlas in Resources */,
 				BA186D801FF4313F00D8E3E5 /* Main.storyboard in Resources */,
+				BA2061AF203B82340061284D /* IdleLeft.atlas in Resources */,
 				BA28B46C2014033100C37287 /* LevelTiles.sks in Resources */,
 				BA5E31CC200BFA5700670595 /* VillagerFrontWalking.atlas in Resources */,
 				BA5E31CD200BFA5700670595 /* VillagerRightWalking.atlas in Resources */,
+				BA2061A9203B81F80061284D /* BackAttack.atlas in Resources */,
 				BA5E31C3200170FE00670595 /* GameData.plist in Resources */,
 				BA186D821FF4313F00D8E3E5 /* Assets.xcassets in Resources */,
 				BAAEBDDD2013EE6D008BC7B2 /* DungeonPad.sks in Resources */,

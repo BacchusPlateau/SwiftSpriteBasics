@@ -48,6 +48,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var playerUsingPortal:Bool = false
     
+    var pathArray = [CGPoint]()
+    var currentOffset:CGPoint = CGPoint.zero
+    
     override func didMove(to view: SKView) {
         
         parsePropertyList()
@@ -84,6 +87,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         tapRec.numberOfTouchesRequired = 1
         self.view!.addGestureRecognizer(tapRec)
  
+        /*
         swipeRightRec.addTarget(self, action: #selector(GameScene.swipedRight))
         swipeRightRec.direction = .right
         self.view!.addGestureRecognizer(swipeRightRec)
@@ -99,7 +103,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         swipeUpRec.addTarget(self, action: #selector(GameScene.swipedUp))
         swipeUpRec.direction = .up
         self.view!.addGestureRecognizer(swipeUpRec)
-        
+        */
         
         if let somePlayer:SKSpriteNode = self.childNode(withName: "Player") as? SKSpriteNode  {
             thePlayer = somePlayer

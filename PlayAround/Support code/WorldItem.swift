@@ -25,7 +25,7 @@ class WorldItem : SKSpriteNode {
     var requiredAmount:Int = 0
     var deductOnEntry:Bool = false
     var timeToOpen:TimeInterval = 0
-    var isOpen:Bool = false
+    var isOpen:Bool = true
     var timerName:String = "OpenTimer"
     
     let defaults:UserDefaults = UserDefaults.standard
