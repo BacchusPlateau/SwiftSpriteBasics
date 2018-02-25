@@ -16,6 +16,11 @@ enum BodyType:UInt32 {
     case npc = 8
 }
 
+enum Facing:Int {
+    
+    case front, back, left, right
+}
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var thePlayer:SKSpriteNode = SKSpriteNode()
@@ -50,6 +55,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var pathArray = [CGPoint]()
     var currentOffset:CGPoint = CGPoint.zero
+    
+    var playerFacing:Facing = .front
+    var playerLastLocation:CGPoint = CGPoint.zero
     
     override func didMove(to view: SKView) {
         
@@ -139,20 +147,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         
         
+        if (cameraFollowsPlayer) {
+            
+            self.camera?.position = CGPoint(x: thePlayer.position.x + cameraXOffset, y: thePlayer.position.y + cameraYOffset)
+        }
+        
         for node in self.children {
-            if(node.name == "Barrier") {
-               
-                if(node.position.y > thePlayer.position.y) {
-                    node.zPosition = -100
-                } else {
-                    node.zPosition = 100
+            
+            if (node is AttackArea) {
+                
+                node.position = thePlayer.position
+            }
+            
+            else if (node is SKSpriteNode) {
+                
+                if(node.physicsBody == nil) {
+                   
+                    if(node.position.y > thePlayer.position.y) {
+                        node.zPosition = -100
+                    } else {
+                        node.zPosition = 100
+                    }
                 }
+                
             }
         }
         
-        if(cameraFollowsPlayer) {
-            self.camera?.position = CGPoint(x: thePlayer.position.x + cameraXOffset, y: thePlayer.position.y + cameraYOffset)
-        }
+        playerUpdate()
+        
     }
 
 }
