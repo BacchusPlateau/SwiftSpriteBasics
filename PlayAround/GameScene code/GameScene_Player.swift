@@ -32,21 +32,52 @@ extension GameScene {
         
         let newAttack:AttackArea = AttackArea(imageNamed: "AttackCircle")
         newAttack.position = thePlayer.position
+        newAttack.scaleSize = thePlayer.meleeScaleSize
+        newAttack.animationName = thePlayer.meleeAnimationFXName
+        
         newAttack.setUp()
         self.addChild(newAttack)
         newAttack.zPosition = thePlayer.zPosition - 1
         
-        thePlayer.run(SKAction(named: "FrontAttack")!, withKey:"Attack")
+        var animationName : String = ""
+        
+        switch playerFacing {
+            case .front :
+                animationName = thePlayer.frontMelee
+            case .back :
+                animationName = thePlayer.backMelee
+            case .left :
+                animationName = thePlayer.leftMelee
+            case .right :
+                animationName = thePlayer.rightMelee
+        }
+        
+        let attackAnimation:SKAction = SKAction(named: animationName)!
+        
+        let finish:SKAction = SKAction.run {
+            self.runIdleAnimation()
+        }
+        
+        let seq:SKAction = SKAction.sequence( [attackAnimation, finish])
+        
+        thePlayer.run(seq, withKey: "Attack")
         
     }
     
     func touchDown(atPoint pos : CGPoint) {
+        
+      //  if (thePlayer.action(forKey: "PlayerMoving") != nil) {
+            
+      //      thePlayer.removeAction(forKey: "PlayerMoving")
+      //  }
         
         pathArray.removeAll()
         
         currentOffset = CGPoint(x: thePlayer.position.x - pos.x, y: thePlayer.position.y - pos.y)
         
         pathArray.append(getDifference(point: pos))
+        
+        walkTime = 0
         
       /*
         print ("(\(pos.x),\(pos.y))")
@@ -81,6 +112,13 @@ extension GameScene {
     
     func touchMoved(toPoint pos : CGPoint) {
         
+        if (thePlayer.action(forKey: "PlayerMoving") != nil && pathArray.count > 4) {
+        
+           thePlayer.removeAction(forKey: "PlayerMoving")
+        }
+        
+        walkTime += thePlayer.walkSpeed
+        
         pathArray.append(getDifference(point: pos))
     }
     
@@ -109,10 +147,10 @@ extension GameScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
     //    for t in touches { self.touchUp(atPoint: t.location(in: self)) }
         
-        if (thePlayer.action(forKey: "PlayerMoving") != nil) {
+        //if (thePlayer.action(forKey: "PlayerMoving") != nil) {
             
-            thePlayer.removeAction(forKey: "PlayerMoving")
-        }
+         //   thePlayer.removeAction(forKey: "PlayerMoving")
+        //}
         
         createLineWith(array:pathArray)
         pathArray.removeAll()
@@ -169,18 +207,18 @@ extension GameScene {
                             //right
                             playerFacing = .right
                             
-                            if (thePlayer.action(forKey: "WalkRight") == nil) {
+                            if (thePlayer.action(forKey: thePlayer.rightWalk) == nil) {
                                 
-                                animateWalk(theAnimation: "WalkRight")
+                                animateWalk(theAnimation: thePlayer.rightWalk)
                             }
                             
                         } else {
                             //left
                             playerFacing = .left
                             
-                            if (thePlayer.action(forKey: "WalkLeft") == nil) {
+                            if (thePlayer.action(forKey: thePlayer.leftWalk) == nil) {
                                 
-                                animateWalk(theAnimation: "WalkLeft")
+                                animateWalk(theAnimation: thePlayer.leftWalk)
                             }
                         }
                         
@@ -192,9 +230,9 @@ extension GameScene {
                             
                             playerFacing = .back
                             
-                            if (thePlayer.action(forKey: "WalkBackward") == nil) {
+                            if (thePlayer.action(forKey: thePlayer.backWalk) == nil) {
                                 
-                                animateWalk(theAnimation: "WalkBackward")
+                                animateWalk(theAnimation: thePlayer.backWalk)
                             }
                             
                         } else {
@@ -202,9 +240,9 @@ extension GameScene {
                             
                             playerFacing = .front
                             
-                            if (thePlayer.action(forKey: "WalkForward") == nil) {
+                            if (thePlayer.action(forKey: thePlayer.frontWalk) == nil) {
                                 
-                                animateWalk(theAnimation: "WalkForward")
+                                animateWalk(theAnimation: thePlayer.frontWalk)
                             }
                             
                         }
@@ -228,7 +266,7 @@ extension GameScene {
     
     func makePlayerFollowPath(path:CGMutablePath) {
         
-        let followAction:SKAction = SKAction.follow(path, asOffset: false, orientToPath: false, duration: 2)
+        let followAction:SKAction = SKAction.follow(path, asOffset: false, orientToPath: false, duration: walkTime)
         
         let finish:SKAction = SKAction.run {
             
@@ -247,19 +285,19 @@ extension GameScene {
         switch playerFacing {
             
             case .front:
-                let idleAnimation:SKAction = SKAction(named: "IdleFront", duration:1)!
+                let idleAnimation:SKAction = SKAction(named: thePlayer.frontIdle, duration:1)!
                 thePlayer.run(idleAnimation)
                 break
             case .back:
-                let idleAnimation:SKAction = SKAction(named: "IdleBack", duration:1)!
+                let idleAnimation:SKAction = SKAction(named: thePlayer.backIdle, duration:1)!
                 thePlayer.run(idleAnimation)
                 break
             case .left:
-                let idleAnimation:SKAction = SKAction(named: "IdleLeft", duration:1)!
+                let idleAnimation:SKAction = SKAction(named: thePlayer.leftIdle, duration:1)!
                 thePlayer.run(idleAnimation)
                 break
             case .right:
-                let idleAnimation:SKAction = SKAction(named: "IdleRight", duration:1)!
+                let idleAnimation:SKAction = SKAction(named: thePlayer.rightIdle, duration:1)!
                 thePlayer.run(idleAnimation)
                 break
         }

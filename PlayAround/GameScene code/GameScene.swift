@@ -23,7 +23,7 @@ enum Facing:Int {
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    var thePlayer:SKSpriteNode = SKSpriteNode()
+    var thePlayer:Player = Player()
     var moveSpeed:TimeInterval = 1
     let swipeRightRec = UISwipeGestureRecognizer()
     let swipeLeftRec = UISwipeGestureRecognizer()
@@ -58,6 +58,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var playerFacing:Facing = .front
     var playerLastLocation:CGPoint = CGPoint.zero
+    
+    var walkTime:TimeInterval = 0
     
     override func didMove(to view: SKView) {
         
@@ -113,13 +115,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.view!.addGestureRecognizer(swipeUpRec)
         */
         
-        if let somePlayer:SKSpriteNode = self.childNode(withName: "Player") as? SKSpriteNode  {
+        if let somePlayer:Player = self.childNode(withName: "Player") as? Player  {
             thePlayer = somePlayer
             thePlayer.physicsBody?.isDynamic = true
             thePlayer.physicsBody?.affectedByGravity = false
             thePlayer.physicsBody?.categoryBitMask = BodyType.player.rawValue
             thePlayer.physicsBody?.collisionBitMask = BodyType.item.rawValue
             thePlayer.physicsBody?.contactTestBitMask = BodyType.item.rawValue
+            thePlayer.zPosition = 0
+            
+            if(defaults.string(forKey: "PlayerClass") == nil) {
+                
+                defaults.set("Starting", forKey:"PlayerClass")
+                parsePropertyListForPlayerClass(name:"Starting")
+                
+            } else {
+                
+                parsePropertyListForPlayerClass(name: defaults.string(forKey: "PlayerClass")!)
+            }
             
             if (entryNode != "") {
                 

@@ -267,4 +267,40 @@ extension GameScene {
   
     }
     
+    // MARK: Player Parsing
+
+    
+    func parsePropertyListForPlayerClass(name:String) {
+        
+        let path = Bundle.main.path(forResource:"GameData", ofType: "plist")
+        let dict:NSDictionary = NSDictionary(contentsOfFile: path!)!
+        if(dict.object(forKey: "Class") != nil) {
+            
+            if let classDict:[String:Any] = dict.object(forKey: "Class") as? [String:Any] {
+                
+                for (key,value) in classDict {
+                    
+                    if(key == name) {
+                        
+                        thePlayer.setUpWithDict(theDict: value as! [String:Any])
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
 }
+
+
+
+
+
+
+
+
+

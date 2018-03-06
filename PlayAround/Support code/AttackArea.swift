@@ -11,6 +11,8 @@ import SpriteKit
 
 class AttackArea : SKSpriteNode {
     
+    var animationName:String = ""
+    var scaleSize:CGFloat = 2
     
     func setUp() {
         
@@ -20,19 +22,20 @@ class AttackArea : SKSpriteNode {
         body.affectedByGravity = false
         body.allowsRotation = false
         
-        
         self.physicsBody?.categoryBitMask = BodyType.attackArea.rawValue
         self.physicsBody?.collisionBitMask = 0
-     //   self.physicsBody?.contactTestBitMask = BodyType.castle.rawValue
+        self.physicsBody?.contactTestBitMask = BodyType.item.rawValue
 
         upAndAway()
         
-        self.run(SKAction(named: "Attacking")!)
+        if (animationName != "") {
+            self.run(SKAction(named: animationName)!)
+        }
     }
     
     func upAndAway() {
         
-        let grow:SKAction = SKAction.scale(by: 3, duration: 0.5)
+        let grow:SKAction = SKAction.scale(by: scaleSize, duration: 0.5)
         let finish:SKAction = SKAction.run {
             
             self.removeFromParent()

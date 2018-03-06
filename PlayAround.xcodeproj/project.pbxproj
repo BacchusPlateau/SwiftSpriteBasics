@@ -26,6 +26,7 @@
 		BA28B46C2014033100C37287 /* LevelTiles.sks in Resources */ = {isa = PBXBuildFile; fileRef = BA28B46A2014033100C37287 /* LevelTiles.sks */; };
 		BA3FFEBE201E7074001E661C /* WorldItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3FFEBD201E7074001E661C /* WorldItem.swift */; };
 		BA3FFEC0202F70B4001E661C /* GameScene_Inventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3FFEBF202F70B4001E661C /* GameScene_Inventory.swift */; };
+		BA4E915A204E08A0008F9E93 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4E9159204E08A0008F9E93 /* Player.swift */; };
 		BA5E31BF20015B2C00670595 /* AttackingFrames.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31BE20015B2C00670595 /* AttackingFrames.atlas */; };
 		BA5E31C12001675400670595 /* FrontAttackFrames.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C02001675400670595 /* FrontAttackFrames.atlas */; };
 		BA5E31C3200170FE00670595 /* GameData.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C2200170FE00670595 /* GameData.plist */; };
@@ -70,6 +71,7 @@
 		BA28B46A2014033100C37287 /* LevelTiles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelTiles.sks; sourceTree = "<group>"; };
 		BA3FFEBD201E7074001E661C /* WorldItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldItem.swift; sourceTree = "<group>"; };
 		BA3FFEBF202F70B4001E661C /* GameScene_Inventory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene_Inventory.swift; sourceTree = "<group>"; };
+		BA4E9159204E08A0008F9E93 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		BA5E31BE20015B2C00670595 /* AttackingFrames.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = AttackingFrames.atlas; sourceTree = "<group>"; };
 		BA5E31C02001675400670595 /* FrontAttackFrames.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = FrontAttackFrames.atlas; sourceTree = "<group>"; };
 		BA5E31C2200170FE00670595 /* GameData.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = GameData.plist; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 				BA5E31C4200AABE500670595 /* NonPlayerCharacter.swift */,
 				BA005CFE1FF97F8100BA1311 /* AttackArea.swift */,
 				BA3FFEBD201E7074001E661C /* WorldItem.swift */,
+				BA4E9159204E08A0008F9E93 /* Player.swift */,
 			);
 			path = "Support code";
 			sourceTree = "<group>";
@@ -289,6 +292,7 @@
 				BA186D7B1FF4313F00D8E3E5 /* GameScene.swift in Sources */,
 				BA186D7D1FF4313F00D8E3E5 /* GameViewController.swift in Sources */,
 				BA3FFEC0202F70B4001E661C /* GameScene_Inventory.swift in Sources */,
+				BA4E915A204E08A0008F9E93 /* Player.swift in Sources */,
 				BA5E31C5200AABE500670595 /* NonPlayerCharacter.swift in Sources */,
 				BAAEBDD32013D069008BC7B2 /* GameScene_Physics.swift in Sources */,
 				BA3FFEBE201E7074001E661C /* WorldItem.swift in Sources */,
