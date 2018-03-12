@@ -61,6 +61,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var walkTime:TimeInterval = 0
     
+    var attackAnywhere:Bool = false
+    var pathAlpha:CGFloat = 0.3
+    var walkWithPath:Bool = false
+    var touchingDown:Bool = false
+    var touchDownSprite:SKSpriteNode = SKSpriteNode()
+    var touchFollowSprite:SKSpriteNode = SKSpriteNode()
+    var offsetFromTouchDownToPlayer:CGPoint = CGPoint.zero
+    
     override func didMove(to view: SKView) {
         
         parsePropertyList()
@@ -186,7 +194,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        playerUpdate()
+        if (walkWithPath) {
+            playerUpdate()
+        } else {
+            playerUpdateSansPath()
+        }
         
     }
 

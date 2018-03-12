@@ -2,6 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Settings</key>
+	<dict>
+		<key>PathAlpha</key>
+		<real>0.2</real>
+		<key>WalkWithPath</key>
+		<true/>
+		<key>AttackAnywhere</key>
+		<false/>
+	</dict>
 	<key>Class</key>
 	<dict>
 		<key>Starting</key>

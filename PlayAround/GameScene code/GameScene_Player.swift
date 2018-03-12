@@ -103,11 +103,51 @@ extension GameScene {
         */
     }
     
+    func touchDownSansPath(atPoint pos : CGPoint) {
+        
+        if (pos.x < thePlayer.position.x) {
+            
+            // to the left of the player
+            
+            touchingDown = true
+            offsetFromTouchDownToPlayer = CGPoint(x: thePlayer.position.x - pos.x, y: thePlayer.position.y - pos.y)
+            
+            if(touchDownSprite.parent == nil) {
+                touchDownSprite = SKSpriteNode(imageNamed: "TouchDown")
+                self.addChild(touchDownSprite)
+                touchDownSprite.position = pos
+            } else {
+                touchDownSprite.position = pos
+            }
+            
+            if(touchFollowSprite.parent == nil) {
+                touchFollowSprite = SKSpriteNode(imageNamed: "TouchDown")
+                self.addChild(touchFollowSprite)
+                touchFollowSprite.position = pos
+            } else {
+                touchFollowSprite.position = pos
+            }
+            
+        }
+        
+        
+    }
+    
     func getDifference(point:CGPoint) -> CGPoint {
         
         let newPoint:CGPoint = CGPoint(x: point.x + currentOffset.x, y: point.y + currentOffset.y)
         
         return newPoint
+    }
+    
+    func touchMovedSansPath(toPoint pos : CGPoint) {
+        
+        if(touchingDown) {
+            
+            orientCharacter(pos:pos)
+            touchFollowSprite.position = pos
+        }
+        
     }
     
     func touchMoved(toPoint pos : CGPoint) {
@@ -130,7 +170,11 @@ extension GameScene {
         
         for t in touches {
             
-            self.touchDown(atPoint: t.location(in: self))
+            if (walkWithPath) {
+                self.touchDown(atPoint: t.location(in: self))
+            } else {
+                self.touchDownSansPath(atPoint: t.location(in: self))
+            }
             break
         }
     }
@@ -138,24 +182,30 @@ extension GameScene {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches {
             
-            self.touchMoved(toPoint: t.location(in: self))
-            
+            if (walkWithPath) {
+                self.touchMoved(toPoint: t.location(in: self))
+            } else {
+                self.touchMovedSansPath(toPoint: t.location(in: self))
+            }
             break
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-    //    for t in touches { self.touchUp(atPoint: t.location(in: self)) }
         
-        //if (thePlayer.action(forKey: "PlayerMoving") != nil) {
+        if (walkWithPath) {
+            createLineWith(array:pathArray)
+            pathArray.removeAll()
             
-         //   thePlayer.removeAction(forKey: "PlayerMoving")
-        //}
-        
-        createLineWith(array:pathArray)
-        pathArray.removeAll()
-        
-        currentOffset = CGPoint.zero
+            currentOffset = CGPoint.zero
+        } else {
+            if(touchingDown) {
+                thePlayer.removeAllActions()
+                touchingDown = false
+                touchFollowSprite.removeFromParent()
+                touchDownSprite.removeFromParent()
+            }
+        }
     }
     
     func createLineWith(array:[CGPoint])  {
@@ -173,7 +223,7 @@ extension GameScene {
         line.path = path
         line.lineWidth = 10
         line.strokeColor = UIColor.white
-        line.alpha = 0.5
+        line.alpha = pathAlpha
         
         self.addChild(line)
         
@@ -187,6 +237,28 @@ extension GameScene {
         line.run(SKAction.sequence([fade, runAfter]))
         
         makePlayerFollowPath(path: path)
+        
+    }
+    
+    func playerUpdateSansPath() {
+        
+        touchDownSprite.position = CGPoint(x:thePlayer.position.x - offsetFromTouchDownToPlayer.x, y:thePlayer.position.y - offsetFromTouchDownToPlayer.y)
+        
+        if (touchingDown) {
+            
+            switch playerFacing {
+            case .front:
+                thePlayer.position = CGPoint(x:thePlayer.position.x, y:thePlayer.position.y - 2)
+            case .back:
+                thePlayer.position = CGPoint(x:thePlayer.position.x, y:thePlayer.position.y + 2)
+            case .left:
+                thePlayer.position = CGPoint(x:thePlayer.position.x - 2, y:thePlayer.position.y)
+            case .right:
+                thePlayer.position = CGPoint(x:thePlayer.position.x + 2, y:thePlayer.position.y)
+            }
+         
+            animateWalkSansPath()
+        }
         
     }
     
@@ -209,7 +281,7 @@ extension GameScene {
                             
                             if (thePlayer.action(forKey: thePlayer.rightWalk) == nil) {
                                 
-                                animateWalk(theAnimation: thePlayer.rightWalk)
+                                animateWalk()
                             }
                             
                         } else {
@@ -218,7 +290,7 @@ extension GameScene {
                             
                             if (thePlayer.action(forKey: thePlayer.leftWalk) == nil) {
                                 
-                                animateWalk(theAnimation: thePlayer.leftWalk)
+                                animateWalk()
                             }
                         }
                         
@@ -232,7 +304,7 @@ extension GameScene {
                             
                             if (thePlayer.action(forKey: thePlayer.backWalk) == nil) {
                                 
-                                animateWalk(theAnimation: thePlayer.backWalk)
+                                animateWalk()
                             }
                             
                         } else {
@@ -242,7 +314,7 @@ extension GameScene {
                             
                             if (thePlayer.action(forKey: thePlayer.frontWalk) == nil) {
                                 
-                                animateWalk(theAnimation: thePlayer.frontWalk)
+                                animateWalk()
                             }
                             
                         }
@@ -258,10 +330,89 @@ extension GameScene {
         playerLastLocation = thePlayer.position
     }
     
-    func animateWalk(theAnimation:String) {
+    func orientCharacter(pos:CGPoint) {
+                    
+        if (abs(touchDownSprite.position.x - pos.x) > abs(touchDownSprite.position.y - pos.y)) {
+            //greater movement x
+            
+            if (touchDownSprite.position.x < pos.x) {
+                
+                //right
+                playerFacing = .right
+              
+            } else {
+                
+                //left
+                playerFacing = .left
+                
+            }
+            
+        } else {
+            //greater movement y
+            
+            if (touchDownSprite.position.y < pos.y) {
+                //up / back
+                
+                playerFacing = .back
+                
+                
+            } else {
+                //down / forward
+                
+                playerFacing = .front
+                
+            }
+            
+        }
+
+    }
+    
+    func animateWalk() {
+        
+        var theAnimation:String = ""
+        
+        switch playerFacing {
+        case .right:
+            theAnimation = thePlayer.rightWalk
+        case .left:
+            theAnimation = thePlayer.leftWalk
+        case .front:
+            theAnimation = thePlayer.frontWalk
+        case .back:
+            theAnimation = thePlayer.backWalk
+        }
         
         let walkAnimation:SKAction = SKAction.init(named: theAnimation, duration: 0.25)!
         thePlayer.run(walkAnimation, withKey: theAnimation)
+    }
+    
+    func animateWalkSansPath() {
+        
+        var theAnimation:String = ""
+        
+        switch playerFacing {
+        case .right:
+            theAnimation = thePlayer.rightWalk
+        case .left:
+            theAnimation = thePlayer.leftWalk
+        case .front:
+            theAnimation = thePlayer.frontWalk
+        case .back:
+            theAnimation = thePlayer.backWalk
+        }
+        
+        if (theAnimation != "") {
+        
+            thePlayer.removeAction(forKey: thePlayer.rightWalk)
+            thePlayer.removeAction(forKey: thePlayer.leftWalk)
+            thePlayer.removeAction(forKey: thePlayer.frontWalk)
+            thePlayer.removeAction(forKey: thePlayer.backWalk)
+            
+            let walkAnimation:SKAction = SKAction.init(named: theAnimation, duration: 0.25)!
+            let repeatAction:SKAction = SKAction.repeatForever(walkAnimation)
+            thePlayer.run(repeatAction, withKey: theAnimation)
+            
+        }
     }
     
     func makePlayerFollowPath(path:CGMutablePath) {

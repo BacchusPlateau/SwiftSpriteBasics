@@ -31,7 +31,7 @@ class Player : SKSpriteNode {
     var meleeScaleSize:CGFloat = 2
     var meleeAnimationSize:CGSize = CGSize(width: 100, height:100)
     
-    var walkSpeed:TimeInterval = .5
+    var walkSpeed:TimeInterval = 0.5
     var health:Int = 20
     var armor:Int = 20
     var immunity:TimeInterval = 1

@@ -17,6 +17,15 @@ extension GameScene {
         
         let path = Bundle.main.path(forResource:"GameData", ofType: "plist")
         let dict:NSDictionary = NSDictionary(contentsOfFile: path!)!
+        
+        if (dict.object(forKey: "Settings") != nil) {
+            
+            if let settingsDict:[String:Any] = dict.object(forKey: "Settings") as? [String:Any] {
+                sortSettings(theDict:settingsDict)
+            }
+        }
+        
+        
         if(dict.object(forKey: "Levels") != nil) {
             
             if let levelDict:[String : Any] = dict.object(forKey: "Levels") as? [String: Any]
@@ -62,6 +71,32 @@ extension GameScene {
                 }
             }
         }
+    }
+    
+    func sortSettings(theDict:[String:Any])  {
+        
+        for (key,value) in theDict {
+            
+            switch key {
+            case "PathAlpha":
+                if(value is CGFloat) {
+                    pathAlpha = value as! CGFloat
+                }
+            case "WalkWithPath":
+                if(value is Bool) {
+                    walkWithPath = value as! Bool
+                }
+            case "AttackAnywhere":
+                if(value is Bool) {
+                    attackAnywhere = value as! Bool
+                }
+            default:
+                continue
+            }
+            
+        }
+        
+        
     }
     
     func parseLevelSpecificProperties ( theDict: [String:Any]) {
