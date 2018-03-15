@@ -30,11 +30,17 @@ class Player : SKSpriteNode {
     var meleeAnimationFXName:String = "Attacking"
     var meleeScaleSize:CGFloat = 2
     var meleeAnimationSize:CGSize = CGSize(width: 100, height:100)
+    var meleeDamage:Int = 1
+    var meleeTimeBetweenUse:TimeInterval = 0
     
-    var walkSpeed:TimeInterval = 0.5
-    var health:Int = 20
-    var armor:Int = 20
+    var walkSpeedOnPath:TimeInterval = 0.5
+    var walkSpeed:CGFloat = 2.0
+    
     var immunity:TimeInterval = 1
+    var armor:Int = 20
+    var currentArmor:Int = 20
+    var health:Int = 20
+    var currentHealth:Int = 20
     
     func setUpWithDict( theDict: [String:Any]) {
         
@@ -53,6 +59,55 @@ class Player : SKSpriteNode {
                     sortMeleeDict(theDict: value as! [String:Any])
                     
                 }
+            case "Stats":
+                if (value is [String:Any]) {
+                    
+                    sortStatsDict(theDict: value as! [String:Any])
+                    
+                }
+            default:
+                continue
+            }
+        }
+        
+    }
+    
+    func sortStatsDict(theDict:[String:Any]) {
+        
+        for (key, value) in theDict {
+            
+            switch key {
+                
+            case "Speed":
+                if (value is CGFloat) {
+                    
+                    walkSpeed = value as! CGFloat
+                }
+            case "PathSpeed":
+                if (value is TimeInterval) {
+                    
+                    walkSpeedOnPath = value as! TimeInterval
+                }
+            case "Armor":
+                if (value is Int) {
+                    
+                    armor = value as! Int
+                    currentArmor = armor
+                }
+            case "Immunity":
+                if (value is CGFloat) {
+                    
+                    meleeScaleSize = value as! CGFloat
+                    
+                }
+            case "Health":
+                if (value is Int) {
+                    
+                    health = value as! Int
+                    currentHealth = health
+                    
+                }
+                
             default:
                 continue
             }
@@ -159,7 +214,7 @@ class Player : SKSpriteNode {
             case "Damage":
                 if (value is Int) {
                     
-                    
+                    meleeDamage = value as! Int
                 }
             case "Size":
                 if (value is String) {
@@ -180,7 +235,7 @@ class Player : SKSpriteNode {
             case "TimeBetweenUse":
                 if (value is TimeInterval) {
                     
-                    
+                    meleeTimeBetweenUse = value as! TimeInterval
                 }
                 
             default:

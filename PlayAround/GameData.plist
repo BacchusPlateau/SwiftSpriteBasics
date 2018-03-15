@@ -94,8 +94,10 @@
 			</dict>
 			<key>Stats</key>
 			<dict>
-				<key>Speed</key>
+				<key>PathSpeed</key>
 				<real>0.5</real>
+				<key>Speed</key>
+				<integer>2</integer>
 				<key>Health</key>
 				<integer>20</integer>
 				<key>Armor</key>

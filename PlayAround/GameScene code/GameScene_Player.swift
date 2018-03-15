@@ -46,8 +46,11 @@ extension GameScene {
                 animationName = thePlayer.frontMelee
             case .back :
                 animationName = thePlayer.backMelee
+                newAttack.xScale = -1
+                newAttack.yScale = -1
             case .left :
                 animationName = thePlayer.leftMelee
+                newAttack.xScale = -1
             case .right :
                 animationName = thePlayer.rightMelee
         }
@@ -110,6 +113,7 @@ extension GameScene {
             // to the left of the player
             
             touchingDown = true
+            thePlayer.removeAction(forKey: "Idle")
             offsetFromTouchDownToPlayer = CGPoint(x: thePlayer.position.x - pos.x, y: thePlayer.position.y - pos.y)
             
             if(touchDownSprite.parent == nil) {
@@ -157,7 +161,7 @@ extension GameScene {
            thePlayer.removeAction(forKey: "PlayerMoving")
         }
         
-        walkTime += thePlayer.walkSpeed
+        walkTime += thePlayer.walkSpeedOnPath
         
         pathArray.append(getDifference(point: pos))
     }
@@ -204,6 +208,8 @@ extension GameScene {
                 touchingDown = false
                 touchFollowSprite.removeFromParent()
                 touchDownSprite.removeFromParent()
+                
+                runIdleAnimation()
             }
         }
     }
@@ -246,15 +252,17 @@ extension GameScene {
         
         if (touchingDown) {
             
+            let walkSpeed = thePlayer.walkSpeed
+            
             switch playerFacing {
             case .front:
-                thePlayer.position = CGPoint(x:thePlayer.position.x, y:thePlayer.position.y - 2)
+                thePlayer.position = CGPoint(x:thePlayer.position.x, y:thePlayer.position.y - walkSpeed)
             case .back:
-                thePlayer.position = CGPoint(x:thePlayer.position.x, y:thePlayer.position.y + 2)
+                thePlayer.position = CGPoint(x:thePlayer.position.x, y:thePlayer.position.y + walkSpeed)
             case .left:
-                thePlayer.position = CGPoint(x:thePlayer.position.x - 2, y:thePlayer.position.y)
+                thePlayer.position = CGPoint(x:thePlayer.position.x - walkSpeed, y:thePlayer.position.y)
             case .right:
-                thePlayer.position = CGPoint(x:thePlayer.position.x + 2, y:thePlayer.position.y)
+                thePlayer.position = CGPoint(x:thePlayer.position.x + walkSpeed, y:thePlayer.position.y)
             }
          
             animateWalkSansPath()
@@ -433,26 +441,24 @@ extension GameScene {
     
     func runIdleAnimation() {
         
+        var animationName:String = ""
+        
         switch playerFacing {
             
             case .front:
-                let idleAnimation:SKAction = SKAction(named: thePlayer.frontIdle, duration:1)!
-                thePlayer.run(idleAnimation)
-                break
+                animationName = thePlayer.frontIdle
             case .back:
-                let idleAnimation:SKAction = SKAction(named: thePlayer.backIdle, duration:1)!
-                thePlayer.run(idleAnimation)
-                break
+                animationName = thePlayer.backIdle
             case .left:
-                let idleAnimation:SKAction = SKAction(named: thePlayer.leftIdle, duration:1)!
-                thePlayer.run(idleAnimation)
-                break
+                animationName = thePlayer.leftIdle
             case .right:
-                let idleAnimation:SKAction = SKAction(named: thePlayer.rightIdle, duration:1)!
-                thePlayer.run(idleAnimation)
-                break
+                animationName = thePlayer.rightIdle
         }
         
+        if (animationName != "") {
+            let idleAnimation:SKAction = SKAction(named: animationName, duration:1)!
+            thePlayer.run(idleAnimation, withKey: "Idle")
+        }
     }
    
 }

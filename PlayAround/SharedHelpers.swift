@@ -12,14 +12,16 @@ import SpriteKit
 class SharedHelpers {
     
     
-    static func checkIfSKSExists( baseSKSName:String) -> String {
+    static func checkIfSKSExists( baseSKSName:String) -> (String,Bool) {
         
         var fullSKSNameToLoad:String = baseSKSName
+        var hasCustomPad:Bool = false
         
         if( UIDevice.current.userInterfaceIdiom == .pad) {
             
             if let _ = GameScene(fileNamed: baseSKSName + "Pad") {
                 fullSKSNameToLoad = baseSKSName + "Pad"
+                hasCustomPad = true
             }
             
         } else if (UIDevice.current.userInterfaceIdiom == .phone ) {
@@ -28,7 +30,7 @@ class SharedHelpers {
             }
         }
         
-        return fullSKSNameToLoad
+        return (fullSKSNameToLoad,hasCustomPad)
     }
     
     

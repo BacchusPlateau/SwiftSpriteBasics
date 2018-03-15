@@ -69,6 +69,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var touchFollowSprite:SKSpriteNode = SKSpriteNode()
     var offsetFromTouchDownToPlayer:CGPoint = CGPoint.zero
     
+    var hasCustomPadScene:Bool = false
+    
     override func didMove(to view: SKView) {
         
         parsePropertyList()
@@ -95,6 +97,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.speechIcon = theCamera.childNode(withName: "VillagerIcon") as! SKSpriteNode
                     self.speechIcon.isHidden = true
                 }
+                if(UIDevice.current.userInterfaceIdiom == .pad && !self.hasCustomPadScene) {
+                    
+                    print("no custom iPad SKS file, do our own adjustments")
+                    theCamera.xScale = 1.5
+                    theCamera.yScale = 1.5
+                 
+                    for node in theCamera.children {
+                        
+                        if (node.position.y > 0) {
+                            node.position.y -= 100
+                        } else {
+                            node.position.y += 100
+                        }
+                    }
+                }
+                
                 
                 stop.pointee = true  //halt transversal of node tree
             }

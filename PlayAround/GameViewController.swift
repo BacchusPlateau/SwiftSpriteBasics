@@ -21,6 +21,7 @@ class GameViewController: UIViewController {
         
         var initialLevel:String = "Grassland"
         var initialEntryNode:String = ""
+        var hasCustomPadScene:Bool = false
         
         if(defaults.object(forKey: "ContinuePoint") != nil) {
             initialLevel = defaults.string(forKey: "ContinuePoint")!
@@ -30,8 +31,9 @@ class GameViewController: UIViewController {
             }
         }
         
-        
-        let fullSKSNameToLoad:String = SharedHelpers.checkIfSKSExists(baseSKSName: initialLevel)
+        let deviceCheck = SharedHelpers.checkIfSKSExists(baseSKSName: initialLevel)
+        let fullSKSNameToLoad:String = deviceCheck.0
+        hasCustomPadScene = deviceCheck.1
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
@@ -40,6 +42,7 @@ class GameViewController: UIViewController {
                 scene.scaleMode = .aspectFill
                 scene.currentLevel = initialLevel
                 scene.entryNode = initialEntryNode
+                scene.hasCustomPadScene = hasCustomPadScene
                 
                 // Present the scene
                 view.presentScene(scene)
