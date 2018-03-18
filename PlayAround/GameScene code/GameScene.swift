@@ -14,6 +14,8 @@ enum BodyType:UInt32 {
     case item = 2
     case attackArea = 4
     case npc = 8
+    case projectile = 16
+    case enemy = 32
 }
 
 enum Facing:Int {

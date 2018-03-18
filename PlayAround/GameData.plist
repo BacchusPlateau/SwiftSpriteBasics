@@ -6,6 +6,8 @@
 	<dict>
 		<key>Sword</key>
 		<dict>
+			<key>ZPosition</key>
+			<integer>200</integer>
 			<key>Image</key>
 			<string>Sword</string>
 			<key>Animation</key>

@@ -71,6 +71,74 @@ extension GameScene {
         
         print(withDict)
         
+        let newProjectile:Projectile = Projectile(imageNamed: prevPlayerProjectileImageName)
+        newProjectile.position = thePlayer.position
+        newProjectile.setUpWithDict(theDict: withDict)
+
+        self.addChild(newProjectile)
+        
+        var moveAction:SKAction = SKAction()
+        var theDistance:CGFloat = 0
+        
+        if (newProjectile.distance > 0) {
+            theDistance = newProjectile.distance
+        } else {
+            
+            if (playerFacing == .front || playerFacing == .back) {
+                
+                theDistance = (self.view?.bounds.size.height)!
+                
+            } else {
+                
+                theDistance = (self.view?.bounds.size.width)!
+                
+            }
+        }
+        
+        switch playerFacing {
+        case .front:
+            moveAction = SKAction.moveBy(x: 0, y: -theDistance, duration: newProjectile.travelTime)
+        case .back:
+            moveAction = SKAction.moveBy(x: 0, y: theDistance, duration: newProjectile.travelTime)
+        case .right:
+            moveAction = SKAction.moveBy(x: theDistance, y: 0, duration: newProjectile.travelTime)
+        case .left:
+            moveAction = SKAction.moveBy(x: -theDistance, y: 0, duration: newProjectile.travelTime)
+        }
+        
+        moveAction.timingMode = .easeOut
+        let finish:SKAction = SKAction.run {
+            
+            if(newProjectile.removeAfterThrow) {
+                newProjectile.removeFromParent()
+            }
+        }
+        
+        let seq:SKAction = SKAction.sequence([moveAction, finish])
+        newProjectile.run(seq)
+        
+        if (newProjectile.rotationTime > 0) {
+            
+            let randomAddOn:UInt32 = arc4random_uniform(10)
+            let addOn:CGFloat = CGFloat(randomAddOn / 10)
+            let rotateAction:SKAction = SKAction.rotate(byAngle: 6.28319 + addOn, duration: newProjectile.rotationTime)
+            let repeatRotate:SKAction = SKAction.repeat(rotateAction, count: Int(newProjectile.travelTime / newProjectile.rotationTime))
+            
+            newProjectile.run(repeatRotate)
+            
+        }
+        
+        if (!walkWithPath) {
+            
+            touchingDown = false
+            
+            thePlayer.removeAction(forKey: thePlayer.backWalk)
+            thePlayer.removeAction(forKey: thePlayer.frontWalk)
+            thePlayer.removeAction(forKey: thePlayer.rightWalk)
+            thePlayer.removeAction(forKey: thePlayer.leftWalk)
+            
+        }
+        
     }
     
     func touchDown(atPoint pos : CGPoint) {
