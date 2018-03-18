@@ -47,8 +47,8 @@
 					<string>WalkForward</string>
 					<key>Melee</key>
 					<string>FrontAttack</string>
-					<key>Projectile</key>
-					<string></string>
+					<key>Ranged</key>
+					<string>FrontAttack</string>
 					<key>Hurt</key>
 					<string></string>
 					<key>Idle</key>
@@ -60,8 +60,8 @@
 					<string>WalkRight</string>
 					<key>Melee</key>
 					<string>RightAttack</string>
-					<key>Projectile</key>
-					<string></string>
+					<key>Ranged</key>
+					<string>RightAttack</string>
 					<key>Hurt</key>
 					<string></string>
 					<key>Idle</key>
@@ -73,8 +73,8 @@
 					<string>WalkLeft</string>
 					<key>Melee</key>
 					<string>LeftAttack</string>
-					<key>Projectile</key>
-					<string></string>
+					<key>Ranged</key>
+					<string>LeftAttack</string>
 					<key>Hurt</key>
 					<string></string>
 					<key>Idle</key>
@@ -86,8 +86,8 @@
 					<string>WalkBackward</string>
 					<key>Melee</key>
 					<string>BackAttack</string>
-					<key>Projectile</key>
-					<string></string>
+					<key>Ranged</key>
+					<string>BackAttack</string>
 					<key>Hurt</key>
 					<string></string>
 					<key>Idle</key>

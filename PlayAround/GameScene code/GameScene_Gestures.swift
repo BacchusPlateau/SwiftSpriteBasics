@@ -41,6 +41,8 @@ extension GameScene {
       
     }
     
+    
+    
     @objc func tappedViewDouble(_ sender:UITapGestureRecognizer) {
         
         print("tappedViewDouble")

@@ -80,6 +80,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var prevPlayerProjectileName:String = ""
     var prevPlayerProjectileImageName:String = ""
     
+    var meleeAttackButton:SKSpriteNode = SKSpriteNode()
+    var rangedAttackButton:SKSpriteNode = SKSpriteNode()
+    
     override func didMove(to view: SKView) {
         
         parsePropertyList()
@@ -106,6 +109,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.speechIcon = theCamera.childNode(withName: "VillagerIcon") as! SKSpriteNode
                     self.speechIcon.isHidden = true
                 }
+                if(theCamera.childNode(withName: "RangedButton") is SKSpriteNode) {
+                    self.rangedAttackButton = theCamera.childNode(withName: "RangedButton") as! SKSpriteNode
+                }
+                if(theCamera.childNode(withName: "MeleeButton") is SKSpriteNode) {
+                    self.meleeAttackButton = theCamera.childNode(withName: "MeleeButton") as! SKSpriteNode
+                }
+                
                 if(UIDevice.current.userInterfaceIdiom == .pad && !self.hasCustomPadScene) {
                     
                     print("no custom iPad SKS file, do our own adjustments")
@@ -127,6 +137,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
+        /*
+        
         tapRec.addTarget(self, action: #selector(GameScene.tappedView(_:)))
         tapRec.numberOfTapsRequired = 1
         tapRec.numberOfTouchesRequired = 1
@@ -137,7 +149,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         tapRecDouble.numberOfTouchesRequired = 1
         self.view!.addGestureRecognizer(tapRecDouble)
         
-        /*
         swipeRightRec.addTarget(self, action: #selector(GameScene.swipedRight))
         swipeRightRec.direction = .right
         self.view!.addGestureRecognizer(swipeRightRec)

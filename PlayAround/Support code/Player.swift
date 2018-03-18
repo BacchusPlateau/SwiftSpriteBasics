@@ -14,18 +14,22 @@ class Player : SKSpriteNode {
     var frontWalk: String = ""
     var frontIdle: String = ""
     var frontMelee: String = ""
+    var frontRanged: String = ""
     
     var backWalk: String = ""
     var backIdle: String = ""
     var backMelee: String = ""
+    var backRanged: String = ""
     
     var leftWalk: String = ""
     var leftIdle: String = ""
     var leftMelee: String = ""
+    var leftRanged: String = ""
     
     var rightWalk: String = ""
     var rightIdle: String = ""
     var rightMelee: String = ""
+    var rightRanged: String = ""
     
     var meleeAnimationFXName:String = "Attacking"
     var meleeScaleSize:CGFloat = 2
@@ -141,6 +145,8 @@ class Player : SKSpriteNode {
                             backIdle = value as! String
                         case "Melee":
                             backMelee = value as! String
+                        case "Ranged":
+                            backRanged = value as! String
                         default:
                             continue
                             
@@ -160,6 +166,8 @@ class Player : SKSpriteNode {
                             frontIdle = value as! String
                         case "Melee":
                             frontMelee = value as! String
+                        case "Ranged":
+                            frontRanged = value as! String
                         default:
                             continue
                             
@@ -179,6 +187,8 @@ class Player : SKSpriteNode {
                             leftIdle = value as! String
                         case "Melee":
                             leftMelee = value as! String
+                        case "Ranged":
+                            leftRanged = value as! String
                         default:
                             continue
                             
@@ -198,6 +208,8 @@ class Player : SKSpriteNode {
                             rightIdle = value as! String
                         case "Melee":
                             rightMelee = value as! String
+                        case "Ranged":
+                            rightRanged = value as! String
                         default:
                             continue
                             

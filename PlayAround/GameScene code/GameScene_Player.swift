@@ -95,15 +95,21 @@ extension GameScene {
             }
         }
         
+        var animationName:String = ""
+        
         switch playerFacing {
         case .front:
             moveAction = SKAction.moveBy(x: 0, y: -theDistance, duration: newProjectile.travelTime)
+            animationName = thePlayer.frontRanged
         case .back:
             moveAction = SKAction.moveBy(x: 0, y: theDistance, duration: newProjectile.travelTime)
+            animationName = thePlayer.backRanged
         case .right:
             moveAction = SKAction.moveBy(x: theDistance, y: 0, duration: newProjectile.travelTime)
+            animationName = thePlayer.rightRanged
         case .left:
             moveAction = SKAction.moveBy(x: -theDistance, y: 0, duration: newProjectile.travelTime)
+            animationName = thePlayer.leftRanged
         }
         
         moveAction.timingMode = .easeOut
@@ -128,6 +134,30 @@ extension GameScene {
             
         }
         
+        if (animationName != "") {
+            
+            let attackAnimation:SKAction = SKAction(named: animationName)!
+            let finish:SKAction = SKAction.run {
+                
+                if (!self.walkWithPath) {
+                    
+                    if (self.touchingDown) {
+                        
+                        self.animateWalkSansPath()
+                        
+                    }
+                } else {
+                    
+                    self.runIdleAnimation()
+                }
+            }
+            
+            let seq:SKAction = SKAction.sequence([attackAnimation, finish])
+            thePlayer.run(seq)
+        }
+        
+        //Not needed when using the button attack interface
+        /*
         if (!walkWithPath) {
             
             touchingDown = false
@@ -138,7 +168,7 @@ extension GameScene {
             thePlayer.removeAction(forKey: thePlayer.leftWalk)
             
         }
-        
+        */
     }
     
     func touchDown(atPoint pos : CGPoint) {
@@ -211,6 +241,125 @@ extension GameScene {
         
     }
     
+    // MARK: Melle or Ranged pre-Attack
+    
+    
+    func melee() {
+        
+        if(!disableAttack) {
+            
+            attack()
+            
+        }
+        
+    }
+    
+    func ranged() {
+        
+        if(!disableAttack) {
+            
+            if(thePlayer.currentProjectile != "") {
+                
+                if(prevPlayerProjectileName == thePlayer.currentProjectile) {
+                    
+                    //create ranged attack
+                    print ("reusing existing projectile")
+                    rangedAttack(withDict: prevPlayerProjectileDict)
+                    
+                } else {
+                    
+                    for (key, value) in projectilesDict {
+                        
+                        switch key {
+                            
+                        case thePlayer.currentProjectile:
+                            print("found projectile data")
+                            prevPlayerProjectileName = key
+                            prevPlayerProjectileDict = value as! [String : Any]
+                            
+                            for (k,v) in prevPlayerProjectileDict {
+                                
+                                if (k == "Image") {
+                                    
+                                    if (v is String) {
+                                        
+                                        prevPlayerProjectileImageName = v as! String
+                                        
+                                    }
+                                    break
+                                }
+                            }
+                            
+                        default:
+                            continue
+                        }
+                        
+                        //create ranged attack
+                        rangedAttack(withDict: prevPlayerProjectileDict)
+                        break
+                        
+                    }
+                    
+                }
+            }
+        }
+    }
+    
+    func checkIfMeleeButtonPressed(pos:CGPoint) -> Bool {
+        
+        var pressed:Bool = false
+        
+        let meleeLocation:CGPoint = convert(meleeAttackButton.position, from:self.camera!)
+        let meleeFrame:CGRect = CGRect(x:meleeLocation.x - (meleeAttackButton.frame.size.width / 2),
+                                       y:meleeLocation.y - (meleeAttackButton.frame.size.height / 2),
+                                       width: meleeAttackButton.frame.size.width,
+                                       height: meleeAttackButton.frame.size.height)
+        
+        if(meleeFrame.contains(pos)) {
+            
+            pressed = true
+            highlightAndFadeAttackButtons()
+            
+        }
+        
+        return pressed
+    }
+    
+    func checkIfRangedButtonPressed(pos:CGPoint) -> Bool {
+        
+        var pressed:Bool = false
+        
+        let rangedLocation:CGPoint = convert(rangedAttackButton.position, from:self.camera!)
+        let rangedFrame:CGRect = CGRect(x:rangedLocation.x - (rangedAttackButton.frame.size.width / 2),
+                                       y:rangedLocation.y - (rangedAttackButton.frame.size.height / 2),
+                                       width: rangedAttackButton.frame.size.width,
+                                       height: rangedAttackButton.frame.size.height)
+        
+        if(rangedFrame.contains(pos)) {
+            
+            pressed = true
+            highlightAndFadeAttackButtons()
+            
+        }
+        
+        return pressed
+    }
+    
+    func highlightAndFadeAttackButtons() {
+        
+        rangedAttackButton.removeAllActions()
+        meleeAttackButton.removeAllActions()
+        
+        rangedAttackButton.alpha = 1
+        meleeAttackButton.alpha = 1
+        
+        let fadeOut:SKAction = SKAction.fadeOut(withDuration: 1)
+        rangedAttackButton.run(fadeOut)
+        meleeAttackButton.run(fadeOut)
+        
+    }
+    
+
     func getDifference(point:CGPoint) -> CGPoint {
         
         let newPoint:CGPoint = CGPoint(x: point.x + currentOffset.x, y: point.y + currentOffset.y)
@@ -248,10 +397,24 @@ extension GameScene {
         
         for t in touches {
             
-            if (walkWithPath) {
-                self.touchDown(atPoint: t.location(in: self))
+            let pos:CGPoint = t.location(in: self)
+            
+            if(checkIfMeleeButtonPressed(pos: pos)) {
+                
+                melee()
+                
+            } else if (checkIfRangedButtonPressed(pos: pos))  {
+            
+                ranged()
+        
+            } else if (walkWithPath) {
+                
+                self.touchDown(atPoint: pos)
+                
             } else {
-                self.touchDownSansPath(atPoint: t.location(in: self))
+                
+                self.touchDownSansPath(atPoint: pos)
+                
             }
             break
         }
@@ -260,32 +423,76 @@ extension GameScene {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches {
             
-            if (walkWithPath) {
-                self.touchMoved(toPoint: t.location(in: self))
+            let pos:CGPoint = t.location(in: self)
+            
+            if(checkIfMeleeButtonPressed(pos: pos)) {
+                
+                //ignore
+                
+            } else if (checkIfRangedButtonPressed(pos: pos))  {
+                
+                //ignore
+                
+            } else if (walkWithPath) {
+                
+                self.touchMoved(toPoint: pos)
+                
             } else {
-                self.touchMovedSansPath(toPoint: t.location(in: self))
+                
+                self.touchMovedSansPath(toPoint: pos)
             }
+            
             break
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        if (walkWithPath) {
-            createLineWith(array:pathArray)
-            pathArray.removeAll()
+        for t in touches {
             
-            currentOffset = CGPoint.zero
-        } else {
-            if(touchingDown) {
-                thePlayer.removeAllActions()
-                touchingDown = false
-                touchFollowSprite.removeFromParent()
-                touchDownSprite.removeFromParent()
+            let pos:CGPoint = t.location(in: self)
+            
+            if(checkIfMeleeButtonPressed(pos: pos)) {
                 
-                runIdleAnimation()
+                //ignore
+                
+            } else if (checkIfRangedButtonPressed(pos: pos))  {
+                
+                //ignore
+                
+            } else if (walkWithPath) {
+                
+                self.touchEnded(toPoint: pos)
+                
+            } else {
+                
+                self.touchEndedSansPath(toPoint: pos)
             }
+            
+            break
         }
+    }
+    
+    func touchEnded(toPoint pos:CGPoint) {
+        
+        createLineWith(array:pathArray)
+        pathArray.removeAll()
+        
+        currentOffset = CGPoint.zero
+        
+    }
+    
+    func touchEndedSansPath(toPoint pos:CGPoint) {
+        
+        if(touchingDown) {
+            thePlayer.removeAllActions()
+            touchingDown = false
+            touchFollowSprite.removeFromParent()
+            touchDownSprite.removeFromParent()
+            
+            runIdleAnimation()
+        }
+        
     }
     
     func createLineWith(array:[CGPoint])  {
