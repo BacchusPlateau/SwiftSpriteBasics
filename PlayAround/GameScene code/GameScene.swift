@@ -31,6 +31,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let swipeDownRec = UISwipeGestureRecognizer()
     let rotateRec = UIRotationGestureRecognizer()
     let tapRec = UITapGestureRecognizer()
+    let tapRecDouble = UITapGestureRecognizer()
+    
     public var currentLevel:String = ""
     
     var infoLabel1:SKLabelNode = SKLabelNode()
@@ -70,6 +72,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var offsetFromTouchDownToPlayer:CGPoint = CGPoint.zero
     
     var hasCustomPadScene:Bool = false
+    
+    var projectilesDict = [String : Any]()
+    var prevPlayerProjectileDict = [String : Any]()
+    var prevPlayerProjectileName:String = ""
+    var prevPlayerProjectileImageName:String = ""
     
     override func didMove(to view: SKView) {
         
@@ -118,11 +125,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        tapRec.addTarget(self, action: #selector(GameScene.tappedView))
+        tapRec.addTarget(self, action: #selector(GameScene.tappedView(_:)))
         tapRec.numberOfTapsRequired = 1
         tapRec.numberOfTouchesRequired = 1
         self.view!.addGestureRecognizer(tapRec)
- 
+
+        tapRecDouble.addTarget(self, action: #selector(GameScene.tappedViewDouble(_:)))
+        tapRecDouble.numberOfTapsRequired = 2
+        tapRecDouble.numberOfTouchesRequired = 1
+        self.view!.addGestureRecognizer(tapRecDouble)
+        
         /*
         swipeRightRec.addTarget(self, action: #selector(GameScene.swipedRight))
         swipeRightRec.direction = .right

@@ -67,6 +67,12 @@ extension GameScene {
         
     }
     
+    func rangedAttack(withDict:[String:Any]) {
+        
+        print(withDict)
+        
+    }
+    
     func touchDown(atPoint pos : CGPoint) {
         
       //  if (thePlayer.action(forKey: "PlayerMoving") != nil) {

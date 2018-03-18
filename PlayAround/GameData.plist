@@ -2,6 +2,28 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Projectiles</key>
+	<dict>
+		<key>Sword</key>
+		<dict>
+			<key>Image</key>
+			<string>Sword</string>
+			<key>Animation</key>
+			<string></string>
+			<key>ContactAnimation</key>
+			<string></string>
+			<key>TravelTime</key>
+			<integer>1</integer>
+			<key>Distance</key>
+			<integer>300</integer>
+			<key>RotationTime</key>
+			<real>0.5</real>
+			<key>Damage</key>
+			<integer>1</integer>
+			<key>Remove</key>
+			<true/>
+		</dict>
+	</dict>
 	<key>Settings</key>
 	<dict>
 		<key>PathAlpha</key>
@@ -88,7 +110,7 @@
 			<key>Ranged</key>
 			<dict>
 				<key>Projectile</key>
-				<string></string>
+				<string>Sword</string>
 				<key>TimeBetweenUse</key>
 				<integer>0</integer>
 			</dict>

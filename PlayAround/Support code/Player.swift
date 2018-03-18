@@ -41,6 +41,7 @@ class Player : SKSpriteNode {
     var currentArmor:Int = 20
     var health:Int = 20
     var currentHealth:Int = 20
+    var currentProjectile:String = ""
     
     func setUpWithDict( theDict: [String:Any]) {
         
@@ -63,6 +64,12 @@ class Player : SKSpriteNode {
                 if (value is [String:Any]) {
                     
                     sortStatsDict(theDict: value as! [String:Any])
+                    
+                }
+            case "Ranged":
+                if (value is [String:Any]) {
+                    
+                    sortRangedDict(theDict: value as! [String:Any])
                     
                 }
             default:
@@ -204,6 +211,25 @@ class Player : SKSpriteNode {
         }
         
     }
+    
+    func sortRangedDict(theDict:[String:Any]) {
+        
+        for (key, value) in theDict {
+            
+            switch key {
+                
+            case "Projectile":
+                if (value is String) {
+                    
+                    currentProjectile = value as! String
+                }
+            default:
+                continue
+            }
+        }
+    }
+    
+    
     
     func sortMeleeDict(theDict:[String:Any]) {
         

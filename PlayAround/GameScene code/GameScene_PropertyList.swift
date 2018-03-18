@@ -25,6 +25,13 @@ extension GameScene {
             }
         }
         
+        if (dict.object(forKey: "Projectiles") != nil) {
+            
+            if let projDict:[String:Any] = dict.object(forKey: "Projectiles") as? [String:Any] {
+                projectilesDict = projDict
+                print("found projectiles dict and set it")
+            }
+        }
         
         if(dict.object(forKey: "Levels") != nil) {
             
