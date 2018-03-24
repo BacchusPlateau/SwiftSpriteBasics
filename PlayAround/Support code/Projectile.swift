@@ -15,6 +15,7 @@ class Projectile: SKSpriteNode {
     var rotationTime:TimeInterval = 0
     var distance:CGFloat = 0
     var removeAfterThrow:Bool = true
+    var offset:CGFloat = 0
     
     func setUpWithDict(theDict:[String:Any]) {
         
@@ -51,6 +52,10 @@ class Projectile: SKSpriteNode {
             case "ZPosition":
                 if(value is CGFloat) {
                     self.zPosition = value as! CGFloat
+                }
+            case "Offset":
+                if(value is CGFloat) {
+                    offset = value as! CGFloat
                 }
             default:
                 continue

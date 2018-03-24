@@ -6,6 +6,8 @@
 	<dict>
 		<key>Sword</key>
 		<dict>
+			<key>Offset</key>
+			<integer>30</integer>
 			<key>ZPosition</key>
 			<integer>200</integer>
 			<key>Image</key>
@@ -28,6 +30,8 @@
 	</dict>
 	<key>Settings</key>
 	<dict>
+		<key>WalkDiagonal</key>
+		<true/>
 		<key>PathAlpha</key>
 		<real>0.2</real>
 		<key>WalkWithPath</key>

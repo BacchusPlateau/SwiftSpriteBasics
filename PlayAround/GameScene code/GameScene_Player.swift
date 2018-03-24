@@ -101,15 +101,19 @@ extension GameScene {
         case .front:
             moveAction = SKAction.moveBy(x: 0, y: -theDistance, duration: newProjectile.travelTime)
             animationName = thePlayer.frontRanged
+            newProjectile.position = CGPoint(x: newProjectile.position.x, y: newProjectile.position.y - newProjectile.offset)
         case .back:
             moveAction = SKAction.moveBy(x: 0, y: theDistance, duration: newProjectile.travelTime)
             animationName = thePlayer.backRanged
+            newProjectile.position = CGPoint(x: newProjectile.position.x, y: newProjectile.position.y + (newProjectile.offset * 2))
         case .right:
             moveAction = SKAction.moveBy(x: theDistance, y: 0, duration: newProjectile.travelTime)
             animationName = thePlayer.rightRanged
+            newProjectile.position = CGPoint(x: newProjectile.position.x + newProjectile.offset, y: newProjectile.position.y)
         case .left:
             moveAction = SKAction.moveBy(x: -theDistance, y: 0, duration: newProjectile.travelTime)
             animationName = thePlayer.leftRanged
+            newProjectile.position = CGPoint(x: newProjectile.position.x - newProjectile.offset, y: newProjectile.position.y)
         }
         
         moveAction.timingMode = .easeOut
@@ -537,13 +541,13 @@ extension GameScene {
             
             switch playerFacing {
             case .front:
-                thePlayer.position = CGPoint(x:thePlayer.position.x, y:thePlayer.position.y - walkSpeed)
+                thePlayer.position = CGPoint(x:thePlayer.position.x + diagonalAmount, y:thePlayer.position.y - walkSpeed)
             case .back:
-                thePlayer.position = CGPoint(x:thePlayer.position.x, y:thePlayer.position.y + walkSpeed)
+                thePlayer.position = CGPoint(x:thePlayer.position.x + diagonalAmount, y:thePlayer.position.y + walkSpeed)
             case .left:
-                thePlayer.position = CGPoint(x:thePlayer.position.x - walkSpeed, y:thePlayer.position.y)
+                thePlayer.position = CGPoint(x:thePlayer.position.x - walkSpeed, y:thePlayer.position.y + diagonalAmount)
             case .right:
-                thePlayer.position = CGPoint(x:thePlayer.position.x + walkSpeed, y:thePlayer.position.y)
+                thePlayer.position = CGPoint(x:thePlayer.position.x + walkSpeed, y:thePlayer.position.y + diagonalAmount)
             }
          
             animateWalkSansPath()
@@ -636,6 +640,17 @@ extension GameScene {
                 
             }
             
+            if (walkDiagonal) {
+                
+                diagonalAmount = ((touchDownSprite.position.y - pos.y) / 100) * (thePlayer.walkSpeed / 2)
+                if(diagonalAmount > 0 && diagonalAmount > (thePlayer.walkSpeed / 2)) {
+                    diagonalAmount = (thePlayer.walkSpeed / 2)
+                } else if (diagonalAmount < 0 && diagonalAmount < (thePlayer.walkSpeed / 2)) {
+                    diagonalAmount = -(thePlayer.walkSpeed / 2)
+                }
+                
+            }
+            
         } else {
             //greater movement y
             
@@ -649,6 +664,17 @@ extension GameScene {
                 //down / forward
                 
                 playerFacing = .front
+                
+            }
+            
+            if (walkDiagonal) {
+                
+                diagonalAmount = -((touchDownSprite.position.x - pos.x) / 100) * (thePlayer.walkSpeed / 2)
+                if(diagonalAmount > 0 && diagonalAmount > (thePlayer.walkSpeed / 2)) {
+                    diagonalAmount = (thePlayer.walkSpeed / 2)
+                } else if (diagonalAmount < 0 && diagonalAmount < (thePlayer.walkSpeed / 2)) {
+                    diagonalAmount = -(thePlayer.walkSpeed / 2)
+                }
                 
             }
             

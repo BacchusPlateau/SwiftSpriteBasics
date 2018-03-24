@@ -83,6 +83,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var meleeAttackButton:SKSpriteNode = SKSpriteNode()
     var rangedAttackButton:SKSpriteNode = SKSpriteNode()
     
+    var diagonalAmount:CGFloat = 0
+    var walkDiagonal:Bool = true
+    
     override func didMove(to view: SKView) {
         
         parsePropertyList()

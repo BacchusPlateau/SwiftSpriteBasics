@@ -97,6 +97,10 @@ extension GameScene {
                 if(value is Bool) {
                     attackAnywhere = value as! Bool
                 }
+            case "WalkDiagonal":
+                if(value is Bool) {
+                    walkDiagonal = value as! Bool
+                }
             default:
                 continue
             }
