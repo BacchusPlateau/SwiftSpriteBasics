@@ -86,6 +86,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var diagonalAmount:CGFloat = 0
     var walkDiagonal:Bool = true
     
+    var hasMeleeButton:Bool = false
+    var hasRangedButton:Bool = false
+    
+    var healthLabel:SKLabelNode = SKLabelNode()
+    var armorLabel:SKLabelNode = SKLabelNode()
+    var xpLabel:SKLabelNode = SKLabelNode()
+    var xpLevelLabel:SKLabelNode = SKLabelNode()
+    var currencyLabel:SKLabelNode = SKLabelNode()
+    var classLabel:SKLabelNode = SKLabelNode()
+    
+    var currentHealth:Int = 0
+    var currentArmor:Int = 0
+    
+    var currentXP:Int = 0
+    var maxXP:Int = 0
+    var currency:Int = 0
+    var xpLevel:Int = 0
+    var xpArray = [[String:Any]]()
+    
     override func didMove(to view: SKView) {
         
         parsePropertyList()
@@ -108,15 +127,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.infoLabel2 = theCamera.childNode(withName: "InfoLabel2") as! SKLabelNode
                     self.infoLabel2.text = ""
                 }
+                if(theCamera.childNode(withName: "HealthLabel") is SKLabelNode) {
+                    self.healthLabel = theCamera.childNode(withName: "HealthLabel") as! SKLabelNode
+                    self.healthLabel.text = ""
+                }
+                if(theCamera.childNode(withName: "ArmorLabel") is SKLabelNode) {
+                    self.armorLabel = theCamera.childNode(withName: "ArmorLabel") as! SKLabelNode
+                    self.armorLabel.text = ""
+                }
+                if(theCamera.childNode(withName: "XPLabel") is SKLabelNode) {
+                    self.xpLabel = theCamera.childNode(withName: "XPLabel") as! SKLabelNode
+                    self.xpLabel.text = ""
+                }
+                if(theCamera.childNode(withName: "CurrencyLabel") is SKLabelNode) {
+                    self.currencyLabel = theCamera.childNode(withName: "CurrencyLabel") as! SKLabelNode
+                    self.currencyLabel.text = ""
+                }
+                if(theCamera.childNode(withName: "XPLevelLabel") is SKLabelNode) {
+                    self.xpLevelLabel = theCamera.childNode(withName: "XPLevelLabel") as! SKLabelNode
+                    self.xpLevelLabel.text = ""
+                }
+                if(theCamera.childNode(withName: "ClassLabel") is SKLabelNode) {
+                    self.classLabel = theCamera.childNode(withName: "ClassLabel") as! SKLabelNode
+                }
                 if(theCamera.childNode(withName: "VillagerIcon") is SKSpriteNode) {
                     self.speechIcon = theCamera.childNode(withName: "VillagerIcon") as! SKSpriteNode
                     self.speechIcon.isHidden = true
                 }
                 if(theCamera.childNode(withName: "RangedButton") is SKSpriteNode) {
                     self.rangedAttackButton = theCamera.childNode(withName: "RangedButton") as! SKSpriteNode
+                    self.hasRangedButton = true
                 }
                 if(theCamera.childNode(withName: "MeleeButton") is SKSpriteNode) {
                     self.meleeAttackButton = theCamera.childNode(withName: "MeleeButton") as! SKSpriteNode
+                    self.hasMeleeButton = true
                 }
                 
                 if(UIDevice.current.userInterfaceIdiom == .pad && !self.hasCustomPadScene) {
@@ -140,18 +184,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
+        if (!hasMeleeButton) {
+        
+            tapRec.addTarget(self, action: #selector(GameScene.tappedView(_:)))
+            tapRec.numberOfTapsRequired = 1
+            tapRec.numberOfTouchesRequired = 1
+            self.view!.addGestureRecognizer(tapRec)
+            
+        }
+        
+        if (!hasRangedButton) {
+            
+            tapRecDouble.addTarget(self, action: #selector(GameScene.tappedViewDouble(_:)))
+            tapRecDouble.numberOfTapsRequired = 2
+            tapRecDouble.numberOfTouchesRequired = 1
+            self.view!.addGestureRecognizer(tapRecDouble)
+            
+        }
+        
         /*
-        
-        tapRec.addTarget(self, action: #selector(GameScene.tappedView(_:)))
-        tapRec.numberOfTapsRequired = 1
-        tapRec.numberOfTouchesRequired = 1
-        self.view!.addGestureRecognizer(tapRec)
-
-        tapRecDouble.addTarget(self, action: #selector(GameScene.tappedViewDouble(_:)))
-        tapRecDouble.numberOfTapsRequired = 2
-        tapRecDouble.numberOfTouchesRequired = 1
-        self.view!.addGestureRecognizer(tapRecDouble)
-        
         swipeRightRec.addTarget(self, action: #selector(GameScene.swipedRight))
         swipeRightRec.direction = .right
         self.view!.addGestureRecognizer(swipeRightRec)
@@ -208,8 +259,99 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         clearStuff(theArray:clearArray)
         
         sortRewards(rewards:rewardDict)
+        
+        populateStats()
+        
     }
     
+    func populateStats() {
+        
+        if (defaults.integer(forKey: "CurrentHealth") != 0) {
+            currentHealth = defaults.integer(forKey: "CurrentHealth")
+        } else {
+            currentHealth = thePlayer.health
+            defaults.set(currentHealth, forKey: "CurrentHealth")
+        }
+        
+        if (defaults.integer(forKey: "CurrentArmor") != 0) {
+            currentHealth = defaults.integer(forKey: "CurrentArmor")
+        } else {
+            currentArmor = thePlayer.armor
+        }
+        if (defaults.integer(forKey: "Currency") != 0) {
+            currency = defaults.integer(forKey: "Currency")
+        } else {
+            currency = 0
+        }
+        if (defaults.integer(forKey: "XPLevel") != 0) {
+            xpLevel = defaults.integer(forKey: "XPLevel")
+        } else {
+            xpLevel = 0
+        }
+        if (defaults.integer(forKey: "CurrentXP") != 0) {
+            currentXP = defaults.integer(forKey: "CurrentXP")
+        } else {
+            currentXP = 0
+        }
+        
+        retrieveXPData()
+        
+        setXPLabel()
+        setHealthLabel()
+        setArmorLabel()
+        setCurrencyLabel()
+        
+    }
+    
+    func setXPLabel() {
+        
+        xpLabel.text = String(currentXP) + "/" + String(maxXP)
+    }
+    
+    func setCurrencyLabel()  {
+        
+        currencyLabel.text = String(currency)
+    }
+    
+    
+    func setArmorLabel() {
+        
+        armorLabel.text = String(currentArmor) + "/" + String(thePlayer.armor)
+        
+    }
+    
+    func setHealthLabel() {
+    
+        healthLabel.text = String(currentHealth) + "/" + String(thePlayer.health)
+    
+    }
+    
+    func retrieveXPData() {
+        
+        if (xpArray.count == 0) {
+            return
+        }
+        
+        let xpDict:[String:Any] = xpArray[xpLevel]
+        
+        for (key,value) in xpDict {
+            
+            switch key {
+            case "Name":
+                if (value is String) {
+                    xpLevelLabel.text = value as? String
+                }
+            case "Max":
+                if(value is Int) {
+                    maxXP = value as! Int
+                }
+            default:
+                continue
+            }
+            
+        }
+        
+    }
 
     override func update(_ currentTime: TimeInterval) {
         

@@ -42,9 +42,8 @@ class Player : SKSpriteNode {
     
     var immunity:TimeInterval = 1
     var armor:Int = 20
-    var currentArmor:Int = 20
     var health:Int = 20
-    var currentHealth:Int = 20
+
     var currentProjectile:String = ""
     
     func setUpWithDict( theDict: [String:Any]) {
@@ -103,7 +102,7 @@ class Player : SKSpriteNode {
                 if (value is Int) {
                     
                     armor = value as! Int
-                    currentArmor = armor
+                    
                 }
             case "Immunity":
                 if (value is CGFloat) {
@@ -115,7 +114,6 @@ class Player : SKSpriteNode {
                 if (value is Int) {
                     
                     health = value as! Int
-                    currentHealth = health
                     
                 }
                 

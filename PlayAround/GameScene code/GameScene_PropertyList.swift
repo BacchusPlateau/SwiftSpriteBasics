@@ -33,6 +33,14 @@ extension GameScene {
             }
         }
         
+        if (dict.object(forKey: "XP") != nil) {
+            
+            if let xpData:[[String:Any]] = dict.object(forKey: "XP") as? [[String:Any]] {
+                
+                xpArray = xpData
+            }
+        }
+        
         if(dict.object(forKey: "Levels") != nil) {
             
             if let levelDict:[String : Any] = dict.object(forKey: "Levels") as? [String: Any]

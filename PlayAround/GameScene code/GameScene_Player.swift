@@ -65,6 +65,8 @@ extension GameScene {
         
         thePlayer.run(seq, withKey: "Attack")
         
+        restoreAndFadeInAttackButtons()
+        
     }
     
     func rangedAttack(withDict:[String:Any]) {
@@ -154,6 +156,8 @@ extension GameScene {
                     
                     self.runIdleAnimation()
                 }
+                
+                self.restoreAndFadeInAttackButtons()
             }
             
             let seq:SKAction = SKAction.sequence([attackAnimation, finish])
@@ -173,6 +177,8 @@ extension GameScene {
             
         }
         */
+        
+        
     }
     
     func touchDown(atPoint pos : CGPoint) {
@@ -347,6 +353,20 @@ extension GameScene {
         }
         
         return pressed
+    }
+    
+    func restoreAndFadeInAttackButtons() {
+        
+        rangedAttackButton.removeAllActions()
+        meleeAttackButton.removeAllActions()
+        
+     //   rangedAttackButton.alpha = 1
+     //   meleeAttackButton.alpha = 1
+        
+        let fadeIn:SKAction = SKAction.fadeIn(withDuration: 5)
+        rangedAttackButton.run(fadeIn)
+        meleeAttackButton.run(fadeIn)
+        
     }
     
     func highlightAndFadeAttackButtons() {
