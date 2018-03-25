@@ -336,7 +336,13 @@ extension GameScene {
                     
                     if(key == name) {
                         
+                        defaults.set(name, forKey: "PlayerClass")
                         thePlayer.setUpWithDict(theDict: value as! [String:Any])
+                        playerFacing = .front
+                        runIdleAnimation()  
+                        setClassLabel()
+                        break
+                        
                     }
                 }
             }

@@ -20,7 +20,7 @@ enum BodyType:UInt32 {
 
 enum Facing:Int {
     
-    case front, back, left, right
+    case front, back, left, right, none
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -61,6 +61,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var currentOffset:CGPoint = CGPoint.zero
     
     var playerFacing:Facing = .front
+    var playerFacingWhenUnlocking:Facing = .none
+    var thingBeingUnlocked:String = ""
     var playerLastLocation:CGPoint = CGPoint.zero
     
     var walkTime:TimeInterval = 0
@@ -264,94 +266,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func populateStats() {
-        
-        if (defaults.integer(forKey: "CurrentHealth") != 0) {
-            currentHealth = defaults.integer(forKey: "CurrentHealth")
-        } else {
-            currentHealth = thePlayer.health
-            defaults.set(currentHealth, forKey: "CurrentHealth")
-        }
-        
-        if (defaults.integer(forKey: "CurrentArmor") != 0) {
-            currentHealth = defaults.integer(forKey: "CurrentArmor")
-        } else {
-            currentArmor = thePlayer.armor
-        }
-        if (defaults.integer(forKey: "Currency") != 0) {
-            currency = defaults.integer(forKey: "Currency")
-        } else {
-            currency = 0
-        }
-        if (defaults.integer(forKey: "XPLevel") != 0) {
-            xpLevel = defaults.integer(forKey: "XPLevel")
-        } else {
-            xpLevel = 0
-        }
-        if (defaults.integer(forKey: "CurrentXP") != 0) {
-            currentXP = defaults.integer(forKey: "CurrentXP")
-        } else {
-            currentXP = 0
-        }
-        
-        retrieveXPData()
-        
-        setXPLabel()
-        setHealthLabel()
-        setArmorLabel()
-        setCurrencyLabel()
-        
-    }
     
-    func setXPLabel() {
-        
-        xpLabel.text = String(currentXP) + "/" + String(maxXP)
-    }
-    
-    func setCurrencyLabel()  {
-        
-        currencyLabel.text = String(currency)
-    }
-    
-    
-    func setArmorLabel() {
-        
-        armorLabel.text = String(currentArmor) + "/" + String(thePlayer.armor)
-        
-    }
-    
-    func setHealthLabel() {
-    
-        healthLabel.text = String(currentHealth) + "/" + String(thePlayer.health)
-    
-    }
-    
-    func retrieveXPData() {
-        
-        if (xpArray.count == 0) {
-            return
-        }
-        
-        let xpDict:[String:Any] = xpArray[xpLevel]
-        
-        for (key,value) in xpDict {
-            
-            switch key {
-            case "Name":
-                if (value is String) {
-                    xpLevelLabel.text = value as? String
-                }
-            case "Max":
-                if(value is Int) {
-                    maxXP = value as! Int
-                }
-            default:
-                continue
-            }
-            
-        }
-        
-    }
 
     override func update(_ currentTime: TimeInterval) {
         

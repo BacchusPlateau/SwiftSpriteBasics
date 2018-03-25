@@ -175,7 +175,7 @@ class WorldItem : SKSpriteNode {
             }
         }
         
-        if(!isOpen && removeText) {
+        if(removeText) {
             
             if(defaults.bool(forKey: self.name! + "RemainOpen")) {
                 

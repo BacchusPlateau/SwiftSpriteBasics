@@ -14,9 +14,9 @@
 			<key>Rewards</key>
 			<dict/>
 			<key>Name</key>
-			<string>Level 1</string>
+			<string>Level 2</string>
 			<key>Max</key>
-			<integer>200</integer>
+			<integer>400</integer>
 		</dict>
 	</array>
 	<key>Projectiles</key>
@@ -59,6 +59,99 @@
 	<key>Class</key>
 	<dict>
 		<key>Starting</key>
+		<dict>
+			<key>Animation</key>
+			<dict>
+				<key>Front</key>
+				<dict>
+					<key>Walk</key>
+					<string>WalkForward</string>
+					<key>Melee</key>
+					<string>FrontAttack</string>
+					<key>Ranged</key>
+					<string>FrontAttack</string>
+					<key>Hurt</key>
+					<string></string>
+					<key>Idle</key>
+					<string>IdleFront</string>
+				</dict>
+				<key>Right</key>
+				<dict>
+					<key>Walk</key>
+					<string>WalkRight</string>
+					<key>Melee</key>
+					<string>RightAttack</string>
+					<key>Ranged</key>
+					<string>RightAttack</string>
+					<key>Hurt</key>
+					<string></string>
+					<key>Idle</key>
+					<string>IdleRight</string>
+				</dict>
+				<key>Left</key>
+				<dict>
+					<key>Walk</key>
+					<string>WalkLeft</string>
+					<key>Melee</key>
+					<string>LeftAttack</string>
+					<key>Ranged</key>
+					<string>LeftAttack</string>
+					<key>Hurt</key>
+					<string></string>
+					<key>Idle</key>
+					<string>IdleLeft</string>
+				</dict>
+				<key>Back</key>
+				<dict>
+					<key>Walk</key>
+					<string>WalkBackward</string>
+					<key>Melee</key>
+					<string>BackAttack</string>
+					<key>Ranged</key>
+					<string>BackAttack</string>
+					<key>Hurt</key>
+					<string></string>
+					<key>Idle</key>
+					<string>IdleBack</string>
+				</dict>
+			</dict>
+			<key>Sounds</key>
+			<dict/>
+			<key>Melee</key>
+			<dict>
+				<key>Damage</key>
+				<string>0</string>
+				<key>Size</key>
+				<string>{100,100}</string>
+				<key>ScaleTo</key>
+				<integer>3</integer>
+				<key>Animation</key>
+				<string>Attacking</string>
+				<key>TimeBetweenUse</key>
+				<integer>0</integer>
+			</dict>
+			<key>Ranged</key>
+			<dict>
+				<key>Projectile</key>
+				<string>Sword</string>
+				<key>TimeBetweenUse</key>
+				<integer>0</integer>
+			</dict>
+			<key>Stats</key>
+			<dict>
+				<key>PathSpeed</key>
+				<real>0.5</real>
+				<key>Speed</key>
+				<integer>2</integer>
+				<key>Health</key>
+				<integer>20</integer>
+				<key>Armor</key>
+				<integer>20</integer>
+				<key>Immunity</key>
+				<integer>1</integer>
+			</dict>
+		</dict>
+		<key>Swordsman</key>
 		<dict>
 			<key>Animation</key>
 			<dict>
@@ -325,6 +418,12 @@
 					</dict>
 					<key>Rewards</key>
 					<dict>
+						<key>Currency</key>
+						<integer>12</integer>
+						<key>XP</key>
+						<integer>201</integer>
+						<key>Class</key>
+						<string>Swordsman</string>
 						<key>CastleKey</key>
 						<integer>1</integer>
 					</dict>

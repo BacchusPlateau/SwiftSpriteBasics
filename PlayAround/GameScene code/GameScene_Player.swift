@@ -42,7 +42,7 @@ extension GameScene {
         var animationName : String = ""
         
         switch playerFacing {
-            case .front :
+            case .front,.none :
                 animationName = thePlayer.frontMelee
             case .back :
                 animationName = thePlayer.backMelee
@@ -100,7 +100,7 @@ extension GameScene {
         var animationName:String = ""
         
         switch playerFacing {
-        case .front:
+        case .front,.none:
             moveAction = SKAction.moveBy(x: 0, y: -theDistance, duration: newProjectile.travelTime)
             animationName = thePlayer.frontRanged
             newProjectile.position = CGPoint(x: newProjectile.position.x, y: newProjectile.position.y - newProjectile.offset)
@@ -560,7 +560,7 @@ extension GameScene {
             let walkSpeed = thePlayer.walkSpeed
             
             switch playerFacing {
-            case .front:
+            case .front,.none:
                 thePlayer.position = CGPoint(x:thePlayer.position.x + diagonalAmount, y:thePlayer.position.y - walkSpeed)
             case .back:
                 thePlayer.position = CGPoint(x:thePlayer.position.x + diagonalAmount, y:thePlayer.position.y + walkSpeed)
@@ -699,6 +699,24 @@ extension GameScene {
             }
             
         }
+        
+        if (thingBeingUnlocked != "") {
+            
+            if (playerFacingWhenUnlocking != playerFacing) {
+                //should refactor this to call removeTimer() in the _Physics file
+                
+                if (self.childNode(withName: thingBeingUnlocked + "Timer") == nil) {
+                    
+                    self.childNode(withName: thingBeingUnlocked + "Timer")?.removeAllActions()
+                    self.childNode(withName: thingBeingUnlocked + "Timer")?.removeFromParent()
+                    
+                }
+                
+                thingBeingUnlocked = ""
+                fadeOutInfoText(waitTime: 0.5)
+            }
+            
+        }
 
     }
     
@@ -711,7 +729,7 @@ extension GameScene {
             theAnimation = thePlayer.rightWalk
         case .left:
             theAnimation = thePlayer.leftWalk
-        case .front:
+        case .front,.none:
             theAnimation = thePlayer.frontWalk
         case .back:
             theAnimation = thePlayer.backWalk
@@ -730,7 +748,7 @@ extension GameScene {
             theAnimation = thePlayer.rightWalk
         case .left:
             theAnimation = thePlayer.leftWalk
-        case .front:
+        case .front,.none:
             theAnimation = thePlayer.frontWalk
         case .back:
             theAnimation = thePlayer.backWalk
@@ -772,7 +790,7 @@ extension GameScene {
         
         switch playerFacing {
             
-            case .front:
+            case .front,.none:
                 animationName = thePlayer.frontIdle
             case .back:
                 animationName = thePlayer.backIdle

@@ -20,6 +20,8 @@ extension GameScene {
     
     func showTimer(theAnimation:String, time:TimeInterval, theItem:WorldItem) {
         
+        thingBeingUnlocked = theItem.name! + "Timer"
+        
         if (self.childNode(withName: theItem.name! + "Timer") == nil) {
             
             let timerNode:SKSpriteNode = SKSpriteNode(color: SKColor.clear, size: CGSize(width: 150, height:20))

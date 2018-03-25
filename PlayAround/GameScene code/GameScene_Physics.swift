@@ -100,12 +100,32 @@ extension GameScene {
         
         fadeOutInfoText(waitTime: theItem.infoTime)
         
+        if (walkWithPath) {
+            
+            removeTimer(theItem: theItem)
+            
+        } else if (playerFacing == playerFacingWhenUnlocking) {
+            
+            // be Fonzie - chill
+        } else {
+            
+            // must have changed course while unlocking, so remove timer
+            removeTimer(theItem: theItem)
+            
+        }
+   
+    }
+    
+    func removeTimer(theItem:WorldItem) {
+        
         if (self.childNode(withName: theItem.name! + "Timer") == nil) {
             
-            self.childNode(withName: theItem.name! + "Timer")?.removeAllActions()   
+            self.childNode(withName: theItem.name! + "Timer")?.removeAllActions()
             self.childNode(withName: theItem.name! + "Timer")?.removeFromParent()
             
         }
+        
+        thingBeingUnlocked = ""
         
     }
     
@@ -175,6 +195,7 @@ extension GameScene {
             if (theItem.timeToOpen > 0) {
                 thePlayer.removeAllActions()
                 showTimer(theAnimation: theItem.timerName, time:theItem.timeToOpen, theItem:theItem)
+                playerFacingWhenUnlocking = playerFacing
             }
             
             //alt portal code
