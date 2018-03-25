@@ -17,8 +17,18 @@ extension GameScene {
             
             switch key {
             case "Health":
-                continue
-            case "Weapon":
+                
+                if (value is Int) {
+                    addToHealth(amount: value as! Int)
+                }
+                
+            case "Armor":
+                
+                if (value is Int) {
+                    addToArmor(amount: value as! Int)
+                }
+                
+            case "Projectile":
                 continue
             case "XP":
                 
@@ -48,6 +58,26 @@ extension GameScene {
             }
             
         }
+        
+    }
+    
+    func addToHealth(amount:Int) {
+        
+        currentHealth += amount
+        if (currentHealth > thePlayer.health) {
+            currentHealth = thePlayer.health
+        }
+        setHealthLabel()
+        
+    }
+    
+    func addToArmor(amount:Int) {
+        
+        currentArmor += amount
+        if (currentArmor > thePlayer.armor) {
+            currentArmor = thePlayer.armor
+        }
+        setArmorLabel()
         
     }
     

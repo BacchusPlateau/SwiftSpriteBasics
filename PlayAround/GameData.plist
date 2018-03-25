@@ -12,11 +12,41 @@
 		</dict>
 		<dict>
 			<key>Rewards</key>
-			<dict/>
+			<dict>
+				<key>Health</key>
+				<string></string>
+				<key>Projectile</key>
+				<string></string>
+				<key>Inventory</key>
+				<string></string>
+				<key>Currency</key>
+				<string></string>
+				<key>Class</key>
+				<string></string>
+			</dict>
 			<key>Name</key>
 			<string>Level 2</string>
 			<key>Max</key>
 			<integer>400</integer>
+		</dict>
+		<dict>
+			<key>Rewards</key>
+			<dict>
+				<key>Health</key>
+				<string></string>
+				<key>Projectile</key>
+				<string></string>
+				<key>Inventory</key>
+				<string></string>
+				<key>Currency</key>
+				<string></string>
+				<key>Class</key>
+				<string></string>
+			</dict>
+			<key>Name</key>
+			<string>Level 3</string>
+			<key>Max</key>
+			<integer>600</integer>
 		</dict>
 	</array>
 	<key>Projectiles</key>
@@ -47,6 +77,8 @@
 	</dict>
 	<key>Settings</key>
 	<dict>
+		<key>PlayerStartingClass</key>
+		<string>Peasant</string>
 		<key>WalkDiagonal</key>
 		<true/>
 		<key>PathAlpha</key>
@@ -58,7 +90,7 @@
 	</dict>
 	<key>Class</key>
 	<dict>
-		<key>Starting</key>
+		<key>Peasant</key>
 		<dict>
 			<key>Animation</key>
 			<dict>
@@ -142,7 +174,7 @@
 				<key>PathSpeed</key>
 				<real>0.5</real>
 				<key>Speed</key>
-				<integer>2</integer>
+				<integer>5</integer>
 				<key>Health</key>
 				<integer>20</integer>
 				<key>Armor</key>
@@ -259,7 +291,7 @@
 				<integer>1</integer>
 				<key>Health</key>
 				<integer>0</integer>
-				<key>Weapon</key>
+				<key>Projectile</key>
 				<string></string>
 				<key>Inventory</key>
 				<string></string>
@@ -278,7 +310,7 @@
 					<string></string>
 					<key>Inventory</key>
 					<string></string>
-					<key>Projectile / Weapon</key>
+					<key>Projectile</key>
 					<string></string>
 					<key>Health</key>
 					<string></string>
@@ -461,7 +493,7 @@
 					<dict>
 						<key>Health</key>
 						<string></string>
-						<key>Weapon</key>
+						<key>Projectile</key>
 						<string></string>
 						<key>Inventory</key>
 						<string></string>
@@ -544,7 +576,7 @@
 					<string></string>
 					<key>Inventory</key>
 					<string></string>
-					<key>Projectile / Weapon</key>
+					<key>Projectile</key>
 					<string></string>
 					<key>Health</key>
 					<string></string>
@@ -613,7 +645,7 @@
 					<dict>
 						<key>Health</key>
 						<string></string>
-						<key>Weapon</key>
+						<key>Projectile</key>
 						<string></string>
 						<key>Inventory</key>
 						<string></string>
@@ -674,6 +706,26 @@
 	</dict>
 	<key>Items</key>
 	<dict>
+		<key>Coin</key>
+		<dict>
+			<key>Rewards</key>
+			<dict>
+				<key>Currency</key>
+				<integer>12</integer>
+				<key>XP</key>
+				<integer>2</integer>
+			</dict>
+			<key>Appearance</key>
+			<dict>
+				<key>Animation</key>
+				<string>Coin</string>
+			</dict>
+			<key>AfterContact</key>
+			<dict>
+				<key>DeleteFromLevel</key>
+				<true/>
+			</dict>
+		</dict>
 		<key>TheCastle2</key>
 		<dict>
 			<key>Requires</key>
@@ -691,7 +743,7 @@
 			<dict>
 				<key>Health</key>
 				<string></string>
-				<key>Weapon</key>
+				<key>Projectile</key>
 				<string></string>
 				<key>Inventory</key>
 				<string></string>

@@ -107,6 +107,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var xpLevel:Int = 0
     var xpArray = [[String:Any]]()
     
+    var playerStartingClass:String = "Peasant"
+    
+    var ammoLabel:SKLabelNode = SKLabelNode()
+    var projectileIcon:SKSpriteNode = SKSpriteNode()
+    var projectileBacking:SKSpriteNode = SKSpriteNode()
+    
     override func didMove(to view: SKView) {
         
         parsePropertyList()
@@ -155,6 +161,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if(theCamera.childNode(withName: "VillagerIcon") is SKSpriteNode) {
                     self.speechIcon = theCamera.childNode(withName: "VillagerIcon") as! SKSpriteNode
                     self.speechIcon.isHidden = true
+                }
+                if(theCamera.childNode(withName: "AmmoLabel") is SKLabelNode) {
+                    self.ammoLabel = theCamera.childNode(withName: "AmmoLabel") as! SKLabelNode
+                    self.ammoLabel.text = ""
+                }
+                if(theCamera.childNode(withName: "ProjectileIcon") is SKSpriteNode) {
+                    self.projectileIcon = theCamera.childNode(withName: "ProjectileIcon") as! SKSpriteNode
+                }
+                if(theCamera.childNode(withName: "ProjectileBacking") is SKSpriteNode) {
+                    self.projectileBacking = theCamera.childNode(withName: "ProjectileBacking") as! SKSpriteNode
                 }
                 if(theCamera.childNode(withName: "RangedButton") is SKSpriteNode) {
                     self.rangedAttackButton = theCamera.childNode(withName: "RangedButton") as! SKSpriteNode
@@ -222,6 +238,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.view!.addGestureRecognizer(swipeUpRec)
         */
         
+        
+        
+        for node in self.children {
+         
+            if let someItem:WorldItem = node as? WorldItem {
+                setUpItem(theItem:someItem)
+            }
+        }
+        
+        setUpPlayer()
+        
+        clearStuff(theArray:clearArray)
+        
+        sortRewards(rewards:rewardDict)
+        
+        populateStats()
+        
+    }
+    
+    func setUpPlayer() {
+        
         if let somePlayer:Player = self.childNode(withName: "Player") as? Player  {
             thePlayer = somePlayer
             thePlayer.physicsBody?.isDynamic = true
@@ -233,8 +270,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if(defaults.string(forKey: "PlayerClass") == nil) {
                 
-                defaults.set("Starting", forKey:"PlayerClass")
-                parsePropertyListForPlayerClass(name:"Starting")
+                defaults.set(playerStartingClass, forKey:"PlayerClass")
+                parsePropertyListForPlayerClass(name: playerStartingClass)
                 
             } else {
                 
@@ -250,20 +287,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
-        
-        for node in self.children {
-         
-            if let someItem:WorldItem = node as? WorldItem {
-                setUpItem(theItem:someItem)
-            }
-        }
-        
-        clearStuff(theArray:clearArray)
-        
-        sortRewards(rewards:rewardDict)
-        
-        populateStats()
-        
     }
     
     

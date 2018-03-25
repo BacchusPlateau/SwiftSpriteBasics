@@ -109,6 +109,10 @@ extension GameScene {
                 if(value is Bool) {
                     walkDiagonal = value as! Bool
                 }
+            case "PlayerStartngClass":
+                if(value is String) {
+                    playerStartingClass = value as! String
+                }
             default:
                 continue
             }

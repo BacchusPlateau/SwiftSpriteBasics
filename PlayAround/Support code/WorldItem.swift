@@ -285,6 +285,14 @@ class WorldItem : SKSpriteNode {
                  
                 }
                 
+            } else if (key == "Animation") {
+                
+                if (value is String) {
+                    
+                    self.run(SKAction(named: value as! String)!)
+                    
+                }
+                
             }
         }
         
