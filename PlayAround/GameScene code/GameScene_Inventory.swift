@@ -29,7 +29,13 @@ extension GameScene {
                 }
                 
             case "Projectile":
-                continue
+                
+                if (value is String) {
+                    print("Got a new projectile!")
+                    thePlayer.currentProjectile = value as! String
+                    switchWeaponsIfNeeded(includingAddAmmo:true)
+                }
+                
             case "XP":
                 
                 if (value is Int) {
@@ -105,6 +111,24 @@ extension GameScene {
         
     }
     
+    func addToAmmo(amount:Int) {
+        
+        if (defaults.integer(forKey: thePlayer.currentProjectile + "Ammo") != 0) {
+            
+            print("Already had some ammo, so add to it")
+            currentProjectileAmmo = defaults.integer(forKey: thePlayer.currentProjectile + "Ammo")
+            currentProjectileAmmo += amount
+        } else {
+            
+            print("had zero ammo, so adding whatever was passed in")
+            currentProjectileAmmo = amount
+            
+        }
+        
+        defaults.set(currentProjectileAmmo, forKey: thePlayer.currentProjectile + "Ammo")
+        setAmmoLabel()
+        
+    }
     
     func addToInventory (newInventory:String, amount:Int) {
         
@@ -220,6 +244,14 @@ extension GameScene {
         currencyLabel.text = String(currency)
     }
     
+    func setAmmoLabel() {
+        
+        if (currentProjectileRequiresAmmo) {
+            ammoLabel.text = String(currentProjectileAmmo)
+        } else {
+            ammoLabel.text = "N/A"
+        }
+    }
     
     func setArmorLabel() {
         

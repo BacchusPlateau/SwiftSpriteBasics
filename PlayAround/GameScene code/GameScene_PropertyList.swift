@@ -241,7 +241,7 @@ extension GameScene {
     
     func setUpItem(theItem:WorldItem) {
         
-      //  print("setUpItem: \(theItem.name!)")
+        print("setUpItem: \(theItem.name!)")
         
         let path = Bundle.main.path(forResource:"GameData", ofType: "plist")
         let dict:NSDictionary = NSDictionary(contentsOfFile: path!)!
@@ -269,12 +269,12 @@ extension GameScene {
                                         
                                         for(key,value) in itemsData {
                                             
-                                     //       print("key in itemsData = \(key)")
+                                            print("key in itemsData = \(key)")
                                             
                                             if(key == theItem.name) {
                                                 
                                                 foundItemInLevel = true
-                                         //       print ("found \(key) to setup with propertylist data")
+                                                print ("found \(key) to setup with propertylist data")
                                                 useDictWithWorldItem(theDict: value as! [String:Any], theItem: theItem)
                                       
                                                 break

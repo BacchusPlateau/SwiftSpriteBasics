@@ -264,54 +264,75 @@ extension GameScene {
         
     }
     
+    func switchWeaponsIfNeeded(includingAddAmmo:Bool) {
+        
+        var foundAmmoEntry:Bool = false
+        
+        if(thePlayer.currentProjectile != "") {
+            
+            if (prevPlayerProjectileName != thePlayer.currentProjectile) {
+            
+                for (key, value) in projectilesDict {
+                    
+                    switch key {
+                        
+                    case thePlayer.currentProjectile:
+                       
+                        prevPlayerProjectileName = key
+                        prevPlayerProjectileDict = value as! [String : Any]
+                        
+                        for (k,v) in prevPlayerProjectileDict {
+                            
+                            switch k {
+                            case "Image":
+                                if (v is String) {
+                                    
+                                    prevPlayerProjectileImageName = v as! String
+                                    
+                                }
+                            case "Icon":
+                                if (v is String) {
+                                    
+                                    projectileIcon.texture = SKTexture(imageNamed:v as! String)
+                                    
+                                }
+                            case "Ammo":
+                                if (v is Int) {
+                                    
+                                    foundAmmoEntry = true
+                                    if (includingAddAmmo) {
+                                        
+                                        addToAmmo(amount: v as! Int)
+                                        
+                                    }
+                                }
+                            default:
+                                continue
+                            }
+                        }
+                        
+                    default:
+                        continue
+                    }
+
+                    currentProjectileRequiresAmmo = foundAmmoEntry
+                    setAmmoLabel()
+                    
+                    break
+                    
+                }
+                
+            }
+        }
+
+    }
+    
     func ranged() {
         
         if(!disableAttack) {
             
-            if(thePlayer.currentProjectile != "") {
-                
-                if(prevPlayerProjectileName == thePlayer.currentProjectile) {
-                    
-                    //create ranged attack
-                    print ("reusing existing projectile")
-                    rangedAttack(withDict: prevPlayerProjectileDict)
-                    
-                } else {
-                    
-                    for (key, value) in projectilesDict {
-                        
-                        switch key {
-                            
-                        case thePlayer.currentProjectile:
-                            print("found projectile data")
-                            prevPlayerProjectileName = key
-                            prevPlayerProjectileDict = value as! [String : Any]
-                            
-                            for (k,v) in prevPlayerProjectileDict {
-                                
-                                if (k == "Image") {
-                                    
-                                    if (v is String) {
-                                        
-                                        prevPlayerProjectileImageName = v as! String
-                                        
-                                    }
-                                    break
-                                }
-                            }
-                            
-                        default:
-                            continue
-                        }
-                        
-                        //create ranged attack
-                        rangedAttack(withDict: prevPlayerProjectileDict)
-                        break
-                        
-                    }
-                    
-                }
-            }
+            rangedAttack(withDict: prevPlayerProjectileDict)
+            
         }
     }
     

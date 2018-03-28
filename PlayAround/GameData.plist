@@ -51,6 +51,33 @@
 	</array>
 	<key>Projectiles</key>
 	<dict>
+		<key>Axe</key>
+		<dict>
+			<key>Icon</key>
+			<string>AxeIcon</string>
+			<key>Ammo</key>
+			<integer>5</integer>
+			<key>Offset</key>
+			<integer>30</integer>
+			<key>ZPosition</key>
+			<integer>200</integer>
+			<key>Image</key>
+			<string>Sword</string>
+			<key>Animation</key>
+			<string></string>
+			<key>ContactAnimation</key>
+			<string></string>
+			<key>TravelTime</key>
+			<integer>1</integer>
+			<key>Distance</key>
+			<integer>300</integer>
+			<key>RotationTime</key>
+			<real>0.5</real>
+			<key>Damage</key>
+			<integer>1</integer>
+			<key>Remove</key>
+			<true/>
+		</dict>
 		<key>Sword</key>
 		<dict>
 			<key>Offset</key>
@@ -395,6 +422,19 @@
 			</dict>
 			<key>Items</key>
 			<dict>
+				<key>Axe</key>
+				<dict>
+					<key>Rewards</key>
+					<dict>
+						<key>Projectile</key>
+						<string>Axe</string>
+					</dict>
+					<key>AfterContact</key>
+					<dict>
+						<key>DeleteFromLevel</key>
+						<true/>
+					</dict>
+				</dict>
 				<key>Chest</key>
 				<dict>
 					<key>RememberTo</key>

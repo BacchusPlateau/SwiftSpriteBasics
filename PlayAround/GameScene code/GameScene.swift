@@ -113,6 +113,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var projectileIcon:SKSpriteNode = SKSpriteNode()
     var projectileBacking:SKSpriteNode = SKSpriteNode()
     
+    var currentProjectileRequiresAmmo:Bool = false
+    var currentProjectileAmmo:Int = 0
+    
     override func didMove(to view: SKView) {
         
         parsePropertyList()
