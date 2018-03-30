@@ -48,6 +48,12 @@ extension GameScene {
                     addCurrency(amount: value as! Int)
                 }
                 
+            case "Ammo":
+                
+                if (value is Int) {
+                    addToAmmo(amount: value as! Int)
+                }
+                
             case "Class":
                 
                 if (value is String) {
@@ -56,6 +62,7 @@ extension GameScene {
                 
                 
             default:
+                // MARK  is this correct?
                 if (value is Int) {
                     
                     addToInventory(newInventory: key, amount: value as! Int)
@@ -109,6 +116,32 @@ extension GameScene {
         defaults.set(currentXP, forKey: "CurrentXP")
         setXPLabel()
         
+    }
+    
+    func subtractAmmo(amount: Int) {
+        
+        if (currentProjectileAmmo > 0)  {
+            
+            currentProjectileAmmo -= amount
+            defaults.set(currentProjectileAmmo, forKey: thePlayer.currentProjectile + "Ammo")
+            setAmmoLabel()
+            
+            if (currentProjectileAmmo <= 0) {
+                
+                currentProjectileAmmo = 0
+                defaults.set(0, forKey: thePlayer.currentProjectile + "Ammo")
+             
+                if (thePlayer.defaultProjectile != "" && thePlayer.defaultProjectile != thePlayer.currentProjectile) {
+                    
+                    defaults.set(thePlayer.defaultProjectile, forKey:"CurrentProjectile")
+                    thePlayer.currentProjectile = thePlayer.defaultProjectile
+                    switchWeaponsIfNeeded(includingAddAmmo: false)
+                    currentProjectileAmmo = defaults.integer(forKey: thePlayer.currentProjectile + "Ammo")
+                    setAmmoLabel()
+                    
+                }
+            }
+        }
     }
     
     func addToAmmo(amount:Int) {

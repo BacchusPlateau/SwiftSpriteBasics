@@ -45,6 +45,7 @@ class Player : SKSpriteNode {
     var health:Int = 20
 
     var currentProjectile:String = ""
+    var defaultProjectile:String = ""
     
     func setUpWithDict( theDict: [String:Any]) {
         
@@ -232,6 +233,7 @@ class Player : SKSpriteNode {
                 if (value is String) {
                     
                     currentProjectile = value as! String
+                    defaultProjectile = currentProjectile
                 }
             default:
                 continue

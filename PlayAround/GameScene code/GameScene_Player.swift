@@ -129,6 +129,7 @@ extension GameScene {
         let seq:SKAction = SKAction.sequence([moveAction, finish])
         newProjectile.run(seq)
         
+        //make it spin!
         if (newProjectile.rotationTime > 0) {
             
             let randomAddOn:UInt32 = arc4random_uniform(10)
@@ -161,7 +162,14 @@ extension GameScene {
             }
             
             let seq:SKAction = SKAction.sequence([attackAnimation, finish])
-            thePlayer.run(seq)
+            thePlayer.run(seq, withKey: "Attack")
+        }
+        
+        
+        if (currentProjectileRequiresAmmo) {
+            
+            subtractAmmo(amount: 1)
+            
         }
         
         //Not needed when using the button attack interface
@@ -280,6 +288,7 @@ extension GameScene {
                        
                         prevPlayerProjectileName = key
                         prevPlayerProjectileDict = value as! [String : Any]
+                        defaults.set(thePlayer.currentProjectile, forKey: "CurrentProjectile")
                         
                         for (k,v) in prevPlayerProjectileDict {
                             
@@ -331,7 +340,15 @@ extension GameScene {
         
         if(!disableAttack) {
             
-            rangedAttack(withDict: prevPlayerProjectileDict)
+            if (currentProjectileRequiresAmmo && currentProjectileAmmo > 0) {
+                
+                rangedAttack(withDict: prevPlayerProjectileDict)
+                
+            } else if (!currentProjectileRequiresAmmo) {
+                
+                rangedAttack(withDict: prevPlayerProjectileDict)
+                
+            }
             
         }
     }

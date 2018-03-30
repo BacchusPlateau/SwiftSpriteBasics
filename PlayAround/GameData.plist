@@ -62,7 +62,7 @@
 			<key>ZPosition</key>
 			<integer>200</integer>
 			<key>Image</key>
-			<string>Sword</string>
+			<string>Axe</string>
 			<key>Animation</key>
 			<string></string>
 			<key>ContactAnimation</key>
@@ -82,10 +82,14 @@
 		<dict>
 			<key>Offset</key>
 			<integer>30</integer>
+			<key>Ammo</key>
+			<integer>4</integer>
 			<key>ZPosition</key>
 			<integer>200</integer>
 			<key>Image</key>
 			<string>Sword</string>
+			<key>Icon</key>
+			<string>SwordIcon</string>
 			<key>Animation</key>
 			<string></string>
 			<key>ContactAnimation</key>

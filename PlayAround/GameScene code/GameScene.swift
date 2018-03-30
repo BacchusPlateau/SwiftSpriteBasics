@@ -281,6 +281,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 parsePropertyListForPlayerClass(name: defaults.string(forKey: "PlayerClass")!)
             }
             
+            if (defaults.string(forKey: "CurrentProjectile") != nil) {
+                
+                thePlayer.currentProjectile = defaults.string(forKey: "CurrentProjectile")!
+            }
+            
+            if (defaults.integer(forKey: thePlayer.currentProjectile + "Ammo") != 0) {
+                
+                switchWeaponsIfNeeded(includingAddAmmo: false)
+                currentProjectileAmmo = defaults.integer(forKey: thePlayer.currentProjectile + "Ammo")
+                setAmmoLabel()
+                
+            } else {
+                
+                switchWeaponsIfNeeded(includingAddAmmo: true)
+                
+            }
+            
             if (entryNode != "") {
                 
                 if(self.childNode(withName: entryNode) != nil) {
