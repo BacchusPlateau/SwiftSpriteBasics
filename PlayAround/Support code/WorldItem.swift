@@ -231,17 +231,7 @@ class WorldItem : SKSpriteNode {
                 self.removeFromParent()
             }
             
-            if(deductOnEntry) {
-             
-                if(defaults.integer(forKey: requiredThing) != 0) {
-                    deductOnEntry = false
-                    let currentAmount:Int = defaults.integer(forKey: requiredThing)
-                    let newAmount:Int = currentAmount - requiredAmount
-                    defaults.set(newAmount, forKey: requiredThing)
-                    
-                    
-                }
-            } // deduct on entry
+            
             
             if(neverShowAgain) {
                 

@@ -63,10 +63,11 @@ extension GameScene {
                 
             default:
                 // MARK  is this correct?
+                print ("sortRewards: key = " + key)
                 if (value is Int) {
                     
                     addToInventory(newInventory: key, amount: value as! Int)
-                    
+                    checkForInventoryIcon(name: key, amount: defaults.integer(forKey: key))
                 }
             }
             
@@ -184,6 +185,120 @@ extension GameScene {
             
         }
         
+    }
+    
+    func showExistingInventory() {
+        
+        
+        let path = Bundle.main.path(forResource:"GameData", ofType: "plist")
+        let dict:NSDictionary = NSDictionary(contentsOfFile: path!)!
+        if (dict.object(forKey: "Inventory") != nil) {
+            if let inventoryDict:[String:Any] = dict.object(forKey: "Inventory") as? [String:Any] {
+                
+                for (key,_) in inventoryDict {
+                    
+                    if (defaults.integer(forKey: key) > 0) {
+                        
+                        checkForInventoryIcon(name: key, amount: defaults.integer(forKey: key))
+                    }
+                }
+  
+            }
+        }
+    }
+    
+    func checkForInventoryIcon(name: String, amount: Int) {
+        
+        //check to see if there is already an icon showing for this inventory.  if yes update it
+        if (self.camera?.childNode(withName: name + "Icon") != nil) {
+            
+            if let existingIcon:Inventory = self.camera?.childNode(withName: name + "Icon") as? Inventory {
+                //update existing one
+                existingIcon.theCount = amount
+                existingIcon.updateLabel()
+            }
+        } else {
+            
+            //if not now, we look in the property list for info on the inventory to create a new one
+            
+        }
+        
+    }
+    
+    func checkForInventoryDataInPropertyList(name:String, amount:Int) {
+        
+        let path = Bundle.main.path(forResource:"GameData", ofType: "plist")
+        let dict:NSDictionary = NSDictionary(contentsOfFile: path!)!
+        if (dict.object(forKey: "Inventory") != nil) {
+            if let inventoryDict:[String:Any] = dict.object(forKey: "Inventory") as? [String:Any] {
+                
+                for (key,value) in inventoryDict {
+                    
+                    if (key == name) {
+                        
+                        if (value is [String:Any]) {
+                            
+                            createInventoryIcon(name: name, amount: amount, theDict: value as! [String:Any])
+                        }
+                        break
+                    }
+                }
+                
+            }
+            
+        }
+        
+        
+    }
+    
+    func createInventoryIcon( name: String, amount: Int, theDict: [String:Any])  {
+        
+        var imageName:String = ""
+        
+        for (key,value) in theDict {
+            
+            if (key == "Icon") {
+                
+                if (value is String) {
+                    
+                    imageName = value as! String
+                }
+                
+                break
+            }
+        }
+        
+        if (imageName != "") {
+            
+            let newInventory:Inventory = Inventory(imageNamed: imageName)
+            newInventory.theCount = amount
+            newInventory.name = name + "Icon"
+            newInventory.setUpWithDict(theDict: theDict)
+            self.camera?.addChild(newInventory)
+            let availableSlot:String = findAvailableSlotPlacement()
+            
+            if (self.camera?.childNode(withName: availableSlot) != nil)  {
+                
+                newInventory.position = (self.camera?.childNode(withName: availableSlot)?.position)!
+                newInventory.zPosition = (self.camera?.childNode(withName: availableSlot)?.zPosition)!
+            }
+            
+        }
+        
+    }
+    
+    func findAvailableSlotPlacement() -> String {
+        
+        var emptySpot:String = ""
+        if (availableInventorySlots.count > 0) {
+            
+            emptySpot = availableInventorySlots[0]
+            availableInventorySlots.remove(at: 0)
+        }
+        
+        print (emptySpot)
+        
+        return emptySpot
     }
     
     func checkForItemThatMightOpen( newInventory:String, amount:Int) {
@@ -325,5 +440,22 @@ extension GameScene {
         
     }
 
+    func removeInventoryIcon(name:String) {
+        
+        if (self.camera?.childNode(withName: name + "Icon") != nil)  {
+            
+            if let existingIcon:Inventory = self.camera?.childNode(withName: name + "Icon") as? Inventory {
+                
+                if (existingIcon.slotUsed != "") {
+                    
+                    availableInventorySlots.append(existingIcon.slotUsed)
+                }
+                
+                existingIcon.removeFromParent()
+            }
+            
+            
+        }
+    }
 
 }

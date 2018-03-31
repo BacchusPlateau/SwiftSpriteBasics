@@ -2,6 +2,27 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Inventory</key>
+	<dict>
+		<key>Diamond</key>
+		<dict>
+			<key>Icon</key>
+			<string>InventoryIconDiamond</string>
+			<key>ShowCount</key>
+			<true/>
+			<key>CountOffset</key>
+			<string>{15,-3}</string>
+		</dict>
+		<key>CastleKey</key>
+		<dict>
+			<key>Icon</key>
+			<string>InventoryIconKey</string>
+			<key>ShowCount</key>
+			<true/>
+			<key>CountOffset</key>
+			<string>{15,-3}</string>
+		</dict>
+	</dict>
 	<key>XP</key>
 	<array>
 		<dict>

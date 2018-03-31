@@ -116,6 +116,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var currentProjectileRequiresAmmo:Bool = false
     var currentProjectileAmmo:Int = 0
     
+    var availableInventorySlots = [String]()
+    
     override func didMove(to view: SKView) {
         
         parsePropertyList()
@@ -183,6 +185,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.meleeAttackButton = theCamera.childNode(withName: "MeleeButton") as! SKSpriteNode
                     self.hasMeleeButton = true
                 }
+                
+                for i in 1...30 {
+                    
+                    if (theCamera.childNode(withName: "Slot" + String(i)) is SKSpriteNode) {
+                        
+                        self.availableInventorySlots.append("Slot" + String(i))
+                        
+                    }
+                }
+                
+                print (self.availableInventorySlots)
                 
                 if(UIDevice.current.userInterfaceIdiom == .pad && !self.hasCustomPadScene) {
                     

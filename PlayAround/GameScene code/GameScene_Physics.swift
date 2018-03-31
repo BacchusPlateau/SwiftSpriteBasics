@@ -247,6 +247,26 @@ extension GameScene {
                 }
             }//item is portal
             
+            
+            if(theItem.deductOnEntry) {
+                
+                if(defaults.integer(forKey: theItem.requiredThing) != 0) {
+                    theItem.deductOnEntry = false
+                    let currentAmount:Int = defaults.integer(forKey: theItem.requiredThing)
+                    let newAmount:Int = currentAmount - theItem.requiredAmount
+                    defaults.set(newAmount, forKey: theItem.requiredThing)
+                    
+                    if (newAmount <= 0) {
+                        
+                        //none left
+                        removeInventoryIcon(name: theItem.requiredThing)
+                    } else {
+                        
+                        checkForInventoryIcon(name: theItem.requiredThing, amount: newAmount)
+                    }
+                }
+            } // deduct on entry
+            
             theItem.afterOpenContact()
             
         } //item is open
