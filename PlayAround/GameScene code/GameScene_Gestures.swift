@@ -65,16 +65,20 @@ extension GameScene {
     @objc func rotatedView(_ sender:UIRotationGestureRecognizer) {
         
         if(sender.state == .began) {
-            
+            print ("rotation began")
         }
         
         if(sender.state == .changed ) {
+            print ("rotation changed")
             
+            let rotateAmount = Measurement(value: Double(sender.rotation), unit: UnitAngle.radians).converted(to: .degrees).value
+            print (rotateAmount)
+            thePlayer.zRotation = -sender.rotation
         
         }
         
         if(sender.state == .ended) {
-      
+            print ("rotation ended")
         }
         
     }
