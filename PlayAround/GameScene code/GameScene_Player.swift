@@ -20,7 +20,7 @@ extension GameScene {
         
         thePlayer.run(group)
         
-        print (theAnimation)
+     //   print (theAnimation)
     }
 
     
@@ -71,7 +71,7 @@ extension GameScene {
     
     func rangedAttack(withDict:[String:Any]) {
         
-        print(withDict)
+    //    print(withDict)
         
         let newProjectile:Projectile = Projectile(imageNamed: prevPlayerProjectileImageName)
         newProjectile.position = thePlayer.position

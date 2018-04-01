@@ -29,7 +29,7 @@ extension GameScene {
             
             if let projDict:[String:Any] = dict.object(forKey: "Projectiles") as? [String:Any] {
                 projectilesDict = projDict
-                print("found projectiles dict and set it")
+   //             print("found projectiles dict and set it")
             }
         }
         

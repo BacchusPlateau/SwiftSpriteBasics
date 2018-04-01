@@ -447,6 +447,19 @@
 			</dict>
 			<key>Items</key>
 			<dict>
+				<key>Diamond</key>
+				<dict>
+					<key>AfterContact</key>
+					<dict>
+						<key>DeleteFromLevel</key>
+						<true/>
+					</dict>
+					<key>Rewards</key>
+					<dict>
+						<key>Diamond</key>
+						<integer>3</integer>
+					</dict>
+				</dict>
 				<key>Axe</key>
 				<dict>
 					<key>Rewards</key>

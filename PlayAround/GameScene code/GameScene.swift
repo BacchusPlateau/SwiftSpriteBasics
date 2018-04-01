@@ -120,7 +120,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         
-        parsePropertyList()
+        
         
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx:0, dy:0)
@@ -195,7 +195,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
                 
-                print (self.availableInventorySlots)
+                print ("Available inventory slots:")
+                print(self.availableInventorySlots)
                 
                 if(UIDevice.current.userInterfaceIdiom == .pad && !self.hasCustomPadScene) {
                     
@@ -263,6 +264,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
+        parsePropertyList()
+        
         setUpPlayer()
         
         clearStuff(theArray:clearArray)
@@ -270,6 +273,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         sortRewards(rewards:rewardDict)
         
         populateStats()
+        
+        showExistingInventory()
         
     }
     

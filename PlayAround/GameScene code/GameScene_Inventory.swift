@@ -31,7 +31,7 @@ extension GameScene {
             case "Projectile":
                 
                 if (value is String) {
-                    print("Got a new projectile!")
+             //       print("Got a new projectile!")
                     thePlayer.currentProjectile = value as! String
                     switchWeaponsIfNeeded(includingAddAmmo:true)
                 }
@@ -149,12 +149,12 @@ extension GameScene {
         
         if (defaults.integer(forKey: thePlayer.currentProjectile + "Ammo") != 0) {
             
-            print("Already had some ammo, so add to it")
+       //     print("Already had some ammo, so add to it")
             currentProjectileAmmo = defaults.integer(forKey: thePlayer.currentProjectile + "Ammo")
             currentProjectileAmmo += amount
         } else {
             
-            print("had zero ammo, so adding whatever was passed in")
+       //     print("had zero ammo, so adding whatever was passed in")
             currentProjectileAmmo = amount
             
         }
@@ -220,7 +220,7 @@ extension GameScene {
         } else {
             
             //if not now, we look in the property list for info on the inventory to create a new one
-            
+            checkForInventoryDataInPropertyList(name: name, amount: amount)
         }
         
     }
@@ -296,7 +296,7 @@ extension GameScene {
             availableInventorySlots.remove(at: 0)
         }
         
-        print (emptySpot)
+        print ("Empty Slot: " + emptySpot)
         
         return emptySpot
     }

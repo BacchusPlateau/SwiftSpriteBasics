@@ -210,12 +210,12 @@ class WorldItem : SKSpriteNode {
             
             open()
             
-            print ("\(self.name!) is open")
+      //      print ("\(self.name!) is open")
             
         } else {
             
             isOpen = false
-            print ("\(self.name!) is NOT open")
+     //       print ("\(self.name!) is NOT open")
             
         }
         
