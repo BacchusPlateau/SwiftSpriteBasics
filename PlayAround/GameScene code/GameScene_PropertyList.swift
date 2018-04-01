@@ -239,9 +239,60 @@ extension GameScene {
         
     }
     
+    func setUpEnemy(theEnemy:Enemy) {
+        
+        var foundEnemyInLevelDict:Bool = false
+        let path = Bundle.main.path(forResource: "GameData", ofType: "plist")
+        let dict:NSDictionary = NSDictionary(contentsOfFile: path!)!
+        
+        if (dict.object(forKey: "Levels") != nil) {
+            
+            if let levelDict:[String:Any] = dict.object(forKey: "Levels") as? [String:Any] {
+                
+                for (key,value) in levelDict  {
+                    
+                    if (key == currentLevel) {
+                        
+                        if let levelData:[String:Any] = value as? [String:Any] {
+                            
+                            for (key,value) in levelData {
+                                
+                                if (key == "Enemies") {
+                                    
+                                    if let itemsData:[String:Any] = value as? [String:Any] {
+                                        
+                                        for (key,value) in itemsData {
+                                            
+                                            if (key == theEnemy.name) {
+                                                
+                                                foundEnemyInLevelDict = true
+                                                useDictWithEnemy(theDict: value as! [String:Any], theEnemy: theEnemy)
+                                                
+                                                break
+                                            } //if
+                                        } //for
+                                    }  //if let
+                                    break
+                                } //if
+                            } //for
+                        } //if let
+                        break
+                    } //if
+                } //for
+            } //if let
+        } //if
+        
+    }
+    
+    func useDictWithEnemy(theDict:[String:Any], theEnemy:Enemy) {
+        
+        theEnemy.setUpEnemy(theDict:theDict)
+        
+    }
+    
     func setUpItem(theItem:WorldItem) {
         
-        print("setUpItem: \(theItem.name!)")
+    //    print("setUpItem: \(theItem.name!)")
         
         let path = Bundle.main.path(forResource:"GameData", ofType: "plist")
         let dict:NSDictionary = NSDictionary(contentsOfFile: path!)!
@@ -269,12 +320,12 @@ extension GameScene {
                                         
                                         for(key,value) in itemsData {
                                             
-                                            print("key in itemsData = \(key)")
+                                   //         print("key in itemsData = \(key)")
                                             
                                             if(key == theItem.name) {
                                                 
                                                 foundItemInLevel = true
-                                                print ("found \(key) to setup with propertylist data")
+                                        //        print ("found \(key) to setup with propertylist data")
                                                 useDictWithWorldItem(theDict: value as! [String:Any], theItem: theItem)
                                       
                                                 break

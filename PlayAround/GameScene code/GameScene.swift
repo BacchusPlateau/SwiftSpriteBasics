@@ -16,6 +16,8 @@ enum BodyType:UInt32 {
     case npc = 8
     case projectile = 16
     case enemy = 32
+    case enemyAttackArea = 64
+    case enemyProjectile = 128
 }
 
 enum Facing:Int {
@@ -261,6 +263,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
          
             if let someItem:WorldItem = node as? WorldItem {
                 setUpItem(theItem:someItem)
+            } else if let someEnemy:Enemy = node as? Enemy {
+                setUpEnemy(theEnemy: someEnemy)
             }
         }
         
@@ -337,24 +341,64 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.camera?.position = CGPoint(x: thePlayer.position.x + cameraXOffset, y: thePlayer.position.y + cameraYOffset)
         }
         
+        let width:CGFloat = self.frame.width
+        let height:CGFloat = self.frame.height
+        
+        let visibleFrame:CGRect = CGRect(x: thePlayer.position.x - (width/2), y: thePlayer.position.y - (height/2), width: width, height: height)
+        
         for node in self.children {
             
-            if (node is AttackArea) {
-                
-                node.position = thePlayer.position
-            }
+            if (visibleFrame.intersects(node.frame)) {
             
-            else if (node is SKSpriteNode) {
-                
-                if(node.physicsBody == nil) {
-                   
-                    if(node.position.y > thePlayer.position.y) {
-                        node.zPosition = -100
+                if (node is AttackArea) {
+                    
+                    node.position = thePlayer.position
+                    
+                } else if let someEnemy:Enemy = node as? Enemy {
+                    
+                    //check to see if enemy should move
+                    if (checkCircularIntersection(withNode: someEnemy, radius: 200)) {
+                        
+                       // print("Enemy is close!")
+                        
                     } else {
-                        node.zPosition = 100
+                        
+                       // print("Enemy is not close.")
+                        
                     }
+                    
+                    
+                    //check to see if enemy should melee attack
+                    
+                    //check to see if enemy should range attack
+                    
+                    
+                    someEnemy.update(playerPos: thePlayer.position)
+                    
+                    //most likely the enemy will have a physics body but he might be dead, inert, etc
+                    if(node.physicsBody == nil) {
+                        
+                        if(node.position.y > thePlayer.position.y) {
+                            node.zPosition = -100
+                        } else {
+                            node.zPosition = 100
+                        }
+                    }
+                    
                 }
                 
+                else if (node is SKSpriteNode) {
+                    
+                    if(node.physicsBody == nil) {
+                       
+                        if(node.position.y > thePlayer.position.y) {
+                            node.zPosition = -100
+                        } else {
+                            node.zPosition = 100
+                        }
+                    }
+                    
+                }
             }
         }
         
@@ -365,5 +409,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
     }
+    
+    func checkCircularIntersection(withNode node:SKNode, radius:CGFloat) -> Bool {
+        
+        let deltaX = thePlayer.position.x - node.position.x
+        let deltaY = thePlayer.position.y - node.position.y
+        
+        let distance = sqrt(deltaX * deltaX + deltaY * deltaY)
+        if (distance <= radius + (thePlayer.frame.size.width / 2))  {
+            return true
+        } else {
+            return false
+        }
+        
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 }
