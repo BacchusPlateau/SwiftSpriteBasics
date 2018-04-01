@@ -63,7 +63,7 @@ class WorldItem : SKSpriteNode {
         
         for (key, value) in theDict {
             
-            print("setUpWithDict: key = \(key)")
+          //  print("setUpWithDict: key = \(key)")
             
             if (key == "Requires") {
                 

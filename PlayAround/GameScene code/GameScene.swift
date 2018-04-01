@@ -264,6 +264,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let someItem:WorldItem = node as? WorldItem {
                 setUpItem(theItem:someItem)
             } else if let someEnemy:Enemy = node as? Enemy {
+                print ("found enemy node")
                 setUpEnemy(theEnemy: someEnemy)
             }
         }
@@ -357,16 +358,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 } else if let someEnemy:Enemy = node as? Enemy {
                     
                     //check to see if enemy should move
-                    if (checkCircularIntersection(withNode: someEnemy, radius: 200)) {
+                    if (someEnemy.moveIfPlayerWithin != -1)  {
                         
-                       // print("Enemy is close!")
-                        
-                    } else {
-                        
-                       // print("Enemy is not close.")
-                        
+                        //look around the player to see if this enemy is near
+                        if (checkCircularIntersection(withNode: someEnemy, radius: someEnemy.moveIfPlayerWithin)) {
+                            
+                           // print("Enemy is close!")
+                            someEnemy.allowMovement = true
+                            
+                        } else {
+                            
+                           // print("Enemy is not close.")
+                            someEnemy.allowMovement = false
+                            
+                        }
                     }
-                    
                     
                     //check to see if enemy should melee attack
                     

@@ -258,13 +258,13 @@ extension GameScene {
                             for (key,value) in levelData {
                                 
                                 if (key == "Enemies") {
-                                    
+                                    print ("Found Enemies!")
                                     if let itemsData:[String:Any] = value as? [String:Any] {
                                         
                                         for (key,value) in itemsData {
                                             
                                             if (key == theEnemy.name) {
-                                                
+                                                print ("Found enemy in level dict!")
                                                 foundEnemyInLevelDict = true
                                                 useDictWithEnemy(theDict: value as! [String:Any], theEnemy: theEnemy)
                                                 
@@ -281,6 +281,32 @@ extension GameScene {
                 } //for
             } //if let
         } //if
+        
+        
+        if ( foundEnemyInLevelDict == false) {
+            
+            if (dict.object(forKey: "Enemies") != nil) {
+                
+                if let itemsData:[String : Any] = dict.object(forKey: "Enemies") as? [String : Any] {
+                    
+                    for (key, value) in itemsData {
+                        
+                        if ( key == theEnemy.name) {
+                            
+                            useDictWithEnemy(theDict: value as! [String : Any], theEnemy: theEnemy)
+                            
+                            //print ("Found \(key) to setup with property list data in Root")
+                            
+                            break
+                        }
+                    
+                    }
+                
+                }
+              
+            }
+            
+        }
         
     }
     
