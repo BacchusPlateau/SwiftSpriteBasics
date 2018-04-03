@@ -11,7 +11,7 @@
 				<key>Back</key>
 				<dict>
 					<key>Walk</key>
-					<string>WalkBack</string>
+					<string>WalkBackward</string>
 					<key>Melee</key>
 					<string>BackAttack</string>
 					<key>Ranged</key>
@@ -26,7 +26,7 @@
 				<key>Front</key>
 				<dict>
 					<key>Walk</key>
-					<string>WalkFront</string>
+					<string>WalkForward</string>
 					<key>Melee</key>
 					<string>FrontAttack</string>
 					<key>Ranged</key>
