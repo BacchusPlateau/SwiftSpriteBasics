@@ -773,7 +773,7 @@ extension GameScene {
             theAnimation = thePlayer.backWalk
         }
         
-        let walkAnimation:SKAction = SKAction.init(named: theAnimation, duration: 0.25)!
+        let walkAnimation:SKAction = SKAction.init(named: theAnimation)!
         thePlayer.run(walkAnimation, withKey: theAnimation)
     }
     
@@ -799,7 +799,7 @@ extension GameScene {
             thePlayer.removeAction(forKey: thePlayer.frontWalk)
             thePlayer.removeAction(forKey: thePlayer.backWalk)
             
-            let walkAnimation:SKAction = SKAction.init(named: theAnimation, duration: 0.25)!
+            let walkAnimation:SKAction = SKAction.init(named: theAnimation)!
             let repeatAction:SKAction = SKAction.repeatForever(walkAnimation)
             thePlayer.run(repeatAction, withKey: theAnimation)
             

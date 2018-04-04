@@ -30,6 +30,9 @@ class Enemy : SKSpriteNode {
     var randomWaitTimeRange:UInt32 = 3
     var walkTime:TimeInterval = 1
     var walkDistance:CGFloat = 50
+    var walkSpeed:CGFloat = 1
+    
+    var facing:Facing = .none
     
     //ranged attack
     
@@ -137,7 +140,17 @@ class Enemy : SKSpriteNode {
                 
             } else if (movementType == .follow) {
                 
-                
+                if (allowMovement) {
+                    
+                    if (self.action(forKey: "Hurt") == nil) {
+                        
+                        orientEnemy(playerPos:playerPos)
+                        moveEnemy()
+                        animateWalk()
+                        
+                    }
+                    
+                }
                 
             } else if (movementType == .none) {
                 
@@ -159,6 +172,92 @@ class Enemy : SKSpriteNode {
             }
 
         }
+        
+    }
+    
+    func animateWalk() {
+        
+        if (self.action(forKey: "Attack") == nil && self.action(forKey: "WalkAnimation") == nil) {
+            
+            var theAnimation:String = ""
+            
+            switch facing {
+            case .right:
+                theAnimation = rightWalk
+            case .left:
+                theAnimation = leftWalk
+            case .back:
+                theAnimation = backWalk
+            case .front:
+                theAnimation = frontWalk
+            case .none:
+                break
+            }
+            
+            if (theAnimation != "") {
+                
+                self.removeAction(forKey: "Idle")
+
+                if let walkAnimation:SKAction = SKAction(named:theAnimation) {
+                    
+                    self.run(walkAnimation, withKey: "WalkAnination")
+                    
+                }
+
+            }
+            
+        }
+        
+    }
+    
+    func moveEnemy() {
+        
+        switch facing {
+        case .right:
+            self.position = CGPoint(x: self.position.x + walkSpeed, y: self.position.y)
+        case .left:
+            self.position = CGPoint(x: self.position.x - walkSpeed, y: self.position.y)
+        case .back:
+            self.position = CGPoint(x: self.position.x, y: self.position.y + walkSpeed)
+        case .front:
+            self.position = CGPoint(x: self.position.x, y: self.position.y - walkSpeed)
+        case .none:
+            break
+        }
+        
+    }
+    
+    func orientEnemy(playerPos: CGPoint) {
+        
+        if (abs(playerPos.x - self.position.x) > (abs(playerPos.y - self.position.y))) {
+            
+            //greater movement on the X
+            
+            if (playerPos.x > self.position.x) {
+                
+                self.facing = .right
+                
+            } else {
+                
+                self.facing = .left
+                
+            }
+            
+        } else {
+            
+            //greater movement on the Y
+         
+            if (playerPos.y > self.position.y) {
+                
+                self.facing = .back
+                
+            } else {
+                
+                self.facing = .front
+                
+            }
+        }
+        
         
     }
     
@@ -191,41 +290,45 @@ class Enemy : SKSpriteNode {
         //print (randomNum)
         switch randomNum {
         case 0:
-            print ("frontWalk = " + frontWalk)
+            
             if let walk = SKAction(named: frontWalk) {
+                print ("frontWalk = " + frontWalk)
                 let repeatWalk:SKAction = SKAction.repeatForever(walk)
                 self.run(repeatWalk, withKey: "WalkAnimation")
             }
             
             let move:SKAction = SKAction.moveBy(x: 0, y: -walkDistance, duration: walkTime)
-            self.run(SKAction.sequence([ move, endMove, wait ]), withKey: "WalkAnimation")
+            self.run(SKAction.sequence([ move, endMove, wait ]), withKey: "Movement")
         case 1:
-            print ("backWalk = " + backWalk)
+            
             if let walk = SKAction(named: backWalk) {
+                print ("backWalk = " + backWalk)
                 let repeatWalk:SKAction = SKAction.repeatForever(walk)
                 self.run(repeatWalk, withKey: "WalkAnimation")
             }
             
             let move:SKAction = SKAction.moveBy(x: 0, y: walkDistance, duration: walkTime)
-            self.run(SKAction.sequence([ move, endMove, wait ]), withKey: "WalkAnimation")
+            self.run(SKAction.sequence([ move, endMove, wait ]), withKey: "Movement")
         case 2:
-            print("leftWalk = " + leftWalk)
+            
             if let walk = SKAction(named: leftWalk) {
+                print("leftWalk = " + leftWalk)
                 let repeatWalk:SKAction = SKAction.repeatForever(walk)
                 self.run(repeatWalk, withKey: "WalkAnimation")
             }
             
             let move:SKAction = SKAction.moveBy(x: -walkDistance, y:0, duration: walkTime)
-            self.run(SKAction.sequence([ move, endMove, wait ]), withKey: "WalkAnimation")
+            self.run(SKAction.sequence([ move, endMove, wait ]), withKey: "Movement")
         case 3:
-            print("rightWalk = " + rightWalk)
+            
             if let walk = SKAction(named: rightWalk) {
+                print("rightWalk = " + rightWalk)
                 let repeatWalk:SKAction = SKAction.repeatForever(walk)
                 self.run(repeatWalk, withKey: "WalkAnimation")
             }
             
             let move:SKAction = SKAction.moveBy(x: walkDistance, y: 0, duration: walkTime)
-            self.run(SKAction.sequence([ move, endMove, wait ]), withKey: "WalkAnimation")
+            self.run(SKAction.sequence([ move, endMove, wait ]), withKey: "Movement")
         default:
             break
         }
@@ -389,6 +492,25 @@ class Enemy : SKSpriteNode {
                     
                     moveIfPlayerWithin = value as! CGFloat
                     
+                }
+                
+            case "Speed":
+                
+                if (value is CGFloat) {
+                    
+                    walkSpeed = value as! CGFloat
+                    
+                }
+                
+            case "FollowPlayer":
+                
+                if (value is Bool) {
+                    
+                    if (value as! Bool == true) {
+                        
+                        movementType = .follow
+                        
+                    }
                 }
                 
             case "WalkRandomly":
