@@ -134,6 +134,16 @@ class Enemy : SKSpriteNode {
                         
                         startMovementFromArray()
                         
+                    } else if (hasIdleAnimation) {
+                        
+                        if(self.action(forKey: "Movement") == nil
+                            && self.action(forKey: "Hurt") == nil
+                            && self.action(forKey: "Idle") == nil) {
+                            
+                            runIdleAnimation(playerPos: playerPos)
+                            
+                        }
+                        
                     }
                     
                 }
@@ -147,6 +157,16 @@ class Enemy : SKSpriteNode {
                         orientEnemy(playerPos:playerPos)
                         moveEnemy()
                         animateWalk()
+                        
+                    } else if (hasIdleAnimation) {
+                        
+                        if(self.action(forKey: "Hurt") == nil
+                            && self.action(forKey: "Idle") == nil) {
+                            
+                            self.removeAction(forKey: "WalkAnimation")
+                            runIdleAnimation(playerPos: playerPos)
+                            
+                        }
                         
                     }
                     
@@ -167,10 +187,32 @@ class Enemy : SKSpriteNode {
                         walkRandom()
                         
                     }
+                    
+                } else if (hasIdleAnimation) {
+                    
+                    if(self.action(forKey: "Hurt") == nil
+                        && self.action(forKey: "Idle") == nil) {
+                        
+                        stopWalking()
+                        runIdleAnimation(playerPos: playerPos)
+                        
+                    }
+                    
                 }
                 
             }
 
+        }
+        
+    }
+    
+    func stopWalking() {
+        
+        if (self.movementType != .actions) {
+            
+            self.removeAction(forKey: "Movement")
+            self.removeAction(forKey: "WalkAnimation")
+            
         }
         
     }
@@ -558,8 +600,42 @@ class Enemy : SKSpriteNode {
         }
     }
     
-    
-    
+    func runIdleAnimation(playerPos:CGPoint) {
+        
+        if (self.action(forKey: "Attack") == nil) {
+            
+            if (playerPos != CGPoint.zero)  {
+                
+                orientEnemy(playerPos: playerPos)
+                
+            }
+            
+            var animationName:String = ""
+            
+            switch facing {
+            case .right:
+                animationName = rightIdle
+            case .left:
+                animationName = leftIdle
+            case .back:
+                animationName = backIdle
+            case .front, .none:
+                animationName = frontIdle
+            }
+            
+            if (animationName != "")  {
+                
+                if let idleAnimation:SKAction = SKAction(named: animationName) {
+                    
+                    self.run(idleAnimation, withKey: "Idle")
+                }
+            }
+            
+            
+        }
+        
+        
+    }
     
     
     
