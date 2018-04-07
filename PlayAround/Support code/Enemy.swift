@@ -38,6 +38,18 @@ class Enemy : SKSpriteNode {
     
     
     //melee attack
+    var hasMeleeAttack:Bool = false
+    var meleeIfPlayerWithin:CGFloat = -1  //radius for melee
+    var meleeDamage:Int = 0
+    var allowMeleeAttack:Bool = true
+    
+    var meleeSize:CGSize = CGSize(width:100, height:100)
+    var meleeScaleTo:CGFloat = 2
+    var meleeScaleTime:TimeInterval = 1
+    var meleeAnimation:String = ""
+    var meleeTimeBetweenUse:TimeInterval = 1
+    var justDidMeleeAttack:Bool = false
+    var meleeRemoveOnContact:Bool = false
     
     //animation
     var frontWalk:String = ""
@@ -96,6 +108,13 @@ class Enemy : SKSpriteNode {
                 if (value is [String:Any]) {
                     
                     sortAnimationDict(theDict: value as! [String:Any])
+                }
+                
+            case "Melee":
+                
+                if (value is [String:Any]) {
+                    
+                    sortMeleeDict(theDict: value as! [String:Any])
                 }
                 
             default:
@@ -202,6 +221,14 @@ class Enemy : SKSpriteNode {
                 
             }
 
+            if (!justDidMeleeAttack && allowMeleeAttack) {
+                
+                orientEnemy(playerPos: playerPos)
+                meleeAttack()
+                
+            }
+            
+            
         }
         
     }
@@ -513,7 +540,52 @@ class Enemy : SKSpriteNode {
     }
     
     
-    
+    func sortMeleeDict(theDict: [String:Any]) {
+        
+        hasMeleeAttack = true
+        
+        for (key,value) in theDict {
+            
+            switch key {
+            case "Damage":
+                if (value is Int) {
+                    meleeDamage = value as! Int
+                }
+            case "Size":
+                if (value is String) {
+                    meleeSize = CGSizeFromString(value as! String)
+                }
+            case "ScaleTo":
+                if (value is CGFloat) {
+                    meleeScaleTo = value as! CGFloat
+                }
+            case "ScaleTime":
+                if (value is TimeInterval) {
+                    meleeScaleTime = value as! TimeInterval
+                }
+            case "Animation":
+                if (value is String) {
+                    meleeAnimation = value as! String
+                }
+            case "TimeBetweenUse":
+                if (value is TimeInterval) {
+                    meleeTimeBetweenUse = value as! TimeInterval
+                }
+            case "Within":
+                if (value is CGFloat) {
+                    meleeIfPlayerWithin = value as! CGFloat
+                }
+            case "RemoveOnContact":
+                if (value is Bool) {
+                    meleeRemoveOnContact = value as! Bool
+                }
+            default:
+                continue
+            }
+            
+        }
+        
+    }
     
     func sortMovementDict(theDict: [String:Any]) {
         
@@ -638,7 +710,79 @@ class Enemy : SKSpriteNode {
     }
     
     
-    
+    func meleeAttack() {
+        
+        justDidMeleeAttack = true
+        
+        let wait:SKAction = SKAction.wait(forDuration: meleeTimeBetweenUse)
+        let finishWait:SKAction = SKAction.run {
+            self.justDidMeleeAttack = false
+        }
+        self.run(SKAction.sequence([ wait, finishWait ]))
+        
+        //set up enemy attack area
+        let newAttack:EnemyAttackArea = EnemyAttackArea(color:  SKColor.clear, size: meleeSize)
+        
+        newAttack.scaleSize = meleeScaleTo
+        newAttack.scaleTime = meleeScaleTime
+        newAttack.damage = meleeDamage
+        newAttack.removeOnContact = meleeRemoveOnContact
+        newAttack.animationName = meleeAnimation
+        
+        newAttack.setUp()
+        self.addChild(newAttack)
+        newAttack.zPosition = self.zPosition - 1
+        newAttack.upAndAway()
+        
+        if (movementType == .actions) {
+            
+            if (self.action(forKey: "Movement") != nil) {
+                self.action(forKey: "Movement")?.speed = 0
+            }
+        }
+        
+        var animationName:String = ""
+        
+        switch facing {
+        case .front:
+            animationName = frontMelee
+        case .back:
+            newAttack.xScale = -1
+            newAttack.yScale = -1
+            animationName = backMelee
+        case .right:
+            animationName = rightMelee
+        case .left:
+            newAttack.xScale = -1
+            animationName = leftMelee
+        default:
+            break
+        }
+        
+        if (animationName != "") {
+            
+            if let attackAnimation:SKAction = SKAction(named: animationName) {
+                
+                stopWalking()
+                
+                let finish:SKAction = SKAction.run {
+                    
+                    if (self.movementType == .actions) {
+                        
+                        if (self.action(forKey: "Movement") != nil) {
+                            
+                            self.action(forKey: "Movement")?.speed = 1
+                        }
+                    }
+                }
+                
+                let seq:SKAction = SKAction.sequence([ attackAnimation, finish ])
+                self.run(seq, withKey:"Attack")
+                
+            }
+            
+        }
+    }
     
     
     

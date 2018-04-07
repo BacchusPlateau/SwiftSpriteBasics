@@ -375,6 +375,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                     
                     //check to see if enemy should melee attack
+                    if (someEnemy.hasMeleeAttack) {
+                        
+                        if (someEnemy.meleeIfPlayerWithin != -1) {
+                            
+                            //not -1 means we are checking a circular intersection between the player and enemy
+                            if (checkCircularIntersection(withNode: someEnemy, radius: someEnemy.meleeIfPlayerWithin)) {
+                                
+                                //not sure why you would need to pass the meleeIfPlayerWithin member since you're passing in the node
+                                someEnemy.allowMeleeAttack = true
+                                
+                            } else {
+                                
+                                someEnemy.allowMeleeAttack = false
+                                
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                    
                     
                     //check to see if enemy should range attack
                     
