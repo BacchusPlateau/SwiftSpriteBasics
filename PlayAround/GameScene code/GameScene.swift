@@ -290,8 +290,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             thePlayer.physicsBody?.isDynamic = true
             thePlayer.physicsBody?.affectedByGravity = false
             thePlayer.physicsBody?.categoryBitMask = BodyType.player.rawValue
-            thePlayer.physicsBody?.collisionBitMask = BodyType.item.rawValue
-            thePlayer.physicsBody?.contactTestBitMask = BodyType.item.rawValue
+            thePlayer.physicsBody?.collisionBitMask = BodyType.item.rawValue | BodyType.enemy.rawValue | BodyType.enemyAttackArea.rawValue
+            thePlayer.physicsBody?.contactTestBitMask = BodyType.item.rawValue | BodyType.enemy.rawValue | BodyType.enemyAttackArea.rawValue |  BodyType.enemyProjectile.rawValue
             thePlayer.zPosition = 0
             
             if(defaults.string(forKey: "PlayerClass") == nil) {

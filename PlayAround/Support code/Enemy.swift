@@ -371,8 +371,8 @@ class Enemy : SKSpriteNode {
             
         }
         
-        print("walkDistance = " + String(format: "%.2f",walkDistance))
-        print("walkTime = " + String(walkTime))
+      //  print("walkDistance = " + String(format: "%.2f",walkDistance))
+      //  print("walkTime = " + String(walkTime))
         
         let randomNum = arc4random_uniform(4)
         //print (randomNum)
@@ -380,7 +380,7 @@ class Enemy : SKSpriteNode {
         case 0:
             
             if let walk = SKAction(named: frontWalk) {
-                print ("frontWalk = " + frontWalk)
+       //         print ("frontWalk = " + frontWalk)
                 let repeatWalk:SKAction = SKAction.repeatForever(walk)
                 self.run(repeatWalk, withKey: "WalkAnimation")
             }
@@ -390,7 +390,7 @@ class Enemy : SKSpriteNode {
         case 1:
             
             if let walk = SKAction(named: backWalk) {
-                print ("backWalk = " + backWalk)
+       //         print ("backWalk = " + backWalk)
                 let repeatWalk:SKAction = SKAction.repeatForever(walk)
                 self.run(repeatWalk, withKey: "WalkAnimation")
             }
@@ -400,7 +400,7 @@ class Enemy : SKSpriteNode {
         case 2:
             
             if let walk = SKAction(named: leftWalk) {
-                print("leftWalk = " + leftWalk)
+       //         print("leftWalk = " + leftWalk)
                 let repeatWalk:SKAction = SKAction.repeatForever(walk)
                 self.run(repeatWalk, withKey: "WalkAnimation")
             }
@@ -410,7 +410,7 @@ class Enemy : SKSpriteNode {
         case 3:
             
             if let walk = SKAction(named: rightWalk) {
-                print("rightWalk = " + rightWalk)
+       //         print("rightWalk = " + rightWalk)
                 let repeatWalk:SKAction = SKAction.repeatForever(walk)
                 self.run(repeatWalk, withKey: "WalkAnimation")
             }

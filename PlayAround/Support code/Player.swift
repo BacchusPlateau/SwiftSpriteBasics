@@ -15,21 +15,29 @@ class Player : SKSpriteNode {
     var frontIdle: String = ""
     var frontMelee: String = ""
     var frontRanged: String = ""
+    var frontHurt: String = ""
+    var frontDying: String = ""
     
     var backWalk: String = ""
     var backIdle: String = ""
     var backMelee: String = ""
     var backRanged: String = ""
+    var backHurt: String = ""
+    var backDying: String = ""
     
     var leftWalk: String = ""
     var leftIdle: String = ""
     var leftMelee: String = ""
     var leftRanged: String = ""
+    var leftHurt: String = ""
+    var leftDying: String = ""
     
     var rightWalk: String = ""
     var rightIdle: String = ""
     var rightMelee: String = ""
     var rightRanged: String = ""
+    var rightHurt:String = ""
+    var rightDying: String = ""
     
     var meleeAnimationFXName:String = "Attacking"
     var meleeScaleSize:CGFloat = 2
@@ -46,6 +54,9 @@ class Player : SKSpriteNode {
 
     var currentProjectile:String = ""
     var defaultProjectile:String = ""
+    
+    var canBeDamaged:Bool = true
+    var isDead:Bool = false
     
     func setUpWithDict( theDict: [String:Any]) {
         
@@ -146,6 +157,10 @@ class Player : SKSpriteNode {
                             backMelee = value as! String
                         case "Ranged":
                             backRanged = value as! String
+                        case "Hurt":
+                            backHurt = value as! String
+                        case "Dying":
+                            backDying = value as! String
                         default:
                             continue
                             
@@ -167,6 +182,10 @@ class Player : SKSpriteNode {
                             frontMelee = value as! String
                         case "Ranged":
                             frontRanged = value as! String
+                        case "Hurt":
+                            frontHurt = value as! String
+                        case "Dying":
+                            frontDying = value as! String
                         default:
                             continue
                             
@@ -188,6 +207,10 @@ class Player : SKSpriteNode {
                             leftMelee = value as! String
                         case "Ranged":
                             leftRanged = value as! String
+                        case "Hurt":
+                            leftHurt = value as! String
+                        case "Dying":
+                            leftDying = value as! String
                         default:
                             continue
                             
@@ -209,6 +232,10 @@ class Player : SKSpriteNode {
                             rightMelee = value as! String
                         case "Ranged":
                             rightRanged = value as! String
+                        case "Hurt":
+                            rightHurt = value as! String
+                        case "Dying":
+                            rightDying = value as! String
                         default:
                             continue
                             
@@ -282,7 +309,19 @@ class Player : SKSpriteNode {
         }
     }
         
-    
+    func damaged() {
+        
+        canBeDamaged = false
+        
+        let wait:SKAction = SKAction.wait(forDuration: immunity)
+        let finish:SKAction = SKAction.run {
+            self.canBeDamaged = true
+        }
+            
+        let seq:SKAction = SKAction.sequence([wait, finish])
+        self.run(seq)
+        
+    }
 
 
 

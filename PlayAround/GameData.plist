@@ -72,7 +72,7 @@
 			<key>Melee</key>
 			<dict>
 				<key>Damage</key>
-				<integer>2</integer>
+				<integer>8</integer>
 				<key>Size</key>
 				<string>{150, 150}</string>
 				<key>ScaleTo</key>
@@ -217,7 +217,7 @@
 			<key>Melee</key>
 			<dict>
 				<key>Damage</key>
-				<integer>2</integer>
+				<integer>8</integer>
 				<key>Size</key>
 				<string>{150, 150}</string>
 				<key>ScaleTo</key>
@@ -354,7 +354,7 @@
 			<key>Melee</key>
 			<dict>
 				<key>Damage</key>
-				<integer>2</integer>
+				<integer>8</integer>
 				<key>Size</key>
 				<string>{150, 150}</string>
 				<key>ScaleTo</key>
@@ -510,7 +510,7 @@
 			<key>Animation</key>
 			<string></string>
 			<key>ContactAnimation</key>
-			<string></string>
+			<string>Impact</string>
 			<key>TravelTime</key>
 			<integer>1</integer>
 			<key>Distance</key>
@@ -527,7 +527,7 @@
 			<key>Offset</key>
 			<integer>30</integer>
 			<key>Ammo</key>
-			<integer>4</integer>
+			<integer>200</integer>
 			<key>ZPosition</key>
 			<integer>200</integer>
 			<key>Image</key>
@@ -537,7 +537,7 @@
 			<key>Animation</key>
 			<string></string>
 			<key>ContactAnimation</key>
-			<string></string>
+			<string>Impact</string>
 			<key>TravelTime</key>
 			<integer>1</integer>
 			<key>Distance</key>
@@ -578,9 +578,11 @@
 					<key>Ranged</key>
 					<string>FrontAttack</string>
 					<key>Hurt</key>
-					<string></string>
+					<string>FrontHurt</string>
 					<key>Idle</key>
 					<string>IdleFront</string>
+					<key>Dying</key>
+					<string>Dying</string>
 				</dict>
 				<key>Right</key>
 				<dict>
@@ -591,9 +593,11 @@
 					<key>Ranged</key>
 					<string>RightAttack</string>
 					<key>Hurt</key>
-					<string></string>
+					<string>RightHurt</string>
 					<key>Idle</key>
 					<string>IdleRight</string>
+					<key>Dying</key>
+					<string>Dying</string>
 				</dict>
 				<key>Left</key>
 				<dict>
@@ -604,9 +608,11 @@
 					<key>Ranged</key>
 					<string>LeftAttack</string>
 					<key>Hurt</key>
-					<string></string>
+					<string>LeftHurt</string>
 					<key>Idle</key>
 					<string>IdleLeft</string>
+					<key>Dying</key>
+					<string>Dying</string>
 				</dict>
 				<key>Back</key>
 				<dict>
@@ -617,9 +623,11 @@
 					<key>Ranged</key>
 					<string>BackAttack</string>
 					<key>Hurt</key>
-					<string></string>
+					<string>BackHurt</string>
 					<key>Idle</key>
 					<string>IdleBack</string>
+					<key>Dying</key>
+					<string>Dying</string>
 				</dict>
 			</dict>
 			<key>Sounds</key>

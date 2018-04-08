@@ -37,6 +37,42 @@ extension GameScene {
                 contactWithItem(theItem: theItem)
             }
         }
+        //Ranged - items
+        else if(contact.bodyA.categoryBitMask == BodyType.item.rawValue && contact.bodyB.categoryBitMask == BodyType.projectile.rawValue)
+        {
+         //   print("Contact with projectile")
+            if let theProjectile:Projectile = contact.bodyB.node as? Projectile {
+                if (theProjectile.contactAnimation != "") {
+                    showAnimation(name: theProjectile.contactAnimation, at: theProjectile.position)
+                }
+               theProjectile.removeFromParent()
+            }
+        }else if(contact.bodyA.categoryBitMask == BodyType.projectile.rawValue && contact.bodyB.categoryBitMask == BodyType.item.rawValue)
+        {
+         //   print("Contact with projectile")
+            if let theProjectile:Projectile = contact.bodyA.node as? Projectile {
+                if (theProjectile.contactAnimation != "") {
+                    showAnimation(name: theProjectile.contactAnimation, at: theProjectile.position)
+                }
+                theProjectile.removeFromParent()
+            }
+        }
+        //Ranged - enemy attack area
+        else if(contact.bodyA.categoryBitMask == BodyType.player.rawValue && contact.bodyB.categoryBitMask == BodyType.enemyAttackArea.rawValue)
+        {
+            //   print("Contact with projectile")
+            if let enemyAttackArea:EnemyAttackArea = contact.bodyB.node as? EnemyAttackArea {
+                contactWithEnemyAttackArea(area: enemyAttackArea)
+            }
+        }else if(contact.bodyA.categoryBitMask == BodyType.enemyAttackArea.rawValue && contact.bodyB.categoryBitMask == BodyType.player.rawValue)
+        {
+            //   print("Contact with projectile")
+            if let enemyAttackArea:EnemyAttackArea = contact.bodyA.node as? EnemyAttackArea {
+                contactWithEnemyAttackArea(area: enemyAttackArea)
+            }
+        }
+        
+        
     }
     
     
@@ -274,5 +310,21 @@ extension GameScene {
         
     }
 
+    func contactWithEnemyAttackArea(area: EnemyAttackArea) {
+        
+        if (area.damage != 0)  {
+            
+            damagePlayer(with: area.damage)
+            area.damage = 0
+            
+            if (area.removeOnContact) {
+                
+                area.removeFromParent()
+                
+            }
+            
+        }
+        
+    }
 
 }

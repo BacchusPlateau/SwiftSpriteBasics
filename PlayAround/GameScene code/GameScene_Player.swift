@@ -457,6 +457,10 @@ extension GameScene {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
+        if (thePlayer.isDead) {
+            return
+        }
+        
         for t in touches {
             
             let pos:CGPoint = t.location(in: self)
@@ -483,6 +487,11 @@ extension GameScene {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        if (thePlayer.isDead) {
+            return
+        }
+        
         for t in touches {
             
             let pos:CGPoint = t.location(in: self)
@@ -509,6 +518,10 @@ extension GameScene {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        if (thePlayer.isDead) {
+            return
+        }
         
         for t in touches {
             
@@ -547,12 +560,14 @@ extension GameScene {
     func touchEndedSansPath(toPoint pos:CGPoint) {
         
         if(touchingDown) {
-            thePlayer.removeAllActions()
+            
+            thePlayer.removeAction(forKey: "PlayerMoving")
             touchingDown = false
             touchFollowSprite.removeFromParent()
             touchDownSprite.removeFromParent()
             
             runIdleAnimation()
+            
         }
         
     }
@@ -760,50 +775,58 @@ extension GameScene {
     
     func animateWalk() {
         
-        var theAnimation:String = ""
+        if (thePlayer.action(forKey: "Hurt") == nil) {
         
-        switch playerFacing {
-        case .right:
-            theAnimation = thePlayer.rightWalk
-        case .left:
-            theAnimation = thePlayer.leftWalk
-        case .front,.none:
-            theAnimation = thePlayer.frontWalk
-        case .back:
-            theAnimation = thePlayer.backWalk
+            var theAnimation:String = ""
+            
+            switch playerFacing {
+            case .right:
+                theAnimation = thePlayer.rightWalk
+            case .left:
+                theAnimation = thePlayer.leftWalk
+            case .front,.none:
+                theAnimation = thePlayer.frontWalk
+            case .back:
+                theAnimation = thePlayer.backWalk
+            }
+            
+            let walkAnimation:SKAction = SKAction.init(named: theAnimation)!
+            thePlayer.run(walkAnimation, withKey: theAnimation)
+            
         }
-        
-        let walkAnimation:SKAction = SKAction.init(named: theAnimation)!
-        thePlayer.run(walkAnimation, withKey: theAnimation)
     }
     
     func animateWalkSansPath() {
         
-        var theAnimation:String = ""
-        
-        switch playerFacing {
-        case .right:
-            theAnimation = thePlayer.rightWalk
-        case .left:
-            theAnimation = thePlayer.leftWalk
-        case .front,.none:
-            theAnimation = thePlayer.frontWalk
-        case .back:
-            theAnimation = thePlayer.backWalk
+        if (thePlayer.action(forKey: "Hurt") == nil) {
+            
+            var theAnimation:String = ""
+            
+            switch playerFacing {
+            case .right:
+                theAnimation = thePlayer.rightWalk
+            case .left:
+                theAnimation = thePlayer.leftWalk
+            case .front,.none:
+                theAnimation = thePlayer.frontWalk
+            case .back:
+                theAnimation = thePlayer.backWalk
+            }
+            
+            if (theAnimation != "") {
+            
+                thePlayer.removeAction(forKey: thePlayer.rightWalk)
+                thePlayer.removeAction(forKey: thePlayer.leftWalk)
+                thePlayer.removeAction(forKey: thePlayer.frontWalk)
+                thePlayer.removeAction(forKey: thePlayer.backWalk)
+                
+                let walkAnimation:SKAction = SKAction.init(named: theAnimation)!
+                let repeatAction:SKAction = SKAction.repeatForever(walkAnimation)
+                thePlayer.run(repeatAction, withKey: theAnimation)
+                
+            }
         }
         
-        if (theAnimation != "") {
-        
-            thePlayer.removeAction(forKey: thePlayer.rightWalk)
-            thePlayer.removeAction(forKey: thePlayer.leftWalk)
-            thePlayer.removeAction(forKey: thePlayer.frontWalk)
-            thePlayer.removeAction(forKey: thePlayer.backWalk)
-            
-            let walkAnimation:SKAction = SKAction.init(named: theAnimation)!
-            let repeatAction:SKAction = SKAction.repeatForever(walkAnimation)
-            thePlayer.run(repeatAction, withKey: theAnimation)
-            
-        }
     }
     
     func makePlayerFollowPath(path:CGMutablePath) {
@@ -842,6 +865,133 @@ extension GameScene {
             let idleAnimation:SKAction = SKAction(named: animationName, duration:1)!
             thePlayer.run(idleAnimation, withKey: "Idle")
         }
+    }
+    
+    func hurtAnimation() {
+        
+        var theAnimation:String = ""
+        
+        switch playerFacing {
+        case .right:
+            theAnimation = thePlayer.rightHurt
+        case .left:
+            theAnimation = thePlayer.leftHurt
+        case .back:
+            theAnimation = thePlayer.backHurt
+        case .front:
+            theAnimation = thePlayer.frontHurt
+        case .none:
+            break
+        }
+        
+        if (theAnimation != "") {
+            
+            if (thePlayer.action(forKey: theAnimation) != nil) {
+                
+                thePlayer.removeAction(forKey: thePlayer.rightWalk)
+                thePlayer.removeAction(forKey: thePlayer.leftWalk)
+                thePlayer.removeAction(forKey: thePlayer.backWalk)
+                thePlayer.removeAction(forKey: thePlayer.frontWalk)
+                
+                if let hurtAnimation:SKAction = SKAction(named: theAnimation) {
+                    thePlayer.run(hurtAnimation, withKey: "Hurt")
+                }
+            }
+            
+        }
+        
+    }
+    
+    
+    func killPlayer() {
+        
+        thePlayer.removeAllActions()
+        print("kill player")
+        
+        var theAnimation:String = ""
+        thePlayer.isDead = true
+        
+        
+        switch playerFacing {
+        case .right:
+            theAnimation = thePlayer.rightDying
+        case .left:
+            theAnimation = thePlayer.leftDying
+        case .back:
+            theAnimation = thePlayer.backDying
+        case .front:
+            theAnimation = thePlayer.frontDying
+        case .none:
+            break
+        }
+        
+        print (theAnimation)
+        if (theAnimation != "") {
+        
+            if let dyingAnimation:SKAction = SKAction(named: theAnimation) {
+               
+                let finish:SKAction = SKAction.run {
+                    self.resetLevel()
+                    print("running the sequence")
+                }
+                
+                let seq:SKAction = SKAction.sequence([dyingAnimation, finish])
+                thePlayer.run(seq)
+                
+            } else {
+                
+                self.resetLevel()
+                
+            }
+            
+        }  else {
+        
+            self.resetLevel()
+        
+        }
+        
+    }
+    
+    func damagePlayer(with amount:Int) {
+        
+        if (thePlayer.canBeDamaged) {
+            
+            //print ("can be damaged")
+            
+            hurtAnimation()
+            thePlayer.damaged()
+            
+            if (currentArmor > 0) {
+                subtractArmor(amount: amount)
+            } else {
+                subtractHealth(amount: amount)
+            }
+        }
+        
+    }
+    
+    func resetLevel() {
+        
+        var initialLevel:String = ""
+        var initialEntryNode:String = ""
+        
+        if (defaults.object(forKey: "ContinuePoint") != nil) {
+            
+            initialLevel = defaults.string(forKey: "ContinuePoint")!
+            
+        } else {
+            
+            initialLevel = currentLevel
+        }
+        
+        if (defaults.object(forKey: "ContinueWhere") != nil) {
+            
+            initialEntryNode = defaults.string(forKey: "ContinueWhere")!
+            
+        }
+        print ("Reset level")
+        loadLevel(theLevel: initialLevel, toWhere: initialEntryNode)
+        
     }
    
 }

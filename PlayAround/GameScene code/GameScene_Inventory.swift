@@ -95,6 +95,31 @@ extension GameScene {
         
     }
     
+    func subtractHealth(amount: Int) {
+        
+        currentHealth -= amount
+        if(currentHealth <= 0) {
+            currentHealth = 0
+            killPlayer()
+        }
+        
+        defaults.set(currentArmor, forKey: "CurrentHealth")
+        setHealthLabel()
+        
+    }
+    
+    func subtractArmor(amount: Int) {
+        
+        currentArmor -= amount
+        if (currentArmor < 0) {
+            currentArmor = 0
+        }
+        
+        defaults.set(currentArmor, forKey: "CurrentArmor")
+        setArmorLabel()
+        
+    }
+    
     func addCurrency(amount:Int) {
         
         currency += amount

@@ -193,5 +193,23 @@ extension GameScene {
         //"GrasslandVillager1alreadyContacted
         
     }
+    
+    func showAnimation(name: String, at point:CGPoint) {
+        
+      //  print("show animation name:" + name)
+        
+        let aniNode:SKSpriteNode = SKSpriteNode(color: SKColor.clear, size: CGSize(width: 50, height: 50))
+        aniNode.position = point
+        self.addChild(aniNode)
+        aniNode.zPosition = 200
+        
+        if let animation:SKAction = SKAction(named: name) {
+     //       print("running animation : " + name)
+            let finishAnimation:SKAction = SKAction.run {
+                 aniNode.removeFromParent()
+            }
+            aniNode.run(SKAction.sequence([animation, finishAnimation]))
+        }
+    }
 
 }
