@@ -461,13 +461,13 @@ class Enemy : SKSpriteNode {
     func sortAnimationDict(theDict: [String:Any]) {
         
         for (key,value) in theDict {
-            print ("key = " + key)
+        //    print ("key = " + key)
             switch key {
             case "Back":
                 if let backDict:[String:Any] = value as? [String:Any] {
                     for (backKey, backValue) in backDict {
-                        print ("backKey = " + backKey)
-                        print ("backValue = " + (backValue as! String))
+              //          print ("backKey = " + backKey)
+              //          print ("backValue = " + (backValue as! String))
                         switch backKey {
                         case "Walk":
                             backWalk = backValue as! String
@@ -716,22 +716,23 @@ class Enemy : SKSpriteNode {
     }
     
     func getProjectileData(name:String) {
-        
+        print("get projectile data for:" + name)
         let path = Bundle.main.path(forResource:"GameData", ofType: "plist")
         let dict:NSDictionary = NSDictionary(contentsOfFile: path!)!
         
         if (dict.object(forKey: "Projectiles") != nil) {
             
             if let projDict:[String:Any] = dict.object(forKey: "Projectiles") as? [String:Any] {
-                
+           //     print(projDict)
                 for (key,value) in projDict {
-                    
+                 //   print("Key = " + key)
                     if (key == name) {
                         
                         if (value is [String:Any]) {
                             
                             projectileDict = value as! [String:Any]
-                            
+                       //     print("projectileDict")
+                       //     print(projectileDict)
                             for (projKey, projValue) in projectileDict {
                                 
                                 switch projKey {
@@ -747,11 +748,13 @@ class Enemy : SKSpriteNode {
                             
                         } //if value is [String:Any]
                         
+                        break
+                        
                     } //if key==name
                     
-                    break
-                    
                 } //for key,value
+                
+                
                 
             } //if let
             
