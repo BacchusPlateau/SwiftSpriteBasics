@@ -395,9 +395,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         
                     }
                     
-                    
-                    
                     //check to see if enemy should range attack
+                    if (someEnemy.hasRangedAttack) {
+                        
+                        if (someEnemy.fireIfPlayerWIthin != -1) {
+                            
+                            if (checkCircularIntersection(withNode: someEnemy, radius: someEnemy.fireIfPlayerWIthin)) {
+                                
+                                someEnemy.allowRangedAttack = true
+                                
+                            } else {
+                                
+                                someEnemy.allowRangedAttack = false
+                                
+                            }
+                        }
+                    }
                     
                     
                     someEnemy.update(playerPos: thePlayer.position)

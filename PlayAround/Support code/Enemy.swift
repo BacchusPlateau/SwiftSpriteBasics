@@ -35,7 +35,14 @@ class Enemy : SKSpriteNode {
     var facing:Facing = .none
     
     //ranged attack
-    
+    var hasRangedAttack:Bool = false
+    var fireIfPlayerWIthin:CGFloat = -1
+    var allowRangedAttack:Bool = false
+    var projectileName:String = ""
+    var timeBetweenRangedAttacks:TimeInterval = 1
+    var projectileDict = [String:Any]()
+    var justDidRangedAttack:Bool = false
+    var projectileImage:String = ""
     
     //melee attack
     var hasMeleeAttack:Bool = false
@@ -81,6 +88,7 @@ class Enemy : SKSpriteNode {
     var backDying:String = ""
     var frontDying:String = ""
 
+    
     var hasIdleAnimation:Bool = false
     
     func setUpEnemy(theDict:[String:Any]) {
@@ -115,6 +123,12 @@ class Enemy : SKSpriteNode {
                 if (value is [String:Any]) {
                     
                     sortMeleeDict(theDict: value as! [String:Any])
+                }
+                
+            case "Ranged":
+                
+                if (value is [String:Any])  {
+                    sortRangedDict(theDict: value as! [String:Any])
                 }
                 
             default:
@@ -228,7 +242,12 @@ class Enemy : SKSpriteNode {
                 
             }
             
-            
+            if (!justDidRangedAttack && allowRangedAttack) {
+                
+                orientEnemy(playerPos: playerPos)
+                rangedAttack()
+                
+            }
         }
         
     }
@@ -539,6 +558,30 @@ class Enemy : SKSpriteNode {
         
     }
     
+    func sortRangedDict(theDict: [String:Any]) {
+        
+        hasRangedAttack = true
+        
+        for (key,value) in theDict {
+            
+            switch key {
+            case "Projectile":
+                if (value is String) {
+                    getProjectileData(name: value as! String)
+                }
+            case "TimeBetweenUse":
+                if (value is TimeInterval) {
+                    timeBetweenRangedAttacks = value as! TimeInterval
+                }
+            case "Within":
+                if (value is CGFloat) {
+                    fireIfPlayerWIthin = value as! CGFloat
+                }
+            default:
+                continue
+            }
+        }
+    }
     
     func sortMeleeDict(theDict: [String:Any]) {
         
@@ -672,6 +715,50 @@ class Enemy : SKSpriteNode {
         }
     }
     
+    func getProjectileData(name:String) {
+        
+        let path = Bundle.main.path(forResource:"GameData", ofType: "plist")
+        let dict:NSDictionary = NSDictionary(contentsOfFile: path!)!
+        
+        if (dict.object(forKey: "Projectiles") != nil) {
+            
+            if let projDict:[String:Any] = dict.object(forKey: "Projectiles") as? [String:Any] {
+                
+                for (key,value) in projDict {
+                    
+                    if (key == name) {
+                        
+                        if (value is [String:Any]) {
+                            
+                            projectileDict = value as! [String:Any]
+                            
+                            for (projKey, projValue) in projectileDict {
+                                
+                                switch projKey {
+                                case "Image":
+                                    if (projValue is String) {
+                                        projectileImage = projValue as! String
+                                    }
+                                default:
+                                    continue
+                                }
+                                
+                            } //for projkey,projvalue
+                            
+                        } //if value is [String:Any]
+                        
+                    } //if key==name
+                    
+                    break
+                    
+                } //for key,value
+                
+            } //if let
+            
+        } //if dict.object
+        
+    }
+    
     func runIdleAnimation(playerPos:CGPoint) {
         
         if (self.action(forKey: "Attack") == nil) {
@@ -703,9 +790,126 @@ class Enemy : SKSpriteNode {
                 }
             }
             
+        }
+        
+    }
+    
+    func rangedAttack() {
+        
+        justDidRangedAttack = true
+        
+        let wait:SKAction = SKAction.wait(forDuration: timeBetweenRangedAttacks)
+        let finishWait:SKAction = SKAction.run {
+            self.justDidRangedAttack = false
+        }
+        self.run(SKAction.sequence([ wait, finishWait ]))
+        
+        let newProjectile:Projectile = Projectile(imageNamed: projectileImage)
+        newProjectile.isFromEnemy = true
+        newProjectile.setUpWithDict(theDict: projectileDict)
+        
+        self.addChild(newProjectile)
+        
+        var moveAction:SKAction = SKAction()
+        var theDistance:CGFloat = 0
+        var animationName:String = ""
+        
+        if (newProjectile.distance > 0) {
+            theDistance = newProjectile.distance
+        } else {
+            theDistance = 1000
+        }
+        
+        switch facing {
+        case .front:
+            moveAction = SKAction.moveBy(x: 0, y: -theDistance, duration: newProjectile.travelTime)
+            animationName = frontRanged
+            newProjectile.position = CGPoint(x: newProjectile.position.x, y: newProjectile.position.y - newProjectile.offset)
+        case .back:
+            moveAction = SKAction.moveBy(x: 0, y: theDistance, duration: newProjectile.travelTime)
+            animationName = backRanged
+            newProjectile.position = CGPoint(x: newProjectile.position.x, y: newProjectile.position.y + (newProjectile.offset * 2))
+        case .left:
+            moveAction = SKAction.moveBy(x: -theDistance, y: 0, duration: newProjectile.travelTime)
+            animationName = leftRanged
+            newProjectile.position = CGPoint(x: newProjectile.position.x - newProjectile.offset, y: newProjectile.position.y)
+        case .right:
+            moveAction = SKAction.moveBy(x: theDistance, y: 0, duration: newProjectile.travelTime)
+            animationName = rightRanged
+            newProjectile.position = CGPoint(x: newProjectile.position.x + newProjectile.offset, y: newProjectile.position.y)
+        case .none:
+            break
+        }
+        
+        moveAction.timingMode = .easeOut
+        
+        let finish:SKAction = SKAction.run {
+            
+            newProjectile.removeFromParent()
+        }
+        
+        let seq:SKAction = SKAction.sequence([ moveAction, finish ])
+        newProjectile.run(seq)
+        
+        //make it spin!
+        if (newProjectile.rotationTime > 0) {
+            
+            let randomAddOn:UInt32 = arc4random_uniform(10)
+            let addOn:CGFloat = CGFloat(randomAddOn / 10)
+            let rotateAction:SKAction = SKAction.rotate(byAngle: 6.28319 + addOn, duration: newProjectile.rotationTime)
+            let repeatRotate:SKAction = SKAction.repeat(rotateAction, count: Int(newProjectile.travelTime / newProjectile.rotationTime))
+            
+            newProjectile.run(repeatRotate)
             
         }
         
+        //stop the actions movement...
+        if (movementType == .actions) {
+            
+            if (self.action(forKey: "Movement") != nil) {
+                
+                self.action(forKey: "Movement")?.speed = 0
+                
+            }
+        }
+        
+        if (animationName != "") {
+            
+            if let attackAnimation:SKAction = SKAction(named: animationName) {
+                
+                let finish:SKAction = SKAction.run {
+                    
+                    if (self.allowMovement) {
+                        
+                        if (self.movementType == .actions) {
+                            
+                            if (self.action(forKey: "Movement") != nil) {
+                                
+                                //return the movement actions after attack
+                                self.action(forKey: "Movement")?.speed = 1
+                                
+                            } else if (self.movementType == .random) {
+                                
+                                self.walkRandom()
+                                
+                            } else if (self.hasIdleAnimation) {
+                                
+                                self.runIdleAnimation(playerPos: CGPoint.zero)
+                                
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                }
+                
+                let seq:SKAction = SKAction.sequence([ attackAnimation, finish ])
+                self.run(seq, withKey:"Attack")
+                
+            }
+            
+        }
         
     }
     
@@ -784,10 +988,4 @@ class Enemy : SKSpriteNode {
         }
     }
     
-    
-    
-    
-    
-    
-
 }

@@ -16,6 +16,11 @@ class Projectile: SKSpriteNode {
     var distance:CGFloat = 0
     var removeAfterThrow:Bool = true
     var offset:CGFloat = 0
+    var contactAnimation:String = ""
+    var animationName:String = ""
+    var isFromEnemy:Bool = false
+    var impactWithItems:Bool = true
+    var damage:Int = 1
     
     func setUpWithDict(theDict:[String:Any]) {
         
@@ -26,9 +31,6 @@ class Projectile: SKSpriteNode {
         body.affectedByGravity = false
         body.allowsRotation = false
         
-        self.physicsBody?.categoryBitMask = BodyType.projectile.rawValue
-        self.physicsBody?.collisionBitMask = 0
-        self.physicsBody?.contactTestBitMask = BodyType.enemy.rawValue | BodyType.player.rawValue
         
         for (key,value) in theDict {
             
@@ -57,14 +59,72 @@ class Projectile: SKSpriteNode {
                 if(value is CGFloat) {
                     offset = value as! CGFloat
                 }
+            case "ContactAnimation":
+                if(value is String) {
+                    contactAnimation = value as! String
+                }
+            case "Damage":
+                if(value is Int) {
+                    damage = value as! Int
+                }
+            case "ImpactWithItems":
+                if(value is Bool) {
+                    impactWithItems = value as! Bool
+                }
+            case "Animation":
+                if(value is String) {
+                    animationName = value as! String
+                    
+                    if (animationName != "") {
+                        
+                        if let animation:SKAction = SKAction(named: animationName) {
+                            self.run(animation)
+                        }
+                        
+                    }
+                }
             default:
                 continue
             }
         }
+        
+        if (!isFromEnemy) {
+            
+            //thrown by player
+            
+            self.physicsBody?.categoryBitMask = BodyType.projectile.rawValue
+            
+            if (!impactWithItems) {
+                
+                self.physicsBody?.collisionBitMask = BodyType.enemy.rawValue | BodyType.enemyAttackArea.rawValue
+                self.physicsBody?.contactTestBitMask = BodyType.enemy.rawValue | BodyType.player.rawValue
+                
+            } else {
+                
+                self.physicsBody?.collisionBitMask = BodyType.item.rawValue | BodyType.enemy.rawValue | BodyType.enemyAttackArea.rawValue
+                self.physicsBody?.contactTestBitMask = BodyType.enemy.rawValue | BodyType.player.rawValue | BodyType.item.rawValue
+                
+            }
+            
+            
+        } else {
+            
+            //thrown by enemy
+            self.physicsBody?.categoryBitMask = BodyType.enemyProjectile.rawValue
+            self.physicsBody?.contactTestBitMask = BodyType.player.rawValue
+            
+            if (!impactWithItems) {
+    
+                self.physicsBody?.collisionBitMask = BodyType.player.rawValue
+                
+            } else {
+                
+                self.physicsBody?.collisionBitMask = BodyType.player.rawValue | BodyType.item.rawValue
+                
+            }
+            
+        }
+        
     }
-    
-    
-    
-    
     
 }
