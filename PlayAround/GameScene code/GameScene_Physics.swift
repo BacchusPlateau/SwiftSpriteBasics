@@ -71,7 +71,30 @@ extension GameScene {
                 contactWithEnemyAttackArea(area: enemyAttackArea)
             }
         }
-        
+        //melee
+        else if(contact.bodyA.categoryBitMask == BodyType.player.rawValue && contact.bodyB.categoryBitMask == BodyType.enemy.rawValue) {
+            if let enemy:Enemy = contact.bodyB.node as? Enemy {
+                contactWithEnemy(enemy: enemy)
+            }
+        } else if(contact.bodyA.categoryBitMask == BodyType.enemy.rawValue && contact.bodyB.categoryBitMask == BodyType.player.rawValue) {
+            if let enemy:Enemy = contact.bodyA.node as? Enemy {
+                contactWithEnemy(enemy: enemy)
+            }
+        }
+        //projectile
+        else if(contact.bodyA.categoryBitMask == BodyType.enemy.rawValue && contact.bodyB.categoryBitMask == BodyType.projectile.rawValue) {
+            if let projectile:Projectile = contact.bodyB.node as? Projectile {
+                if let enemy:Enemy = contact.bodyA.node as? Enemy {
+                    contactWithEnemyAndProjectile(enemy: enemy, projectile: projectile)
+                }
+            }
+        } else if(contact.bodyA.categoryBitMask == BodyType.projectile.rawValue && contact.bodyB.categoryBitMask == BodyType.enemy.rawValue) {
+            if let projectile:Projectile = contact.bodyA.node as? Projectile {
+                if let enemy:Enemy = contact.bodyB.node as? Enemy {
+                    contactWithEnemyAndProjectile(enemy: enemy, projectile: projectile)
+                }
+            }
+        }
         
     }
     
@@ -307,6 +330,44 @@ extension GameScene {
             
         } //item is open
       
+        
+    }
+    
+    func contactWithEnemy(enemy: Enemy) {
+        
+        if (enemy.contactDamage != 0 && !enemy.isDead) {
+            
+            damagePlayer(with: enemy.contactDamage)
+        }
+      
+    }
+    
+    func contactWithEnemyAndProjectile(enemy: Enemy, projectile: Projectile) {
+        
+        if (!projectile.isFromEnemy) {
+            
+            enemy.damage(with: projectile.damage)
+            if (enemy.isDead && enemy.rewardDictionary.count > 0) {
+                
+                sortRewards(rewards: enemy.rewardDictionary)
+                enemy.rewardDictionary.removeAll()
+                
+                if (enemy.neverRewardAgain) {
+                    defaults.set(true, forKey: enemy.name! + "AlreadyRewarded")
+                }
+                
+            }
+            
+            if (projectile.contactAnimation != "") {
+                
+                showAnimation(name: projectile.contactAnimation, at: projectile.position)
+                
+            }
+            
+            projectile.removeFromParent()
+            
+        }
+        
         
     }
 

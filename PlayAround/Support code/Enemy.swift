@@ -49,6 +49,7 @@ class Enemy : SKSpriteNode {
     var meleeIfPlayerWithin:CGFloat = -1  //radius for melee
     var meleeDamage:Int = 0
     var allowMeleeAttack:Bool = true
+    var contactDamage:Int = 0
     
     var meleeSize:CGSize = CGSize(width:100, height:100)
     var meleeScaleTo:CGFloat = 2
@@ -57,6 +58,14 @@ class Enemy : SKSpriteNode {
     var meleeTimeBetweenUse:TimeInterval = 1
     var justDidMeleeAttack:Bool = false
     var meleeRemoveOnContact:Bool = false
+    
+    //stats
+    var health:Int = 1
+    var initialHealth:Int = 1
+    var immunityAfterDamage:TimeInterval = 1
+    var immunityWhenIdle:Bool = false
+    var isImmune:Bool = false
+    var showHealthLabel:Bool = true
     
     //animation
     var frontWalk:String = ""
@@ -88,6 +97,16 @@ class Enemy : SKSpriteNode {
     var backDying:String = ""
     var frontDying:String = ""
 
+    var rewardDictionary = [String:Any]()
+    var saveRewardDictionary = [String:Any]()
+    var removeDictionary = [String:Any]()
+    
+    var neverRewardAgain:Bool = false
+    var neverShowAgain:Bool = false
+    var deleteBody:Bool = false
+    var deleteFromLevel:Bool = true
+    var respawnAfter:TimeInterval = -1
+    var respawnWithRewards:Bool = true
     
     var hasIdleAnimation:Bool = false
     
@@ -131,6 +150,20 @@ class Enemy : SKSpriteNode {
                     sortRangedDict(theDict: value as! [String:Any])
                 }
                 
+            case "Stats":
+                
+                if (value is [String:Any])  {
+                    sortStatsDict(theDict: value as! [String:Any])
+                }
+                
+            case "Rewards":
+                
+                if (value is [String:Any])  {
+                    
+                    rewardDictionary =  value as! [String:Any]
+                    saveRewardDictionary = value as! [String:Any]
+                
+                }
             default:
                 continue
             }
@@ -630,6 +663,59 @@ class Enemy : SKSpriteNode {
         
     }
     
+    func sortStatsDict(theDict: [String:Any]) {
+        
+        for (key,value) in theDict {
+            
+            switch key {
+            case "Damage":
+                
+                if (value is Int) {
+                    
+                    contactDamage = value as! Int
+                    
+                }
+                
+            case "Health":
+                
+                if (value is Int) {
+                    
+                    health = value as! Int
+                    initialHealth = health
+                    
+                }
+                
+            case "Immunity":
+                
+                if (value is TimeInterval) {
+                    
+                    immunityAfterDamage = value as! TimeInterval
+
+                }
+                
+            case "ImmunityWhenIdle":
+                
+                if (value is Bool) {
+                    
+                    immunityWhenIdle = value as! Bool
+                    
+                }
+                
+            case "ShowHealthWhenHit":
+                
+                if (value is Bool) {
+                    
+                    showHealthLabel = value as! Bool
+                    
+                }
+            default:
+                continue
+            }
+            
+        }
+        
+    }
+    
     func sortMovementDict(theDict: [String:Any]) {
         
         for (key,value) in theDict {
@@ -762,6 +848,57 @@ class Enemy : SKSpriteNode {
         
     }
     
+    func showHurtAnimation() {
+        
+        var animationName:String = ""
+        
+        switch facing {
+        case .right:
+            animationName = rightHurt
+        case .left:
+            animationName = leftHurt
+        case .back:
+            animationName = backHurt
+        case .front, .none:
+            animationName = frontHurt
+        }
+        
+        if (animationName != "")  {
+            
+            if let hurtAnimation:SKAction = SKAction(named: animationName) {
+                
+                stopWalking()
+                
+                if (movementType == .actions) {
+                    
+                    if (self.action(forKey: "Movement") != nil) {
+                        
+                        self.action(forKey: "Movement")?.speed = 0
+                        
+                    }
+                }
+                
+                let finish:SKAction = SKAction.run {
+                    
+                    if (self.movementType == .actions) {
+                        
+                        if (self.action(forKey: "Movement") != nil) {
+                            
+                            self.action(forKey: "Movement")?.speed = 1
+                            
+                        }
+                    }
+                    
+                }
+                
+                let seq:SKAction = SKAction.sequence([hurtAnimation, finish])
+                self.run(seq, withKey: "Hurt")
+                
+            }
+            
+        }
+    }
+    
     func runIdleAnimation(playerPos:CGPoint) {
         
         if (self.action(forKey: "Attack") == nil) {
@@ -796,6 +933,78 @@ class Enemy : SKSpriteNode {
         }
         
     }
+    
+    func killOff() {
+        
+        allowMovement = false
+        self.removeAllActions()
+        
+        var animationName:String = ""
+        
+        switch facing {
+        case .right:
+            animationName = rightDying
+        case .left:
+            animationName = leftDying
+        case .back:
+            animationName = backDying
+        case .front, .none:
+            animationName = frontDying
+        }
+        
+        if (animationName != "")  {
+            
+            if let dyingAction:SKAction = SKAction(named: animationName) {
+                
+                stopWalking()
+                
+                let finish:SKAction = SKAction.run {
+                    
+                    self.afterDefeat()
+                    
+                }
+                
+                let seq:SKAction = SKAction.sequence([dyingAction, finish])
+                self.run(seq)
+                
+            }
+            
+        } else {
+            
+            self.afterDefeat()
+            
+        }
+        
+    }
+    
+    func afterDefeat() {
+        
+        
+    }
+    
+    func showHealth() {
+        
+        if (showHealthLabel) {
+            
+            let healthLabel:SKLabelNode = SKLabelNode(fontNamed: "Helvetica Neue")
+            healthLabel.zPosition = self.zPosition + 1000
+            self.addChild(healthLabel)
+            healthLabel.position = CGPoint(x: 0, y: self.size.height / 2)
+            healthLabel.fontSize = 25
+            healthLabel.text = String(health)
+            
+            let move:SKAction = SKAction.moveBy(x: 0, y: 50, duration: 1)
+            let fade:SKAction = SKAction.fadeOut(withDuration: 1)
+            let moveAndFade:SKAction = SKAction.group([move, fade])
+            let finish:SKAction = SKAction.run {
+                healthLabel.removeFromParent()
+            }
+            let seq:SKAction = SKAction.sequence([moveAndFade, finish])
+            healthLabel.run(seq)
+            
+        }
+    }
+    
     
     func rangedAttack() {
         
@@ -914,6 +1123,54 @@ class Enemy : SKSpriteNode {
             
         }
         
+    }
+    
+    func damage(with amount:Int) {
+        
+        var proceedToDamage:Bool = true
+        
+        if (!allowMovement && immunityWhenIdle) {
+            
+            proceedToDamage = false
+            
+        }
+        
+        if (!isImmune && proceedToDamage) {
+            
+            showHurtAnimation()
+            self.isImmune = true
+            
+            let wait:SKAction = SKAction.wait(forDuration: immunityAfterDamage)
+            let finish:SKAction = SKAction.run {
+                self.isImmune = false
+            }
+            
+            let seq:SKAction = SKAction.sequence([wait, finish])
+            self.run(seq)
+            health -= amount
+            
+            if (health > 0) {
+
+                showHealth()
+                
+            } else {
+                
+                if (!isDead) {
+                    
+                    isDead = true
+                    
+                    let waitToKill:SKAction = SKAction.wait(forDuration: 1/60)
+                    let finishAndKill:SKAction = SKAction.run {
+                        self.killOff()
+                    }
+                    
+                    let seq:SKAction = SKAction.sequence([waitToKill, finishAndKill])
+                    self.run(seq)
+                    
+                }
+            }
+            
+        }
     }
     
     
