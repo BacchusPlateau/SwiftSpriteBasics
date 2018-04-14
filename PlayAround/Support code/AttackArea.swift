@@ -13,6 +13,7 @@ class AttackArea : SKSpriteNode {
     
     var animationName:String = ""
     var scaleSize:CGFloat = 2
+    var damage:Int = 1
     
     func setUp() {
         

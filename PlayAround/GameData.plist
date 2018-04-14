@@ -635,7 +635,7 @@
 			<key>Melee</key>
 			<dict>
 				<key>Damage</key>
-				<string>0</string>
+				<string>2</string>
 				<key>Size</key>
 				<string>{100,100}</string>
 				<key>ScaleTo</key>

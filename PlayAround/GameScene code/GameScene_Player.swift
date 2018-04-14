@@ -34,6 +34,7 @@ extension GameScene {
         newAttack.position = thePlayer.position
         newAttack.scaleSize = thePlayer.meleeScaleSize
         newAttack.animationName = thePlayer.meleeAnimationFXName
+        newAttack.damage = thePlayer.meleeDamage
         
         newAttack.setUp()
         self.addChild(newAttack)

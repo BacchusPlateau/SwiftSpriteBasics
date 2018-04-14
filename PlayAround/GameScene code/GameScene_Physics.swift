@@ -71,7 +71,7 @@ extension GameScene {
                 contactWithEnemyAttackArea(area: enemyAttackArea)
             }
         }
-        //melee
+        //melee - enemy hits player
         else if(contact.bodyA.categoryBitMask == BodyType.player.rawValue && contact.bodyB.categoryBitMask == BodyType.enemy.rawValue) {
             if let enemy:Enemy = contact.bodyB.node as? Enemy {
                 contactWithEnemy(enemy: enemy)
@@ -81,7 +81,21 @@ extension GameScene {
                 contactWithEnemy(enemy: enemy)
             }
         }
-        //projectile
+        //melee - player hits enemy
+        else if(contact.bodyA.categoryBitMask == BodyType.attackArea.rawValue && contact.bodyB.categoryBitMask == BodyType.enemy.rawValue) {
+            if let attackArea:AttackArea = contact.bodyA.node as? AttackArea {
+                if let enemy:Enemy = contact.bodyB.node as? Enemy {
+                    contactWithEnemyAndAttackArea(enemy: enemy, attackArea: attackArea)
+                }
+            }
+        } else if(contact.bodyA.categoryBitMask == BodyType.enemy.rawValue && contact.bodyB.categoryBitMask == BodyType.attackArea.rawValue) {
+            if let attackArea:AttackArea = contact.bodyB.node as? AttackArea {
+                if let enemy:Enemy = contact.bodyA.node as? Enemy {
+                    contactWithEnemyAndAttackArea(enemy: enemy, attackArea: attackArea)
+                }
+            }
+        }
+        //projectile -  enemy and projectile
         else if(contact.bodyA.categoryBitMask == BodyType.enemy.rawValue && contact.bodyB.categoryBitMask == BodyType.projectile.rawValue) {
             if let projectile:Projectile = contact.bodyB.node as? Projectile {
                 if let enemy:Enemy = contact.bodyA.node as? Enemy {
@@ -94,6 +108,29 @@ extension GameScene {
                     contactWithEnemyAndProjectile(enemy: enemy, projectile: projectile)
                 }
             }
+        }
+        //projectile - enemy projectile and player
+        else if(contact.bodyA.categoryBitMask == BodyType.enemyProjectile.rawValue && contact.bodyB.categoryBitMask == BodyType.player.rawValue) {
+            if let projectile:Projectile = contact.bodyA.node as? Projectile {
+                if (projectile.isFromEnemy) {
+                    contactWithEnemyProjectile(projectile: projectile)
+                }
+            }
+        } else if(contact.bodyA.categoryBitMask == BodyType.player.rawValue && contact.bodyB.categoryBitMask == BodyType.enemyProjectile.rawValue) {
+            if let projectile:Projectile = contact.bodyB.node as? Projectile {
+                if (projectile.isFromEnemy) {
+                    contactWithEnemyProjectile(projectile: projectile)
+                }
+            }
+        }
+        //attack area and enemy attack area cancel eachother out
+        else if(contact.bodyA.categoryBitMask == BodyType.enemyAttackArea.rawValue && contact.bodyB.categoryBitMask == BodyType.attackArea.rawValue) {
+            contact.bodyA.node?.removeFromParent()
+            contact.bodyB.node?.removeFromParent()
+        }
+        else if(contact.bodyB.categoryBitMask == BodyType.enemyAttackArea.rawValue && contact.bodyA.categoryBitMask == BodyType.attackArea.rawValue) {
+            contact.bodyA.node?.removeFromParent()
+            contact.bodyB.node?.removeFromParent()
         }
         
     }
@@ -333,6 +370,23 @@ extension GameScene {
         
     }
     
+    func contactWithEnemyAndAttackArea(enemy: Enemy, attackArea: AttackArea) {
+        
+        enemy.damage(with: attackArea.damage)
+        attackArea.damage = 0
+        
+        if (enemy.isDead && enemy.rewardDictionary.count > 0) {
+            
+            sortRewards(rewards: enemy.rewardDictionary)
+            enemy.rewardDictionary.removeAll()
+            
+            if (enemy.neverRewardAgain) {
+                defaults.set(true, forKey: enemy.name! + "AlreadyAwarded")
+            }
+        }
+        
+    }
+    
     func contactWithEnemy(enemy: Enemy) {
         
         if (enemy.contactDamage != 0 && !enemy.isDead) {
@@ -340,6 +394,25 @@ extension GameScene {
             damagePlayer(with: enemy.contactDamage)
         }
       
+    }
+    
+    func contactWithEnemyProjectile(projectile: Projectile) {
+        
+        if (projectile.damage != 0) {
+            
+            damagePlayer(with: projectile.damage)
+            projectile.damage = 0
+            
+            if (projectile.contactAnimation != "") {
+                
+                showAnimation(name: projectile.contactAnimation, at: thePlayer.position)
+                
+            }
+            
+            projectile.removeFromParent()
+            
+        }
+        
     }
     
     func contactWithEnemyAndProjectile(enemy: Enemy, projectile: Projectile) {

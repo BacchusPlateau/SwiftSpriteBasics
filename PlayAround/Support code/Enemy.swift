@@ -17,7 +17,7 @@ enum MoveType: Int {
 
 class Enemy : SKSpriteNode {
 
-    
+    var defaults:UserDefaults = UserDefaults.standard
     var isDead:Bool = false
     
     //movement
@@ -164,12 +164,41 @@ class Enemy : SKSpriteNode {
                     saveRewardDictionary = value as! [String:Any]
                 
                 }
+                
+            case "RemoveWhen":
+                
+                if (value is [String:Any])  {
+                    removeDictionary = value as! [String:Any]
+                }
+                
+            case "AfterDefeat":
+                
+                if (value is [String:Any])  {
+                    sortAfterDefeat(theDict: value as! [String:Any])
+                }
+                
             default:
                 continue
             }
         }
         
+        checkRemoveRequirements()
         postSetUp()
+        
+        if (neverRewardAgain) {
+            
+            if (defaults.bool(forKey: self.name! + "AlreadyAwarded")) {
+                rewardDictionary.removeAll()
+            }
+            
+        }
+        
+        if (neverShowAgain) {
+            
+            if (defaults.bool(forKey: self.name! + "NeverShowAgain")) {
+                self.removeFromParent() 
+            }
+        }
         
     }
     
@@ -285,6 +314,21 @@ class Enemy : SKSpriteNode {
         
     }
     
+    func checkRemoveRequirements() {
+    
+        for (key,value) in removeDictionary {
+            
+            if (value is Int) {
+                if (defaults.integer(forKey: key) >= value as! Int) {
+                    
+                    self.removeFromParent()
+                    
+                }
+            }
+        }
+        
+    }
+    
     func stopWalking() {
         
         if (self.movementType != .actions) {
@@ -293,6 +337,65 @@ class Enemy : SKSpriteNode {
             self.removeAction(forKey: "WalkAnimation")
             
         }
+        
+    }
+    
+    func afterDefeat() {
+        
+        let saveBody:SKPhysicsBody = self.physicsBody!
+        
+        if (deleteBody) {
+            
+            self.physicsBody = nil
+            
+        } else if (deleteFromLevel && respawnAfter == -1) {
+            
+            self.removeFromParent()
+            
+        } else if (deleteFromLevel && respawnAfter > 0) {
+            
+            self.physicsBody = nil
+            self.isHidden = true
+            
+        }
+        
+        if (neverShowAgain) {
+            
+            defaults.set(true, forKey: self.name! + "NeverShowAgain")
+            
+        }
+        
+        if (respawnAfter > 0) {
+            
+            let wait:SKAction = SKAction.wait(forDuration: respawnAfter)
+            let finish:SKAction = SKAction.run {
+                
+                self.physicsBody = saveBody
+                self.respawn()
+                
+            }
+            let seq:SKAction = SKAction.sequence([wait, finish])
+            self.run(seq)
+            
+        }
+        
+    }
+    
+    func respawn() {
+        
+        self.isHidden = false
+        isDead = false
+        isImmune = false
+        
+        health = initialHealth
+        
+        if (respawnWithRewards) {
+            
+            rewardDictionary = saveRewardDictionary
+            
+        }
+        
+        self.runIdleAnimation(playerPos: CGPoint.zero)
         
     }
     
@@ -716,6 +819,43 @@ class Enemy : SKSpriteNode {
         
     }
     
+    func sortAfterDefeat(theDict: [String:Any]) {
+    
+        for (key,value) in theDict {
+            
+            switch key {
+            case "NeverRewardAgain":
+                if (value is Bool) {
+                    neverRewardAgain = value as! Bool
+                }
+            case "NeverShowAgain":
+                if (value is Bool) {
+                    neverShowAgain = value as! Bool
+                }
+            case "DeleteFromLevel":
+                if (value is Bool) {
+                    deleteFromLevel = value as! Bool
+                }
+            case "DeleteBody":
+                if (value is Bool) {
+                    deleteBody = value as! Bool
+                }
+            case "RespawnWithRewards":
+                if (value is Bool) {
+                    respawnWithRewards = value as! Bool
+                }
+            case "RespawnAfter":
+                if (value is TimeInterval) {
+                    respawnAfter = value as! TimeInterval
+                }
+            default:
+                continue
+            }
+            
+        }
+    
+    }
+    
     func sortMovementDict(theDict: [String:Any]) {
         
         for (key,value) in theDict {
@@ -974,11 +1114,6 @@ class Enemy : SKSpriteNode {
             self.afterDefeat()
             
         }
-        
-    }
-    
-    func afterDefeat() {
-        
         
     }
     
